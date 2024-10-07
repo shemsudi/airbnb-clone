@@ -29,8 +29,7 @@ export const verifyPhone = async (
   }: { countryCode: string; phoneNumber: number } = req.body;
 
   const fullPhoneNumber: string = countryCode + phoneNumber;
-  const { errors, isValid }: { errors: any; isValid: boolean } =
-    validatePhoneNumber(req.body);
+  const { errors, isValid } = validatePhoneNumber(req.body);
   console.log(errors);
   if (!isValid) {
     res.status(400).json(errors);
@@ -42,7 +41,6 @@ export const verifyPhone = async (
     res.status(200).json({ response });
   } catch (error) {
     errors.phone = "Failed to send Otp to current Phone number ";
-    errors.error = error;
     res.status(500).json(errors);
   }
 };

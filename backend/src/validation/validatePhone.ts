@@ -10,6 +10,7 @@ interface ValidatePhoneNumberData {
 
 interface ValidationResult {
   errors: {
+    phone?: string;
     phoneNumber?: string;
     longPhoneNumber?: string;
     invalidPhoneNumber?: string;
