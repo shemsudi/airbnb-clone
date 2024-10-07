@@ -20,26 +20,26 @@ interface HostState {
   loading: boolean;
   error: object | null;
   host: {
-    uuid: string;
-    lastPage: string;
-    structure: string;
-    privacyType: string;
-    guests: number;
-    beds: number;
-    bedrooms: number;
-    bathrooms: number;
-    amenities: string[];
-    uniqueAmenities: string[];
-    safetyAmenities: string[];
+    uuid?: string;
+    lastPage?: string;
+    structure?: string;
+    privacyType?: string;
+    guests?: number;
+    beds?: number;
+    bedrooms?: number;
+    bathrooms?: number;
+    amenities?: string[];
+    uniqueAmenities?: string[];
+    safetyAmenities?: string[];
     photos: string[];
-    title: string;
-    description: string;
-    highlights: string;
-    instantBook: boolean;
-    visibility: string;
-    price: number;
-    discount: object;
-    legalInfo: object;
+    title?: string;
+    description?: string;
+    highlights?: string;
+    instantBook?: boolean;
+    visibility?: string;
+    price?: number;
+    discount?: object;
+    legalInfo?: object;
   };
 }
 
@@ -159,7 +159,28 @@ const hostSlice = createSlice({
       state.error = action.payload;
     },
     clearHost: (state) => {
-      state.host = {};
+      state.host = {
+        uuid: "",
+        lastPage: "",
+        structure: "",
+        privacyType: "",
+        guests: 2,
+        beds: 1,
+        bedrooms: 1,
+        bathrooms: 1,
+        amenities: [],
+        uniqueAmenities: [],
+        safetyAmenities: [],
+        photos: [],
+        title: "",
+        description: "",
+        highlights: "",
+        instantBook: false,
+        visibility: "",
+        price: 23,
+        discount: {},
+        legalInfo: {},
+      };
     },
   },
   extraReducers: (builder) => {
@@ -175,7 +196,7 @@ const hostSlice = createSlice({
         }
         state.loading = false;
       })
-      .addCase(updateHostStructure.rejected, (state, action) => {
+      .addCase(updateHostStructure.rejected, (state) => {
         state.loading = false;
       })
       .addCase(updatePrivacyType.pending, (state) => {
@@ -222,7 +243,7 @@ const hostSlice = createSlice({
         }
         state.loading = false;
       })
-      .addCase(updateAmenities.rejected, (state, action) => {
+      .addCase(updateAmenities.rejected, (state) => {
         state.loading = false;
       })
       .addCase(removeImageRedux.pending, (state) => {
@@ -264,7 +285,7 @@ const hostSlice = createSlice({
         }
         state.loading = false;
       })
-      .addCase(updateTitle.rejected, (state, action) => {
+      .addCase(updateTitle.rejected, (state) => {
         state.loading = false;
       })
       .addCase(updateDescription.pending, (state) => {
@@ -353,7 +374,7 @@ const hostSlice = createSlice({
         const { uuid, legalInfo } = action.payload;
         if (uuid === state.host.uuid) {
           state.host.legalInfo = legalInfo;
-          state.lastPage = "receipt";
+          state.host.lastPage = "receipt";
         }
         state.loading = false;
       })

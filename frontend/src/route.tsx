@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 // routes
-// import ErrorPage from "./pages/errorPage.jsx";
+import ErrorPage from "./pages/errorPage";
 import Root from "./pages/root";
 // import NewRealeased from "./pages/realesedFeaures.jsx";
 // import Icons from "../src/components/Icons.jsx";
-// import HostHomes from "./pages/hostHomes.jsx";
-// import BecameAhost from "./pages/became-a-host.jsx";
-// import AboutYourPlace from "./pages/hostingSteps/aboutYourPlace.jsx";
+import HostHomes from "./pages/hostHomes";
+import BecameAhost from "./pages/become-a-host";
+import AboutYourPlace from "./pages/aboutYourPlace";
 // import HomeSturcture from "./pages/hostingSteps/homeStructure.jsx";
 // import PrivacyType from "./pages/hostingSteps/privacyType.jsx";
 // import LocationPage from "./pages/hostingSteps/locationPage.jsx";
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     // children: [
     //     {
     //       index: true,
@@ -89,117 +89,117 @@ const router = createBrowserRouter([
     //       element: <Icons />,
     //     },
     //   ],
-    // },
-    // { path: "host/homes", element: <HostHomes /> },
-    // { path: "/became-a-host/overview", element: <BecameAhost /> },
-    // {
-    //   path: `/became-a-host/:uuid/about-your-place`,
-    //   element: <AboutYourPlace />,
-    // },
-    // {
-    //   path: `/became-a-host/:uuid/structure`,
-    //   element: <HomeSturcture />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/privacyType",
-    //   element: <PrivacyType />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/location",
-    //   element: <LocationPage />,
-    // },
-
-    // {
-    //   path: "/became-a-host/:uuid/floor-plan",
-    //   element: <FloorPlanPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/stand-out",
-    //   element: <StandOut />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/amenities",
-    //   element: <AmenitiesPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/photos",
-    //   element: <PhotosPage />,
-    //   // loader: photoLoader,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/title",
-    //   element: <TitlePage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/description",
-    //   element: <DescriptionPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/finish-setup",
-    //   element: <FinishSetupPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/instant-book",
-    //   element: <InstantBookPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/visibility",
-    //   element: <VisiblityPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/price",
-    //   element: <PricePage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/discount",
-    //   element: <DiscountPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/legal",
-    //   element: <LegalPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/receipt",
-    //   element: <ReceiptPage />,
-    // },
-    // {
-    //   path: "/became-a-host/:uuid/publish-celebration",
-    //   element: <PublishCelebration />,
-    // },
-    // {
-    //   path: "/release/features",
-    //   element: <NewRealeased />,
-    // },
-    // {
-    //   path: "/guest/messages",
-    //   element: <NewRealeased />,
-    // },
-    // {
-    //   path: "/notifications",
-    //   element: <NewRealeased />,
-    // },
-    // {
-    //   path: "/trips/v1",
-    //   element: <NewRealeased />,
-    // },
-    // {
-    //   path: "/whilsts",
-    //   element: <NewRealeased />,
-    // },
-    // {
-    //   path: "/account_settings",
-    //   element: <NewRealeased />,
-    // },
-
-    // {
-    //   path: "/giftcards",
-    //   element: <NewRealeased />,
-    // },
-
-    // {
-    //   path: "/help",
-    //   element: <NewRealeased />,
   },
+  { path: "host/homes", element: <HostHomes /> },
+  { path: "/became-a-host/overview", element: <BecameAhost /> },
+  {
+    path: `/became-a-host/:uuid/about-your-place`,
+    element: <AboutYourPlace />,
+  },
+  // {
+  //   path: `/became-a-host/:uuid/structure`,
+  //   element: <HomeSturcture />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/privacyType",
+  //   element: <PrivacyType />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/location",
+  //   element: <LocationPage />,
+  // },
+
+  // {
+  //   path: "/became-a-host/:uuid/floor-plan",
+  //   element: <FloorPlanPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/stand-out",
+  //   element: <StandOut />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/amenities",
+  //   element: <AmenitiesPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/photos",
+  //   element: <PhotosPage />,
+  //   // loader: photoLoader,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/title",
+  //   element: <TitlePage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/description",
+  //   element: <DescriptionPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/finish-setup",
+  //   element: <FinishSetupPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/instant-book",
+  //   element: <InstantBookPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/visibility",
+  //   element: <VisiblityPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/price",
+  //   element: <PricePage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/discount",
+  //   element: <DiscountPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/legal",
+  //   element: <LegalPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/receipt",
+  //   element: <ReceiptPage />,
+  // },
+  // {
+  //   path: "/became-a-host/:uuid/publish-celebration",
+  //   element: <PublishCelebration />,
+  // },
+  // {
+  //   path: "/release/features",
+  //   element: <NewRealeased />,
+  // },
+  // {
+  //   path: "/guest/messages",
+  //   element: <NewRealeased />,
+  // },
+  // {
+  //   path: "/notifications",
+  //   element: <NewRealeased />,
+  // },
+  // {
+  //   path: "/trips/v1",
+  //   element: <NewRealeased />,
+  // },
+  // {
+  //   path: "/whilsts",
+  //   element: <NewRealeased />,
+  // },
+  // {
+  //   path: "/account_settings",
+  //   element: <NewRealeased />,
+  // },
+
+  // {
+  //   path: "/giftcards",
+  //   element: <NewRealeased />,
+  // },
+
+  // {
+  //   path: "/help",
+  //   element: <NewRealeased />,
+  // },
 ]);
 
 export default router;

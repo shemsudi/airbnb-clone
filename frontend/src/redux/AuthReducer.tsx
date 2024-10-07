@@ -7,10 +7,7 @@ interface User {
   [key: string]: any;
 }
 interface AuthErrors {
-  phone?: string;
-  phoneNumber?: string;
-  longPhoneNumber?: string;
-  invalidPhoneNumber?: string;
+  [key: string]: string;
 }
 interface AuthState {
   isUserAuthenticated: boolean;
@@ -24,12 +21,7 @@ const initialState: AuthState = {
   isUserAuthenticated: false,
   loading: false,
   user: null,
-  error: {
-    phone: "",
-    phoneNumber: "",
-    longPhoneNumber: "",
-    invalidPhoneNumber: "",
-  },
+  error: {},
   token: null,
 };
 
@@ -54,12 +46,7 @@ const userSlice = createSlice({
     builder
       .addCase(sendMessage.pending, (state) => {
         state.loading = true;
-        state.error = {
-          phone: "",
-          phoneNumber: "",
-          longPhoneNumber: "",
-          invalidPhoneNumber: "",
-        };
+        state.error = {};
       })
       .addCase(sendMessage.fulfilled, (state) => {
         state.loading = false;
@@ -70,12 +57,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
-        state.error = {
-          phone: "",
-          phoneNumber: "",
-          longPhoneNumber: "",
-          invalidPhoneNumber: "",
-        };
+        state.error = {};
       })
       .addCase(verifyOtp.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -90,12 +72,7 @@ const userSlice = createSlice({
         } else {
           state.isUserAuthenticated = true;
           state.user = action.payload.decoded;
-          state.error = {
-            phone: "",
-            phoneNumber: "",
-            longPhoneNumber: "",
-            invalidPhoneNumber: "",
-          };
+          state.error = {};
         }
       })
       .addCase(verifyOtp.rejected, (state, action: PayloadAction<any>) => {
@@ -104,23 +81,13 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
-        state.error = {
-          phone: "",
-          phoneNumber: "",
-          longPhoneNumber: "",
-          invalidPhoneNumber: "",
-        };
+        state.error = {};
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.isUserAuthenticated = true;
         state.user = action.payload;
-        state.error = {
-          phone: "",
-          phoneNumber: "",
-          longPhoneNumber: "",
-          invalidPhoneNumber: "",
-        };
+        state.error = {};
       })
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
         console.log(action.payload);

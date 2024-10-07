@@ -29,24 +29,17 @@ interface Step1Props {
 }
 
 const Step1: React.FC<Step1Props> = (props) => {
+  const dispatch = useAppDispatch();
+  const errors = useAppSelector(selectCurrentError);
+  const loading = useAppSelector(selectLoading);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [countryCode, setCountryCode] = useState<string>("+251");
   const [isShrinking, setIsShrinking] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const signupModalref = useRef<HTMLDivElement | null>(null);
-  const errors = useAppSelector(selectCurrentError);
-  const loading = useAppSelector(selectLoading);
 
   function handleCloseModal(): void {
     dispatch(closeSignUp_LoginPage());
-    dispatch(
-      setErrors({
-        phone: "",
-        phoneNumber: "",
-        longPhoneNumber: "",
-        invalidPhoneNumber: "",
-      })
-    );
+    dispatch(setErrors({}));
   }
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -79,13 +72,7 @@ const Step1: React.FC<Step1Props> = (props) => {
     try {
       await dispatch(sendMessage(formData)).unwrap();
     } catch (error: any) {
-      const errorData = error as {
-        phone?: string;
-        phoneNumber?: string;
-        invalidPhoneNumber?: string;
-        longPhoneNumber?: string;
-      };
-      setErrors(errorData);
+      throw error;
     }
   };
 

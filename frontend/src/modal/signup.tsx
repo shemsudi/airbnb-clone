@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 import { selectModals } from "../redux/ModalReducer.js";
 
 import Step1 from "./step1.js";
+import Step2 from "./step2.js";
+import Step3 from "./step3.js";
 
 const Signup = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [countryCode, setCountryCode] = useState("+251");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<string>("+251");
 
   const { isSignUp_LoginPageOpen, isLoginPage, isVerifyPage, isSignupPage } =
     useSelector(selectModals);
@@ -24,12 +26,12 @@ const Signup = () => {
             setCountryCode={setCountryCode}
           />
         )}
-        {/* {isVerifyPage && (
+        {isVerifyPage && (
           <Step2 phoneNumber={phoneNumber} countryCode={countryCode} />
         )}
         {isSignupPage && (
           <Step3 phoneNumber={phoneNumber} countryCode={countryCode} />
-        )} */}
+        )}
       </div>
     )
   );
