@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import HostHeader from "./hostHeader.jsx";
-import ProgressBar from "./progressBar.jsx";
-import FooterNavigation from "./footerNavigation.jsx";
-import CounterControl from "./counterContorl.jsx";
+import { useEffect, useState } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader.js";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton.js";
+import CounterControl from "../components/hostingSteps/counterContorl.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { updateFloorPlan } from "../../redux/hostActions.js";
+import { updateFloorPlan } from "../redux/hostActions.js";
+import { RootState, useAppDispatch } from "../redux/store.js";
 
 const FloorPlanPage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
   const previouslyChoosedGuests = host.guests ? host.guests : 2;
   const previouslyChoosedBedrooms = host.bedrooms ? host.bedrooms : 1;
   const previouslyChoosedBeds = host.beds ? host.beds : 1;
@@ -20,10 +19,10 @@ const FloorPlanPage = () => {
   const [beds, setBeds] = useState(previouslyChoosedBeds);
   const [bathrooms, setBathrooms] = useState(previouslyChoosedBathrooms);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.guests) {
       setGuests(currentHost.guests);
       setBedrooms(currentHost.bedrooms);
@@ -37,7 +36,7 @@ const FloorPlanPage = () => {
   };
   const onNext = async () => {
     dispatch(
-      updateFloorPlan({ uuid: host.uuid, guests, bedrooms, beds, bathrooms })
+      updateFloorPlan({ uuid: host.uuid!, guests, bedrooms, beds, bathrooms })
     );
     navigate(`/became-a-host/${host.uuid}/stand-out`);
   };

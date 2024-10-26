@@ -1,31 +1,28 @@
-import React from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import { useEffect, useState } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { descriptionTypes } from "../../utils/types";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setDescriptions } from "../../redux/HostReducer";
-import { updateDescription } from "../../redux/hostActions";
-import { useEffect } from "react";
+import { descriptionTypes } from "../data/types";
+import { updateDescription } from "../redux/hostActions";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const DescriptionPage = () => {
-  const host = useSelector((state) => state.host.host);
-  const [step1, setStep1] = React.useState(true);
-  const [description, setDescription] = React.useState(
+  const host = useSelector((state: RootState) => state.host.host);
+  const [step1, setStep1] = useState(true);
+  const [description, setDescription] = useState<string>(
     host.description ||
       "Make some memories at this unique and family-friendly place."
   );
   const count = description.length;
-  const [selectedTypes, setSelectedTypes] = React.useState(
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(
     host.highlights || []
   );
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.description) {
       setDescription(currentHost.description);
       setSelectedTypes(currentHost.highlights);
@@ -45,7 +42,7 @@ const DescriptionPage = () => {
     } else {
       dispatch(
         updateDescription({
-          uuid: host.uuid,
+          uuid: host.uuid!,
           description: description,
           highlights: selectedTypes,
         })

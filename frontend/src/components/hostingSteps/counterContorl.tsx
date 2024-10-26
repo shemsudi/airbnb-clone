@@ -1,6 +1,16 @@
 import React from "react";
-
-const CounterControl = ({ label, value, increment, decrement }) => {
+interface CounterControlProps {
+  label: string;
+  value: number;
+  increment: () => void;
+  decrement: () => void;
+}
+const CounterControl: React.FC<CounterControlProps> = ({
+  label,
+  value,
+  increment,
+  decrement,
+}) => {
   return (
     <div className="py-1 border-b">
       <div className="flex justify-between py-3">

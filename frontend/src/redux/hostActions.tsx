@@ -61,7 +61,11 @@ interface FloorPlanParams {
   bathrooms: number;
 }
 interface FloorPlanResponse {
-  [key: string]: any;
+  uuid: string;
+  guests: number;
+  bedrooms: number;
+  beds: number;
+  bathrooms: number;
 }
 export const updateFloorPlan = createAsyncThunk<{}, FloorPlanParams>(
   "host/setFloorPlan",
@@ -185,7 +189,7 @@ export const updateTitle = createAsyncThunk(
 interface updateDescriptionParams {
   uuid: string;
   description: string;
-  highlights: string;
+  highlights: string[];
 }
 
 export const updateDescription = createAsyncThunk<{}, updateDescriptionParams>(
@@ -306,7 +310,7 @@ export const updateDiscounts = createAsyncThunk<{}, updateDiscountsParams>(
 interface updateLegalInfoParams {
   uuid: string;
   legalInfo: {
-    hostingType: boolean;
+    hostingType: string;
     securityCameras: { isAvailable: boolean; description: string };
     noiseMonitors: boolean;
     weapons: boolean;

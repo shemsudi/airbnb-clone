@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import FooterNavigation from "../components/hostingSteps/footerNavigaton";
-
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import HostHeader from "../components/hostingSteps/hostHeader";
 import options from "../data/options.js";
-import PlaceOptionButton from "./placedOption.js";
+import PlaceOptionButton from "../components/hostingSteps/placedOption.js";
+
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
+
 import { updatePrivacyType } from "../redux/hostActions.js";
 import { RootState, useAppDispatch } from "../redux/store.js";
 const PrivacyType = () => {

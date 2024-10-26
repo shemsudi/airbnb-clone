@@ -3,27 +3,27 @@ import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/errorPage";
 import Root from "./pages/root";
 // import NewRealeased from "./pages/realesedFeaures.jsx";
-// import Icons from "../src/components/Icons.jsx";
+import Icons from "../src/components/Icons.tsx";
 import HostHomes from "./pages/hostHomes";
 import BecameAhost from "./pages/become-a-host";
 import AboutYourPlace from "./pages/aboutYourPlace";
 import HomeSturcture from "./pages/homeStructure.jsx";
 import PrivacyType from "./pages/privacyType.js";
 import LocationPage from "./pages/locationPage.js";
-// import FloorPlanPage from "./pages/hostingSteps/floorPlanpage.jsx";
-// import StandOut from "./pages/hostingSteps/standOut.jsx";
-// import AmenitiesPage from "./pages/hostingSteps/amenitesPage.jsx";
-// import PhotosPage from "./pages/hostingSteps/photosPage.jsx";
-// import TitlePage from "./pages/hostingSteps/titlePage.jsx";
-// import DescriptionPage from "./pages/hostingSteps/descriptionPage.jsx";
-// import FinishSetupPage from "./pages/hostingSteps/finishSetupPage.jsx";
-// import InstantBookPage from "./pages/hostingSteps/instantBook.jsx";
-// import VisiblityPage from "./pages/hostingSteps/visiblityPage.jsx";
-// import PricePage from "./pages/hostingSteps/pricePage.jsx";
-// import DiscountPage from "./pages/hostingSteps/discountPage.jsx";
-// import LegalPage from "./pages/hostingSteps/legalPage.jsx";
-// import ReceiptPage from "./pages/hostingSteps/receiptPage.jsx";
-// import PublishCelebration from "./pages/hostingSteps/publishCelebration.jsx";
+import FloorPlanPage from "./pages/floorPlanpage.js";
+import StandOut from "./pages/standOut.tsx";
+import AmenitiesPage from "./pages/amenitesPage.tsx";
+import PhotosPage from "./pages/photosPage.js";
+import TitlePage from "./pages/titlePage.tsx";
+import DescriptionPage from "./pages/descriptionPage.tsx";
+import FinishSetupPage from "./pages/finishSetupPage.tsx";
+import InstantBookPage from "./pages/instantBook.tsx";
+import VisiblityPage from "./pages/visiblityPage.tsx";
+import PricePage from "./pages/pricePage.tsx";
+import DiscountPage from "./pages/discountPage.tsx";
+import LegalPage from "./pages/legalPage.jsx";
+import ReceiptPage from "./pages/receiptPage.jsx";
+import PublishCelebration from "./pages/publishCelebration.jsx";
 // import { useSelector } from "react-redux";
 
 // const photoLoader = async () => {
@@ -39,56 +39,56 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    // children: [
-    //     {
-    //       index: true,
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/icons",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/amazing-pools",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Tropical",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Top-cities",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/New",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/National-parks",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Rooms",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Lake-front",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Design",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Trending",
-    //       element: <Icons />,
-    //     },
-    //     {
-    //       path: "/Camping",
-    //       element: <Icons />,
-    //     },
-    //   ],
+    children: [
+      {
+        index: true,
+        element: <Icons />,
+      },
+      {
+        path: "/icons",
+        element: <Icons />,
+      },
+      {
+        path: "/amazing-pools",
+        element: <Icons />,
+      },
+      {
+        path: "/Tropical",
+        element: <Icons />,
+      },
+      {
+        path: "/Top-cities",
+        element: <Icons />,
+      },
+      {
+        path: "/New",
+        element: <Icons />,
+      },
+      {
+        path: "/National-parks",
+        element: <Icons />,
+      },
+      {
+        path: "/Rooms",
+        element: <Icons />,
+      },
+      {
+        path: "/Lake-front",
+        element: <Icons />,
+      },
+      {
+        path: "/Design",
+        element: <Icons />,
+      },
+      {
+        path: "/Trending",
+        element: <Icons />,
+      },
+      {
+        path: "/Camping",
+        element: <Icons />,
+      },
+    ],
   },
   { path: "host/homes", element: <HostHomes /> },
   { path: "/became-a-host/overview", element: <BecameAhost /> },
@@ -109,63 +109,63 @@ const router = createBrowserRouter([
     element: <LocationPage />,
   },
 
-  // {
-  //   path: "/became-a-host/:uuid/floor-plan",
-  //   element: <FloorPlanPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/stand-out",
-  //   element: <StandOut />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/amenities",
-  //   element: <AmenitiesPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/photos",
-  //   element: <PhotosPage />,
-  //   // loader: photoLoader,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/title",
-  //   element: <TitlePage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/description",
-  //   element: <DescriptionPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/finish-setup",
-  //   element: <FinishSetupPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/instant-book",
-  //   element: <InstantBookPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/visibility",
-  //   element: <VisiblityPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/price",
-  //   element: <PricePage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/discount",
-  //   element: <DiscountPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/legal",
-  //   element: <LegalPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/receipt",
-  //   element: <ReceiptPage />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/publish-celebration",
-  //   element: <PublishCelebration />,
-  // },
+  {
+    path: "/became-a-host/:uuid/floor-plan",
+    element: <FloorPlanPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/stand-out",
+    element: <StandOut />,
+  },
+  {
+    path: "/became-a-host/:uuid/amenities",
+    element: <AmenitiesPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/photos",
+    element: <PhotosPage />,
+    // loader: photoLoader,
+  },
+  {
+    path: "/became-a-host/:uuid/title",
+    element: <TitlePage />,
+  },
+  {
+    path: "/became-a-host/:uuid/description",
+    element: <DescriptionPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/finish-setup",
+    element: <FinishSetupPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/instant-book",
+    element: <InstantBookPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/visibility",
+    element: <VisiblityPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/price",
+    element: <PricePage />,
+  },
+  {
+    path: "/became-a-host/:uuid/discount",
+    element: <DiscountPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/legal",
+    element: <LegalPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/receipt",
+    element: <ReceiptPage />,
+  },
+  {
+    path: "/became-a-host/:uuid/publish-celebration",
+    element: <PublishCelebration />,
+  },
   // {
   //   path: "/release/features",
   //   element: <NewRealeased />,

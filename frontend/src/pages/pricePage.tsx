@@ -1,26 +1,28 @@
-import React, { useState } from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import { useState, useEffect } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { setPriceRedux } from "../../redux/HostReducer";
-import { updatePrice } from "../../redux/hostActions";
-import { useEffect } from "react";
+import {
+  faLocationDot,
+  faChevronUp,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { updatePrice } from "../redux/hostActions";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const PricePage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
   const [price, setPrice] = useState(host.price || 23);
   const serviceFee = Math.round(price * 0.15);
   const [isShowMore, setIsShowMore] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.price) {
       setPrice(currentHost.price);
     }
@@ -30,15 +32,15 @@ const PricePage = () => {
     navigate(`/became-a-host/${host.uuid}/visibility`);
   };
   const onNext = async () => {
-    dispatch(updatePrice({ uuid: host.uuid, price: price }));
+    dispatch(updatePrice({ uuid: host.uuid!, price: price }));
     navigate(`/became-a-host/${host.uuid}/discount`);
   };
-  const handlePriceChange = (event) => {
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
 
     const numericValue = inputValue.replace(/[^0-9.]/g, "");
     console.log(numericValue);
-    if (isNaN(numericValue) || numericValue === "") {
+    if (numericValue === "") {
       setPrice(0);
     } else {
       setPrice(parseInt(numericValue));
@@ -61,14 +63,16 @@ const PricePage = () => {
             {!isShowMore ? (
               <div className="flex flex-col  items-center mt-2 ">
                 <button className="mb-16" onClick={() => setIsShowMore(true)}>
-                  Guest prices before taxes ${serviceFee + parseInt(price)}
+                  Guest prices before taxes $
+                  {serviceFee + parseInt(price.toString())}{" "}
+                  {<FontAwesomeIcon icon={faChevronDown} />}
                 </button>
                 <button className="border flex items-center text-sm rounded-full p-2 mb-10 hover:border-black font-sans space-x-2">
                   {" "}
                   <FontAwesomeIcon icon={faLocationDot} />
                   <p> Similar listings $54 -$80</p>{" "}
                 </button>
-                <Link className="text-sm underline">
+                <Link to={""} className="text-sm underline">
                   {" "}
                   Learn about more pricing
                 </Link>
@@ -89,7 +93,8 @@ const PricePage = () => {
                   <div className="flex justify-between gap-16">
                     {" "}
                     <small className="font-medium">
-                      Guest prices before taxes ${serviceFee + parseInt(price)}
+                      Guest prices before taxes $
+                      {serviceFee + parseInt(price.toString())}
                     </small>
                   </div>
                 </div>
@@ -102,7 +107,7 @@ const PricePage = () => {
                   className="text-sm mt-4  "
                   onClick={() => setIsShowMore(false)}
                 >
-                  Show less
+                  Show less {<FontAwesomeIcon icon={faChevronUp} />}
                 </button>
               </div>
             )}

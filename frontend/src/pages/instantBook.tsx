@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import FooterNavigation from "./footerNavigation";
-import HostHeader from "./hostHeader";
-import InstantIcon from "../../components/icons/instantIcon";
-import ChatIcon from "../../components/icons/chatIcon";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
+import InstantIcon from "../components/icons/instantIcon";
+import ChatIcon from "../components/icons/chatIcon";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { setInstantBook } from "../../redux/HostReducer";
+import { setInstantBook } from "../redux/HostReducer";
 import { useEffect } from "react";
-import { updateInstantBook } from "../../redux/hostActions";
+import { updateInstantBook } from "../redux/hostActions";
+import { useAppDispatch, RootState } from "../redux/store";
 const InstantBookPage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   console.log(host.instantBook);
   const [instantBooking, setInstantBooking] = useState(
     host.instantBook || "instant"
   );
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.instantBook) {
       setInstantBook(currentHost.instantBook);
     }
@@ -30,7 +29,7 @@ const InstantBookPage = () => {
   };
   const onNext = async () => {
     dispatch(
-      updateInstantBook({ uuid: host.uuid, instantBook: instantBooking })
+      updateInstantBook({ uuid: host.uuid!, instantBook: instantBooking })
     );
     navigate(`/became-a-host/${host.uuid}/visibility`);
   };

@@ -1,9 +1,9 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const PublishCelebration = () => {
-  const userName = useSelector((state) => state.auth.user.name);
+  const userName = useSelector((state: RootState) => state.auth.user!.name);
 
   const navigate = useNavigate();
   const navigateToHostHomes = () => {

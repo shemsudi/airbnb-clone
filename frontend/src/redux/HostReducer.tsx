@@ -24,22 +24,34 @@ interface HostState {
     lastPage?: string;
     structure?: string;
     privacyType?: string;
+    location?: [latitude: number, longitude: number];
     guests?: number;
     beds?: number;
     bedrooms?: number;
     bathrooms?: number;
+    photos: string[];
     amenities?: string[];
     uniqueAmenities?: string[];
     safetyAmenities?: string[];
-    photos: string[];
     title?: string;
     description?: string;
-    highlights?: string;
-    instantBook?: boolean;
+    highlights?: string[];
+    instantBook?: string;
     visibility?: string;
     price?: number;
-    discount?: object;
-    legalInfo?: object;
+    discount?: {
+      weeklyDiscount?: number;
+      monthlyDiscount?: number;
+    };
+    legalInfo?: {
+      hostingType: string;
+      securityCameras: {
+        isAvailable: boolean;
+        description: string;
+      };
+      noiseMonitors: boolean;
+      weapons: boolean;
+    };
   };
 }
 
@@ -52,7 +64,6 @@ const initialState: HostState = {
     lastPage: "",
     structure: "",
     privacyType: "",
-    guests: 2,
     beds: 1,
     bedrooms: 1,
     bathrooms: 1,
@@ -62,8 +73,8 @@ const initialState: HostState = {
     photos: [],
     title: "",
     description: "",
-    highlights: "",
-    instantBook: false,
+    highlights: [],
+    instantBook: "",
     visibility: "",
     price: 23,
     discount: {},
@@ -174,7 +185,7 @@ const hostSlice = createSlice({
         photos: [],
         title: "",
         description: "",
-        highlights: "",
+        highlights: [],
         instantBook: false,
         visibility: "",
         price: 23,

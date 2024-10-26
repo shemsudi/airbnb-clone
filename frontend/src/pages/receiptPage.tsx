@@ -1,14 +1,14 @@
-import React from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../redux/store";
 const ReceiptPage = () => {
   const navigate = useNavigate();
-  const host = useSelector((state) => state.host.host);
-  const firstImage = host?.photos?.length > 0 ? host.photos[0] : null;
+  const host = useSelector((state: RootState) => state.host.host);
+  const firstImage = host?.photos?.length > 0 ? host.photos[0] : undefined;
   const onBack = () => {
     navigate(`/became-a-host/${host.uuid}/legal`);
   };

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import { useState } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { updateDiscounts } from "../../redux/hostActions";
+import { useSelector } from "react-redux";
+import { updateDiscounts } from "../redux/hostActions";
 import { useEffect } from "react";
-import { current } from "@reduxjs/toolkit";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const DiscountPage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
   const [weeklyDiscount, setWeeklyDiscount] = useState(
     host.discount?.weeklyDiscount || 8
   );
@@ -20,10 +20,10 @@ const DiscountPage = () => {
   const [isMonthlyDiscountEnabled, setIsMonthlyDiscountEnabled] =
     useState(true);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.discount) {
       setMonthlyDiscount(currentHost.discount.monthlyDiscount);
       setWeeklyDiscount(currentHost.discount.weeklyDiscount);
@@ -35,7 +35,12 @@ const DiscountPage = () => {
   };
 
   const onNext = async () => {
-    const discountsToSend = {};
+    interface discountToSendType {
+      weeklyDiscount?: number;
+      monthlyDiscount?: number;
+      newLPDiscount?: number;
+    }
+    const discountsToSend: discountToSendType = {};
     if (isWeeklyDiscountEnabled) {
       discountsToSend.weeklyDiscount = weeklyDiscount;
     }
@@ -46,7 +51,7 @@ const DiscountPage = () => {
       discountsToSend.newLPDiscount = 20;
     }
 
-    dispatch(updateDiscounts({ uuid: host.uuid, discount: discountsToSend }));
+    dispatch(updateDiscounts({ uuid: host.uuid!, discount: discountsToSend }));
     navigate(`/became-a-host/${host.uuid}/legal`);
   };
 
@@ -89,10 +94,11 @@ const DiscountPage = () => {
                   onChange={(e) => {
                     const numberValue = e.target.value;
                     if (
-                      (numberValue >= 0 && numberValue <= 100) ||
+                      (parseInt(numberValue) >= 0 &&
+                        parseInt(numberValue) <= 100) ||
                       numberValue === undefined
                     ) {
-                      setWeeklyDiscount(numberValue);
+                      setWeeklyDiscount(parseInt(numberValue));
                     }
                   }}
                   value={weeklyDiscount}
@@ -122,10 +128,11 @@ const DiscountPage = () => {
                   onChange={(e) => {
                     const numberValue = e.target.value;
                     if (
-                      (numberValue >= 0 && numberValue <= 100) ||
+                      (parseInt(numberValue) >= 0 &&
+                        parseInt(numberValue) <= 100) ||
                       numberValue === undefined
                     ) {
-                      setMonthlyDiscount(numberValue);
+                      setMonthlyDiscount(parseInt(numberValue));
                     }
                   }}
                   value={monthlyDiscount}

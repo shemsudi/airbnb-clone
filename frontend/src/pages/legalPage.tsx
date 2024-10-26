@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import { useState } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { updateLegalInfo } from "../../redux/hostActions";
+import { useSelector } from "react-redux";
+import { updateLegalInfo } from "../redux/hostActions";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const LegalPage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [hostingType, setHostingType] = useState(
     host.legalInfo?.hostingType || ""
@@ -19,11 +22,11 @@ const LegalPage = () => {
   );
   const [weapons, setWeapons] = useState(host.legalInfo?.weapons || false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHostingType(e.target.value);
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     switch (name) {
       case "securityCameras":
@@ -40,8 +43,6 @@ const LegalPage = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const onBack = () => {
     navigate(`/became-a-host/${host.uuid}/discount`);
   };
@@ -53,7 +54,7 @@ const LegalPage = () => {
       weapons,
     };
     console.log(legalInfo);
-    dispatch(updateLegalInfo({ uuid: host.uuid, legalInfo }));
+    dispatch(updateLegalInfo({ uuid: host.uuid!, legalInfo }));
 
     navigate(`/became-a-host/${host.uuid}/receipt`);
   };

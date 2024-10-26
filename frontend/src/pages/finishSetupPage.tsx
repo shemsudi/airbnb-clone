@@ -1,19 +1,17 @@
-import React from "react";
-import ProgressBar from "./progressBar.jsx";
-import FooterNavigation from "./footerNavigation.jsx";
+import { Link } from "react-router-dom";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { RootState } from "../redux/store";
 
-const StandOut = () => {
-  const host = useSelector((state) => state.host.host);
+const FinishSetupPage = () => {
+  const host = useSelector((state: RootState) => state.host.host);
   const navigate = useNavigate();
-  const BackToFloorPlanPage = () => {
-    navigate(`/became-a-host/${host.uuid}/floor-plan`);
+  const onBack = () => {
+    navigate(`/became-a-host/${host.uuid}/description`);
   };
-  const NavigateToAmenitesPage = () => {
-    navigate(`/became-a-host/${host.uuid}/amenities`);
+  const onNext = () => {
+    navigate(`/became-a-host/${host.uuid}/instant-book`);
   };
   return (
     <div className="flex flex-col h-screen">
@@ -34,16 +32,16 @@ const StandOut = () => {
           Save & exit
         </button>
       </div>{" "}
-      <div className=" flex-1 mx-4 sm:mx-16 my-2 md:my-10 flex items-center justify-start md:justify-center ">
+      <div className=" flex-1 mx-4 sm:mx-16 my-2 flex items-center justify-start md:justify-center ">
         <div className="flex flex-col-reverse md:flex-row items-center justify-start md:justify-center ">
           <div className="w-full md:max-w-lg md:max-h-3/5 flex flex-col">
-            <h1>Step 2</h1>
+            <h1>Step 3</h1>
             <h1 className="font-semibold text-3xl pt-2">
-              Make your place stand out{" "}
+              Finish up and publish
             </h1>
             <p className="text-sm text-gray-600 pt-6">
-              In this step, you’ll add some of the amenities your place offers,
-              plus 5 or more photos. Then, you’ll create a title and description
+              Finally, you'll choose booking settings, set up pricing, and
+              publish your listing.
             </p>
           </div>
           <div className="w-full md:max-w-md   ">
@@ -56,20 +54,14 @@ const StandOut = () => {
             >
               <source
                 type="video/mp4"
-                src="https://stream.media.muscache.com/H0101WTUG2qWbyFhy02jlOggSkpsM9H02VOWN52g02oxhDVM.mp4?v_q=high"
+                src="https://stream.media.muscache.com/KeNKUpa01dRaT5g00SSBV95FqXYkqf01DJdzn01F1aT00vCI.mp4?v_q=high"
               />
             </video>
           </div>
         </div>
       </div>
-      <FooterNavigation
-        step={1}
-        pos={5}
-        onBack={BackToFloorPlanPage}
-        onNext={NavigateToAmenitesPage}
-      />{" "}
+      <FooterNavigation step={2} pos={5} onBack={onBack} onNext={onNext} />{" "}
     </div>
   );
 };
-
-export default StandOut;
+export default FinishSetupPage;

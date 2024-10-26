@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
-import { json, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 
-import { updateTitle } from "../../redux/hostActions";
+import { updateTitle } from "../redux/hostActions";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const TitlePage = () => {
-  const host = useSelector((state) => state.host.host);
+  const host = useSelector((state: RootState) => state.host.host);
   const [title, setTitle] = useState(host.title || "");
   const count = title.length;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.title) {
       setTitle(currentHost.title);
     }
@@ -24,7 +24,7 @@ const TitlePage = () => {
     navigate(`/became-a-host/${host.uuid}/photos`);
   };
   const onNext = async () => {
-    dispatch(updateTitle({ uuid: host.uuid, title }));
+    dispatch(updateTitle({ uuid: host.uuid!, title }));
     navigate(`/became-a-host/${host.uuid}/description`);
   };
   return (

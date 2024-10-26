@@ -1,22 +1,36 @@
-import React, { useState } from "react";
-import CloseIcon from "../../components/icons/closeIcon";
+import { useState } from "react";
+import CloseIcon from "../icons/closeIcon";
 
-const PhotoGrid = ({ files, setFiles, removeImage, setIsOpen }) => {
-  const [draggedIndex, setDraggedIndex] = useState(null);
+interface PhotoGridProps {
+  files: string[];
+  setFiles: (value: any) => void;
+  setIsOpen: (value: boolean) => void;
+  removeImage: (index: number) => void;
+}
 
-  const handleDragStart = (index) => {
+const PhotoGrid: React.FC<PhotoGridProps> = ({
+  files,
+  setFiles,
+  removeImage,
+  setIsOpen,
+}) => {
+  const [draggedIndex, setDraggedIndex] = useState<number>(-1);
+
+  const handleDragStart = (index: number) => {
     setDraggedIndex(index);
     console.log("Dragging image at index:", index);
   };
 
-  const drag = (e) => {
-    e.preventDefault();
-  };
-  const allowDrop = (e) => {
+  // const drag = (e) => {
+  //   e.preventDefault();
+  // };
+  const allowDrop = (
+    e: React.DragEvent<HTMLUListElement | HTMLImageElement>
+  ) => {
     e.preventDefault();
   };
 
-  const handleDrop = (index) => {
+  const handleDrop = (index: number) => {
     const newFiles = [...files];
     console.log(newFiles);
     const temp = newFiles[draggedIndex];

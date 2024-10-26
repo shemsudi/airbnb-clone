@@ -1,5 +1,4 @@
-import React from "react";
-const EmptyState = ({ onClick }) => (
+const EmptyState = ({ onClick }: { onClick: () => void }) => (
   <div className="flex flex-col justify-center items-center gap-6 h-4/5 bg-gray-50 border border-dashed border-gray-700 rounded-lg">
     <img
       className="w-40 h-40"

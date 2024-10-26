@@ -1,4 +1,4 @@
-import HouseIcon from "../components/icons/houseIcon";
+import HouseIcon from "../icons/houseIcon";
 
 interface PlaceOptionButtonProps {
   title: string;

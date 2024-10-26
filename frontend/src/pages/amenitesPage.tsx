@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import HostHeader from "./hostHeader";
-import FooterNavigation from "./footerNavigation";
+import { useEffect } from "react";
+import HostHeader from "../components/hostingSteps/hostHeader";
+import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setAmenitiesState } from "../../redux/HostReducer";
+import { useSelector } from "react-redux";
+import { updateAmenities } from "../redux/hostActions";
+import { RootState, useAppDispatch } from "../redux/store.js";
 
 import {
   amenitiesItems,
   uniqueAmenitiesItems,
   safetyAmenitiesItems,
-} from "../../utils/types";
-import axios from "axios";
-import { updateAmenities } from "../../redux/hostActions";
+} from "../data/types";
 const AmenitiesPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const host = useSelector((state) => state.host.host);
+  const dispatch = useAppDispatch();
+  const host = useSelector((state: RootState) => state.host.host);
   const [amenities, setAmenites] = useState(host.amenities || []);
   const [uniqueAmenities, setUniqueAmenities] = useState(
     host.uniqueAmenities || []
@@ -25,7 +24,7 @@ const AmenitiesPage = () => {
     host.safetyAmenities || []
   );
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.amenities) {
       setAmenites(currentHost.amenities);
       setUniqueAmenities(currentHost.uniqueAmenities);
@@ -36,7 +35,7 @@ const AmenitiesPage = () => {
   const onNext = async () => {
     dispatch(
       updateAmenities({
-        uuid: host.uuid,
+        uuid: host.uuid!,
         amenities: amenities,
         uniqueAmenities: uniqueAmenities,
         safetyAmenities: safetyAmenities,
@@ -49,14 +48,14 @@ const AmenitiesPage = () => {
     navigate(`/became-a-host/${host.uuid}/stand-out`);
   };
 
-  const HandleSelectedAmenities = (type) => {
+  const HandleSelectedAmenities = (type: string) => {
     if (amenities.includes(type)) {
       setAmenites(amenities.filter((selected) => selected != type));
     } else {
       setAmenites([...amenities, type]);
     }
   };
-  const HandleSelectedUniqueAmenities = (type) => {
+  const HandleSelectedUniqueAmenities = (type: string) => {
     if (uniqueAmenities.includes(type)) {
       setUniqueAmenities(
         uniqueAmenities.filter((selected) => selected != type)
@@ -65,7 +64,7 @@ const AmenitiesPage = () => {
       setUniqueAmenities([...uniqueAmenities, type]);
     }
   };
-  const HandleSelectedSafetyAmenities = (type) => {
+  const HandleSelectedSafetyAmenities = (type: string) => {
     if (safetyAmenities.includes(type)) {
       setSafetyAmenities(
         safetyAmenities.filter((selected) => selected != type)
