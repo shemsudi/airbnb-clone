@@ -15,12 +15,13 @@ router.get(
   "/generate-uuid",
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response): Promise<void> => {
-    const user = req.user as JwtPayload | undefined; // Ensure correct typing
+    const user = req.user as JwtPayload | undefined;
 
     if (!user) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
+    console.log(user);
     const { id } = user;
     const generatedUuid: string = uuidv4();
     const hosting = new Hosting({
@@ -28,6 +29,7 @@ router.get(
       user: id,
       lastPage: "structure",
     });
+    console.log(hosting);
     await hosting.save();
 
     res.json({ uuid: generatedUuid, lastPage: "structure" });

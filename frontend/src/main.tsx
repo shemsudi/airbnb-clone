@@ -8,6 +8,7 @@ import router from "./route.tsx";
 
 //tailwind
 import "./index.css";
+import { AuthProvider } from "./authProvider.tsx";
 
 const rootElement: HTMLElement | null = document.getElementById("root");
 
@@ -15,7 +16,9 @@ if (rootElement) {
   createRoot(rootElement).render(
     <StrictMode>
       <Provider store={store}>
-        <RouterProvider router={router}></RouterProvider>
+        <AuthProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </AuthProvider>
       </Provider>
     </StrictMode>
   );

@@ -28,7 +28,7 @@ const BecameAhost = () => {
       localStorage.removeItem("currentHost");
       const response = await axios.get(
         "http://localhost:3000/host/generate-uuid"
-      ); //"http://localhost:3000/login"
+      );
       const data = response.data;
 
       dispatch(addHost(data));
@@ -41,7 +41,7 @@ const BecameAhost = () => {
   return (
     <div className="h-screen flex flex-col">
       <div className="flex justify-between px-12 pt-8 sticky top-0 left-0 bg-white">
-        <Link to={"/host/homes"}>
+        <Link to={"/"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32"

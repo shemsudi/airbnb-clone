@@ -7,9 +7,9 @@ import Root from "./pages/root";
 import HostHomes from "./pages/hostHomes";
 import BecameAhost from "./pages/become-a-host";
 import AboutYourPlace from "./pages/aboutYourPlace";
-// import HomeSturcture from "./pages/hostingSteps/homeStructure.jsx";
-// import PrivacyType from "./pages/hostingSteps/privacyType.jsx";
-// import LocationPage from "./pages/hostingSteps/locationPage.jsx";
+import HomeSturcture from "./pages/homeStructure.jsx";
+import PrivacyType from "./pages/privacyType.js";
+import LocationPage from "./pages/locationPage.js";
 // import FloorPlanPage from "./pages/hostingSteps/floorPlanpage.jsx";
 // import StandOut from "./pages/hostingSteps/standOut.jsx";
 // import AmenitiesPage from "./pages/hostingSteps/amenitesPage.jsx";
@@ -96,18 +96,18 @@ const router = createBrowserRouter([
     path: `/became-a-host/:uuid/about-your-place`,
     element: <AboutYourPlace />,
   },
-  // {
-  //   path: `/became-a-host/:uuid/structure`,
-  //   element: <HomeSturcture />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/privacyType",
-  //   element: <PrivacyType />,
-  // },
-  // {
-  //   path: "/became-a-host/:uuid/location",
-  //   element: <LocationPage />,
-  // },
+  {
+    path: `/became-a-host/:uuid/structure`,
+    element: <HomeSturcture />,
+  },
+  {
+    path: "/became-a-host/:uuid/privacyType",
+    element: <PrivacyType />,
+  },
+  {
+    path: "/became-a-host/:uuid/location",
+    element: <LocationPage />,
+  },
 
   // {
   //   path: "/became-a-host/:uuid/floor-plan",

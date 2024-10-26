@@ -18,7 +18,7 @@ export const updateHostStructure = createAsyncThunk(
         })
       );
     } else if (localStorage.getItem("currentHost")) {
-      const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+      const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
       const updatedHost = {
         ...currentHost,
         lastPage: "structure",
@@ -33,7 +33,7 @@ export const updateHostStructure = createAsyncThunk(
 
 export const updatePrivacyType = createAsyncThunk(
   "host/setPrivacyType",
-  async ({ uuid, privacyType }) => {
+  async ({ uuid, privacyType }: { uuid: string; privacyType: string }) => {
     const response = await axios.post(
       "http://localhost:3000/host/privacyType",
       {
@@ -42,7 +42,7 @@ export const updatePrivacyType = createAsyncThunk(
       }
     );
 
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       lastPage: "location",
@@ -53,17 +53,30 @@ export const updatePrivacyType = createAsyncThunk(
   }
 );
 
-export const updateFloorPlan = createAsyncThunk(
+interface FloorPlanParams {
+  uuid: string;
+  guests: number;
+  bedrooms: number;
+  beds: number;
+  bathrooms: number;
+}
+interface FloorPlanResponse {
+  [key: string]: any;
+}
+export const updateFloorPlan = createAsyncThunk<{}, FloorPlanParams>(
   "host/setFloorPlan",
   async ({ uuid, guests, bedrooms, beds, bathrooms }) => {
-    const response = await axios.post("http://localhost:3000/host/floor-plan", {
-      uuid: uuid,
-      guests: guests,
-      bedrooms: bedrooms,
-      beds: beds,
-      bathrooms: bathrooms,
-    });
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const response = await axios.post<FloorPlanResponse>(
+      "http://localhost:3000/host/floor-plan",
+      {
+        uuid: uuid,
+        guests: guests,
+        bedrooms: bedrooms,
+        beds: beds,
+        bathrooms: bathrooms,
+      }
+    );
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       lastPage: "floorPlan",
@@ -77,7 +90,13 @@ export const updateFloorPlan = createAsyncThunk(
   }
 );
 
-export const updateAmenities = createAsyncThunk(
+interface updateAmenitiesParams {
+  uuid: string;
+  amenities: string[];
+  safetyAmenities: string[];
+  uniqueAmenities: string[];
+}
+export const updateAmenities = createAsyncThunk<{}, updateAmenitiesParams>(
   "host/setAmenities",
   async ({ uuid, amenities, safetyAmenities, uniqueAmenities }) => {
     const response = await axios.post("http://localhost:3000/host/amenities", {
@@ -86,7 +105,7 @@ export const updateAmenities = createAsyncThunk(
       uniqueAmenities,
       safetyAmenities,
     });
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       lastPage: "photos",
@@ -101,7 +120,7 @@ export const updateAmenities = createAsyncThunk(
 
 export const removeImageRedux = createAsyncThunk(
   "host/removeImage",
-  async ({ uuid, index }) => {
+  async ({ uuid, index }: { uuid: string; index: number }) => {
     await axios.delete(`http://localhost:3000/host/deletePhoto/${index}`, {
       params: { uuid: uuid },
     });
@@ -109,9 +128,16 @@ export const removeImageRedux = createAsyncThunk(
   }
 );
 
-export const uploadFiles = createAsyncThunk(
+interface uploadFilesParams {
+  tempFiles: File[];
+  uuid: string;
+  setFiles: any;
+  files: string[];
+}
+
+export const uploadFiles = createAsyncThunk<{}, uploadFilesParams>(
   "host/uploadFiles",
-  async ({ tempFiles, uuid, setFiles, files }, { dispatch }) => {
+  async ({ tempFiles, uuid, setFiles, files }) => {
     console.log(files);
     const formdata = new FormData();
     console.log(tempFiles);
@@ -126,8 +152,8 @@ export const uploadFiles = createAsyncThunk(
     const urlFiles = result.data.photos;
     console.log(urlFiles);
 
-    setFiles((files) => [...files, ...urlFiles]);
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    setFiles((files: string[]) => [...files, ...urlFiles]);
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       lastPage: "title",
@@ -141,12 +167,12 @@ export const uploadFiles = createAsyncThunk(
 
 export const updateTitle = createAsyncThunk(
   "host/updateTitle",
-  async ({ uuid, title }) => {
-    const response = await axios.post("http://localhost:3000/host/title", {
+  async ({ uuid, title }: { uuid: string; title: string }) => {
+    await axios.post("http://localhost:3000/host/title", {
       title,
       uuid: uuid,
     });
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       title: title,
@@ -156,20 +182,23 @@ export const updateTitle = createAsyncThunk(
   }
 );
 
-export const updateDescription = createAsyncThunk(
+interface updateDescriptionParams {
+  uuid: string;
+  description: string;
+  highlights: string;
+}
+
+export const updateDescription = createAsyncThunk<{}, updateDescriptionParams>(
   "host/updateDescription",
   async ({ uuid, description, highlights }) => {
     console.log(uuid, description, highlights);
-    const response = await axios.post(
-      "http://localhost:3000/host/description",
-      {
-        uuid: uuid,
-        description: description,
-        highlights: highlights,
-      }
-    );
+    await axios.post("http://localhost:3000/host/description", {
+      uuid: uuid,
+      description: description,
+      highlights: highlights,
+    });
 
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       description: description,
@@ -186,15 +215,12 @@ export const updateDescription = createAsyncThunk(
 
 export const updateInstantBook = createAsyncThunk(
   "host/updateInstantBook",
-  async ({ uuid, instantBook }) => {
-    const response = await axios.post(
-      "http://localhost:3000/host/instant-book",
-      {
-        uuid: uuid,
-        instantBook: instantBook,
-      }
-    );
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+  async ({ uuid, instantBook }: { uuid: string; instantBook: string }) => {
+    await axios.post("http://localhost:3000/host/instant-book", {
+      uuid: uuid,
+      instantBook: instantBook,
+    });
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       instantBook: instantBook,
@@ -209,12 +235,12 @@ export const updateInstantBook = createAsyncThunk(
 
 export const updateVisibility = createAsyncThunk(
   "host/updateVisibility",
-  async ({ uuid, visibility }) => {
-    const response = await axios.post("http://localhost:3000/host/visibility", {
+  async ({ uuid, visibility }: { uuid: string; visibility: string }) => {
+    await axios.post("http://localhost:3000/host/visibility", {
       uuid: uuid,
       visibility: visibility,
     });
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       visibility: visibility,
@@ -231,12 +257,12 @@ export const updateVisibility = createAsyncThunk(
 
 export const updatePrice = createAsyncThunk(
   "host/updatePrice",
-  async ({ uuid, price }) => {
-    const response = await axios.post("http://localhost:3000/host/price", {
+  async ({ uuid, price }: { uuid: string; price: number }) => {
+    await axios.post("http://localhost:3000/host/price", {
       uuid: uuid,
       price: price,
     });
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       price: price,
@@ -251,17 +277,19 @@ export const updatePrice = createAsyncThunk(
   }
 );
 
-export const updateDiscounts = createAsyncThunk(
+interface updateDiscountsParams {
+  uuid: string;
+  discount: { [key: string]: any };
+}
+
+export const updateDiscounts = createAsyncThunk<{}, updateDiscountsParams>(
   "host/updateDiscounts",
   async ({ uuid, discount }) => {
-    const response = await axios.post(
-      "http://localhost:3000/host/setDiscount",
-      {
-        uuid: uuid,
-        discount: discount,
-      }
-    );
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    await axios.post("http://localhost:3000/host/setDiscount", {
+      uuid: uuid,
+      discount: discount,
+    });
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       discount: discount,
@@ -275,17 +303,24 @@ export const updateDiscounts = createAsyncThunk(
   }
 );
 
-export const updateLegalInfo = createAsyncThunk(
+interface updateLegalInfoParams {
+  uuid: string;
+  legalInfo: {
+    hostingType: boolean;
+    securityCameras: { isAvailable: boolean; description: string };
+    noiseMonitors: boolean;
+    weapons: boolean;
+  };
+}
+
+export const updateLegalInfo = createAsyncThunk<{}, updateLegalInfoParams>(
   "host/updateLegalInfo",
   async ({ uuid, legalInfo }) => {
-    const response = await axios.post(
-      "http://localhost:3000/host/setLegalInfo",
-      {
-        uuid: uuid,
-        legalInfo,
-      }
-    );
-    const currentHost = JSON.parse(localStorage.getItem("currentHost"));
+    await axios.post("http://localhost:3000/host/setLegalInfo", {
+      uuid: uuid,
+      legalInfo,
+    });
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     const updatedHost = {
       ...currentHost,
       legalInfo,

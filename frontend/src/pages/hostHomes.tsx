@@ -15,7 +15,6 @@ const HostHomes = () => {
     const value = event.target.value;
     setNights(value); // Adjust the price based on the slider's position
   };
-  setPricePerNight(43);
 
   return (
     <div className="flex flex-col   ">

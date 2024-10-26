@@ -1,8 +1,10 @@
 import path from "path";
+import passport from "passport";
 import express from "express";
 import mongoose from "mongoose";
 import session from "express-session";
 import cors, { CorsOptions } from "cors";
+import configurePassport from "./configs/passport";
 
 //Routes
 import AuthRouter from "./routes/auth.js";
@@ -30,15 +32,13 @@ app.use(
   })
 );
 
+configurePassport(passport);
+
 app.use("/", AuthRouter);
 app.use("/user", ProfileRouter);
 app.use("/host", HostRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.get("/shemsuee", (req, res) => {
   res.send("Hello World!");
 });
 
