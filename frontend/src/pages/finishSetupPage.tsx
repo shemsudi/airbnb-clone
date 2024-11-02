@@ -3,6 +3,7 @@ import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { Helmet } from "react-helmet";
 
 const FinishSetupPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -15,6 +16,9 @@ const FinishSetupPage = () => {
   };
   return (
     <div className="flex flex-col h-screen">
+      <Helmet>
+        <title>Step 3: Finish your listing - Airbnb</title>
+      </Helmet>
       <div className="flex justify-between px-12 pt-8 sticky top-0 left-0 bg-white">
         <Link to={"/host/homes"}>
           <svg

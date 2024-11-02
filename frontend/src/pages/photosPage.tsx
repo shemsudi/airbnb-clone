@@ -10,22 +10,24 @@ import EmptyState from "../components/hostingSteps/emptyState.tsx";
 import PhotoGrid from "../components/hostingSteps/photoGrid.tsx";
 import { removeImageRedux } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
-// import { useLoaderData } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const PhotosPage = () => {
-  const host = useSelector((state: RootState) => state.host.host);
-  // const { Photos } = useLoaderData();
-  // console.log(Photos);
-  const [files, setFiles] = useState(host.photos || []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const host = useSelector((state: RootState) => state.host.host);
+  const [files, setFiles] = useState<string[]>(host.photos || []);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
-    if (currentHost && currentHost.photos) {
-      setFiles(currentHost.photos);
+    const currentHostData = localStorage.getItem("currentHost");
+    console.log(currentHostData);
+    if (currentHostData) {
+      const currentHost = JSON.parse(currentHostData);
+      console.log(currentHost);
+      if (currentHost.photos) setFiles(currentHost.photos);
     }
   }, []);
+
   const onNext = async () => {
     navigate(`/became-a-host/${host.uuid}/title`);
   };
@@ -48,7 +50,10 @@ const PhotosPage = () => {
 
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Add some photos - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className=" flex-grow mx-6 sm:mx-14 flex justify-center  ">
         <div className="flex  flex-col mx-4 w-full  sm:max-w-[500px] md:min-h-[400px] gap-3 mb-5 max-md:mt-4">
           {files.length > 0 ? (

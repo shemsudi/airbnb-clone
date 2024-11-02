@@ -492,4 +492,26 @@ router.post(
   }
 );
 
+router.post(
+  "/publish",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { uuid } = req.body;
+    try {
+      const host = await Hosting.findOne({ uuid });
+      if (!host) {
+        res.status(404).json({ message: "Hosting not found" });
+        return;
+      }
+      host.isCompleted = true;
+      await host.save();
+      res.json({
+        suceess: "Hosting completed sucessfully",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export default router;

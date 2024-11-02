@@ -6,13 +6,15 @@ import { useSelector } from "react-redux";
 
 import { updateTitle } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
+import TitleInput from "../components/hostingSteps/titleInput";
+import { Helmet } from "react-helmet";
 
 const TitlePage = () => {
-  const host = useSelector((state: RootState) => state.host.host);
-  const [title, setTitle] = useState(host.title || "");
-  const count = title.length;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const host = useSelector((state: RootState) => state.host.host);
+  const [title, setTitle] = useState(host.title || "");
 
   useEffect(() => {
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
@@ -29,27 +31,12 @@ const TitlePage = () => {
   };
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Give your place a title - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="flex-1 px-10 flex justify-center">
-        <div className="flex flex-col min-w-[480px]  justify-center">
-          <h1 className="text-2xl font-base">
-            {" "}
-            Now, let's give your house a title{" "}
-          </h1>
-          <small className="text-gray-600">
-            Short titles work best. Have fun with it—you can always change it
-            later.
-          </small>
-          <textarea
-            onChange={(e) => setTitle(e.target.value)}
-            className=" border border-gray-500 rounded-md p-2 mt-5 h-32"
-            name=""
-            id=""
-            value={title}
-            maxLength={32}
-          ></textarea>
-          <small>{count}/32</small>
-        </div>
+        <TitleInput title={title} onTitleChange={setTitle} />
       </div>
       <FooterNavigation onBack={onBack} onNext={onNext} step={2} pos={3} />
     </div>

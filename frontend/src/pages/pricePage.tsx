@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { updatePrice } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
+import { Helmet } from "react-helmet";
 
 const PricePage = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -48,7 +49,10 @@ const PricePage = () => {
   };
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Set your price- Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="grow box-border m-4 flex flex-col items-start justify-start md:items-center md:justify-center">
         <div className="flex flex-col justify-center   md:w-max">
           <h1 className="text-2xl font-semibold">Now, set your price</h1>

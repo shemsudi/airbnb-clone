@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
+import { Helmet } from "react-helmet";
+import api from "../configs/api";
 const ReceiptPage = () => {
   const navigate = useNavigate();
   const host = useSelector((state: RootState) => state.host.host);
@@ -12,13 +14,19 @@ const ReceiptPage = () => {
   const onBack = () => {
     navigate(`/became-a-host/${host.uuid}/legal`);
   };
-  const onNext = () => {
+  const onNext = async () => {
+    await api.post("/host/publish", {
+      uuid: host.uuid,
+    });
     navigate(`/became-a-host/${host.uuid}/publish-celebration`);
   };
 
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Review ans save your listing</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="grow flex justify-center items-center p-3">
         <div className="flex flex-col max-w-[650px]">
           <h1 className="text-4xl font-medium">Review your listing</h1>

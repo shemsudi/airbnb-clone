@@ -1,22 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { Helmet } from "react-helmet";
 
 const PublishCelebration = () => {
   const userName = useSelector((state: RootState) => state.auth.user!.name);
 
   const navigate = useNavigate();
   const navigateToHostHomes = () => {
-    navigate("/host-homes");
+    navigate("/host/homes");
   };
 
   return (
     <div className="h-screen flex flex-col md:flex-row ">
+      <Helmet>
+        <title>Welcome to hosting - Airbnb</title>
+      </Helmet>
       <iframe
         className="w-full h-1/2 md:h-full md:w-1/2 object-cover"
         src="https://www.youtube.com/embed/evUfG3lrk5U"
         title="YouTube video player"
-        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       ></iframe>

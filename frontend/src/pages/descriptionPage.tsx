@@ -3,9 +3,11 @@ import HostHeader from "../components/hostingSteps/hostHeader";
 import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { descriptionTypes } from "../data/types";
 import { updateDescription } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
+import HighlightSelection from "../components/hostingSteps/highlightSelection";
+import DescriptionInput from "../components/hostingSteps/descriptionInput";
+import { Helmet } from "react-helmet";
 
 const DescriptionPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -14,7 +16,6 @@ const DescriptionPage = () => {
     host.description ||
       "Make some memories at this unique and family-friendly place."
   );
-  const count = description.length;
   const [selectedTypes, setSelectedTypes] = useState<string[]>(
     host.highlights || []
   );
@@ -23,7 +24,7 @@ const DescriptionPage = () => {
 
   useEffect(() => {
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
-    if (currentHost && currentHost.description) {
+    if (currentHost?.description) {
       setDescription(currentHost.description);
       setSelectedTypes(currentHost.highlights);
     }
@@ -50,64 +51,34 @@ const DescriptionPage = () => {
       navigate(`/became-a-host/${host.uuid}/finish-setup`);
     }
   };
+  const handleHighlightToggle = (value: string) => {
+    setSelectedTypes((prev) => {
+      if (prev.includes(value)) {
+        return prev.filter((type) => type !== value);
+      } else if (prev.length === 2) {
+        return [prev[1], value];
+      } else {
+        return [...prev, value];
+      }
+    });
+  };
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Describe your place - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="flex-1 flex items-start justify-center md:items-center mt-4">
         {step1 ? (
-          <div className="max-w-[500px] flex  flex-col justify-center mx-6  ">
-            <h1 className="text-2xl">Next, let's describe your house</h1>
-            <small className="text-gray-600">
-              Choose up to 2 highlights. We'll use these to get your description
-              started.
-            </small>
-            <div className="flex gap-2 flex-wrap my-4 mt-5">
-              {descriptionTypes.map((description, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    if (selectedTypes.includes(description.type)) {
-                      // Remove the type if it's already selected
-                      setSelectedTypes(
-                        selectedTypes.filter(
-                          (type) => type !== description.type
-                        )
-                      );
-                    } else {
-                      if (selectedTypes.length === 2) {
-                        // If 2 are already selected, remove the first and add the new one
-                        setSelectedTypes([selectedTypes[1], description.type]);
-                      } else {
-                        // If less than 2 are selected, add the new type
-                        setSelectedTypes([...selectedTypes, description.type]);
-                      }
-                    }
-                  }}
-                  className={`flex ${
-                    selectedTypes.includes(description.type) &&
-                    "bg-neutral-100 outline outline-1"
-                  }  items-center p-2 border hover:cursor-pointer border-gray-300 rounded-2xl`}
-                >
-                  {description.icon}
-                  <small>{description.type}</small>
-                </div>
-              ))}
-            </div>
-          </div>
+          <HighlightSelection
+            selectedTypes={selectedTypes}
+            onToggle={handleHighlightToggle}
+          />
         ) : (
-          <div className="sm:min-w-[500px] flex  flex-col justify-center mx-6  ">
-            <h1 className="text-2xl">Create your description</h1>
-            <small className="text-gray-600">
-              Share what makes your place special.
-            </small>
-            <textarea
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full h-40 border border-gray-300 rounded-lg p-2 mt-4"
-              value={description}
-              maxLength={600}
-            ></textarea>
-            <small>{count}/600</small>
-          </div>
+          <DescriptionInput
+            description={description}
+            onChange={setDescription}
+          />
         )}
       </div>
       <FooterNavigation onBack={onBack} onNext={onNext} step={2} pos={4} />

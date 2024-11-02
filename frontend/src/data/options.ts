@@ -1,4 +1,10 @@
-const options = [
+interface Option {
+  title: string;
+  description: string;
+  value: string;
+}
+
+const options: Option[] = [
   {
     title: "An entire place",
     description: "Guests have the whole place to themselves.",

@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { updateLegalInfo } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
+import { Helmet } from "react-helmet";
 
 const LegalPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -61,7 +62,10 @@ const LegalPage = () => {
 
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Answer some final questions- Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="grow flex  justify-center items-centerp-2 ">
         <div className="flex flex-col justify-center w-[500px] gap-4 p-2">
           <h1 className="text-2xl font-medium">Just one last Step!</h1>

@@ -2,136 +2,141 @@
 // import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
 import HouseIcon from "../components/icons/houseIcon.tsx";
 
-const types = [
+interface TypeEntry {
+  value: string;
+  icon: JSX.Element;
+}
+
+const types: TypeEntry[] = [
   {
-    type: "House",
+    value: "House",
     icon: <HouseIcon />,
   },
-  { type: "Apartment", icon: <HouseIcon /> },
-  { type: "Barn", icon: <HouseIcon /> },
+  { value: "Apartment", icon: <HouseIcon /> },
+  { value: "Barn", icon: <HouseIcon /> },
   {
-    type: "Bed & breakfast",
+    value: "Bed & breakfast",
     icon: <HouseIcon />,
   },
-  { type: "Boat", icon: <HouseIcon /> },
-  { type: "Cabin", icon: <HouseIcon /> },
-  { type: "Camper/RV", icon: <HouseIcon /> },
+  { value: "Boat", icon: <HouseIcon /> },
+  { value: "Cabin", icon: <HouseIcon /> },
+  { value: "Camper/RV", icon: <HouseIcon /> },
   {
-    type: "Casa particular",
+    value: "Casa particular",
     icon: <HouseIcon />,
   },
-  { type: "Castle", icon: <HouseIcon /> },
-  { type: "Cave", icon: <HouseIcon /> },
-  { type: "Container", icon: <HouseIcon /> },
+  { value: "Castle", icon: <HouseIcon /> },
+  { value: "Cave", icon: <HouseIcon /> },
+  { value: "Container", icon: <HouseIcon /> },
   {
-    type: "Cycladic home",
+    value: "Cycladic home",
     icon: <HouseIcon />,
   },
-  { type: "Dammuso", icon: <HouseIcon /> },
-  { type: "Dome", icon: <HouseIcon /> },
-  { type: "Earth home", icon: <HouseIcon /> },
-  { type: "Farm", icon: <HouseIcon /> },
-  { type: "GuestHouse", icon: <HouseIcon /> },
-  { type: "Hotel", icon: <HouseIcon /> },
-  { type: "Houseboat", icon: <HouseIcon /> },
-  { type: "Kizhan", icon: <HouseIcon /> },
-  { type: "Minsu", icon: <HouseIcon /> },
-  { type: "Riad", icon: <HouseIcon /> },
-  { type: "Ryokan", icon: <HouseIcon /> },
+  { value: "Dammuso", icon: <HouseIcon /> },
+  { value: "Dome", icon: <HouseIcon /> },
+  { value: "Earth home", icon: <HouseIcon /> },
+  { value: "Farm", icon: <HouseIcon /> },
+  { value: "GuestHouse", icon: <HouseIcon /> },
+  { value: "Hotel", icon: <HouseIcon /> },
+  { value: "Houseboat", icon: <HouseIcon /> },
+  { value: "Kizhan", icon: <HouseIcon /> },
+  { value: "Minsu", icon: <HouseIcon /> },
+  { value: "Riad", icon: <HouseIcon /> },
+  { value: "Ryokan", icon: <HouseIcon /> },
   {
-    type: "Shepherd's hat",
+    value: "Shepherd's hat",
     icon: <HouseIcon />,
   },
-  { type: "Tent", icon: <HouseIcon /> },
-  { type: "Tiny home", icon: <HouseIcon /> },
-  { type: "Tower", icon: <HouseIcon /> },
-  { type: "Treehouse", icon: <HouseIcon /> },
-  { type: "Trullo", icon: <HouseIcon /> },
-  { type: "Windmill", icon: <HouseIcon /> },
-  { type: "Yurt", icon: <HouseIcon /> },
+  { value: "Tent", icon: <HouseIcon /> },
+  { value: "Tiny home", icon: <HouseIcon /> },
+  { value: "Tower", icon: <HouseIcon /> },
+  { value: "Treehouse", icon: <HouseIcon /> },
+  { value: "Trullo", icon: <HouseIcon /> },
+  { value: "Windmill", icon: <HouseIcon /> },
+  { value: "Yurt", icon: <HouseIcon /> },
 ];
 
 const amenitiesItems = [
-  { type: "Wifi", icon: <HouseIcon /> },
-  { type: "TV", icon: <HouseIcon /> },
-  { type: "Kitchen", icon: <HouseIcon /> },
-  { type: "Washer", icon: <HouseIcon /> },
+  { value: "Wifi", icon: <HouseIcon /> },
+  { value: "TV", icon: <HouseIcon /> },
+  { value: "Kitchen", icon: <HouseIcon /> },
+  { value: "Washer", icon: <HouseIcon /> },
   {
-    type: "Free parking on premises",
+    value: "Free parking on premises",
     icon: <HouseIcon />,
   },
   {
-    type: "Paid parking on premises",
+    value: "Paid parking on premises",
     icon: <HouseIcon />,
   },
   {
-    type: "Air conditioning",
+    value: "Air conditioning",
     icon: <HouseIcon />,
   },
   {
-    type: "Dedicated Workspace",
+    value: "Dedicated Workspace",
     icon: <HouseIcon />,
   },
 ];
 
 const uniqueAmenitiesItems = [
-  { type: "Pool", icon: <HouseIcon /> },
-  { type: "Hot tub", icon: <HouseIcon /> },
-  { type: "Patio", icon: <HouseIcon /> },
-  { type: "BBQ grill", icon: <HouseIcon /> },
+  { value: "Pool", icon: <HouseIcon /> },
+  { value: "Hot tub", icon: <HouseIcon /> },
+  { value: "Patio", icon: <HouseIcon /> },
+  { value: "BBQ grill", icon: <HouseIcon /> },
   {
-    type: "Outdoor dining area",
+    value: "Outdoor dining area",
     icon: <HouseIcon />,
   },
-  { type: "Fire pit", icon: <HouseIcon /> },
-  { type: "Pool table", icon: <HouseIcon /> },
+  { value: "Fire pit", icon: <HouseIcon /> },
+  { value: "Pool table", icon: <HouseIcon /> },
   {
-    type: "Indoor fireplace",
+    value: "Indoor fireplace",
     icon: <HouseIcon />,
   },
-  { type: "Piano", icon: <HouseIcon /> },
+  { value: "Piano", icon: <HouseIcon /> },
   {
-    type: "Exercise equipment",
+    value: "Exercise equipment",
     icon: <HouseIcon />,
   },
-  { type: "Lake access", icon: <HouseIcon /> },
-  { type: "Beach access", icon: <HouseIcon /> },
+  { value: "Lake access", icon: <HouseIcon /> },
+  { value: "Beach access", icon: <HouseIcon /> },
   {
-    type: "Ski-in/Ski-out",
+    value: "Ski-in/Ski-out",
     icon: <HouseIcon />,
   },
   {
-    type: "Outdoor shower",
+    value: "Outdoor shower",
     icon: <HouseIcon />,
   },
 ];
 
 const safetyAmenitiesItems = [
-  { type: "Smoke alarm", icon: <HouseIcon /> },
+  { value: "Smoke alarm", icon: <HouseIcon /> },
   {
-    type: "First aid kit",
+    value: "First aid kit",
     icon: <HouseIcon />,
   },
   {
-    type: "Fire extinguisher",
+    value: "Fire extinguisher",
     icon: <HouseIcon />,
   },
   {
-    type: "Carbon monoxide alarm",
+    value: "Carbon monoxide alarm",
     icon: <HouseIcon />,
   },
 ];
 
 const descriptionTypes = [
-  { type: "Peacful", icon: <HouseIcon /> },
-  { type: "Unique", icon: <HouseIcon /> },
+  { value: "Peacful", icon: <HouseIcon /> },
+  { value: "Unique", icon: <HouseIcon /> },
   {
-    type: "Familly friendly",
+    value: "Familly friendly",
     icon: <HouseIcon />,
   },
-  { type: "Stylish", icon: <HouseIcon /> },
-  { type: "Central", icon: <HouseIcon /> },
-  { type: "Spacious", icon: <HouseIcon /> },
+  { value: "Stylish", icon: <HouseIcon /> },
+  { value: "Central", icon: <HouseIcon /> },
+  { value: "Spacious", icon: <HouseIcon /> },
 ];
 export {
   types,

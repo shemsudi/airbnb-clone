@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
-    dispatch(setHost(currentHost));
     if (currentHost) {
       dispatch(setHost(currentHost));
     }
@@ -39,7 +38,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const timeRemaining = decoded.exp - currentTime;
 
       setTimeout(() => {
-        localStorage.removeItem("jwtToken");
         dispatch(logOut());
         setAuthToken(false);
       }, timeRemaining * 1000);

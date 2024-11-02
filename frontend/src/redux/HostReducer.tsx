@@ -39,9 +39,13 @@ interface HostState {
     instantBook?: string;
     visibility?: string;
     price?: number;
-    discount?: {
-      weeklyDiscount?: number;
-      monthlyDiscount?: number;
+    discount: {
+      weeklyDiscount?: number | undefined;
+      monthlyDiscount?: number | undefined;
+      isWeeklyDiscountEnabled: boolean;
+      isMonthlyDiscountEnabled: boolean;
+      isNewLPDiscountEnabled: boolean;
+      newLPDiscount: number;
     };
     legalInfo?: {
       hostingType: string;
@@ -77,8 +81,23 @@ const initialState: HostState = {
     instantBook: "",
     visibility: "",
     price: 23,
-    discount: {},
-    legalInfo: {},
+    discount: {
+      weeklyDiscount: 8,
+      monthlyDiscount: 10,
+      isWeeklyDiscountEnabled: true,
+      isMonthlyDiscountEnabled: true,
+      isNewLPDiscountEnabled: true,
+      newLPDiscount: 20,
+    },
+    legalInfo: {
+      hostingType: "",
+      securityCameras: {
+        isAvailable: false,
+        description: "",
+      },
+      noiseMonitors: false,
+      weapons: false,
+    },
   },
 };
 
@@ -170,28 +189,7 @@ const hostSlice = createSlice({
       state.error = action.payload;
     },
     clearHost: (state) => {
-      state.host = {
-        uuid: "",
-        lastPage: "",
-        structure: "",
-        privacyType: "",
-        guests: 2,
-        beds: 1,
-        bedrooms: 1,
-        bathrooms: 1,
-        amenities: [],
-        uniqueAmenities: [],
-        safetyAmenities: [],
-        photos: [],
-        title: "",
-        description: "",
-        highlights: [],
-        instantBook: false,
-        visibility: "",
-        price: 23,
-        discount: {},
-        legalInfo: {},
-      };
+      state.host = initialState.host;
     },
   },
   extraReducers: (builder) => {
@@ -272,18 +270,14 @@ const hostSlice = createSlice({
       })
       .addCase(uploadFiles.fulfilled, (state, action) => {
         const { newFiles } = action.payload;
-        if (state.host.photos === undefined) {
-          state.host.photos = [...newFiles];
-        } else {
-          state.host.photos = [...state.host?.photos, ...newFiles];
-        }
+        state.host.photos = [...state.host?.photos, ...newFiles];
         state.loading = false;
         state.host.lastPage = "title";
       })
       .addCase(uploadFiles.rejected, (state, error) => {
         state.loading = false;
-        state.error = error;
-        console.log(error);
+        state.error = error.error;
+        console.log(error.error);
       })
       .addCase(updateTitle.pending, (state) => {
         state.loading = true;

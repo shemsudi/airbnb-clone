@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { updateFloorPlan } from "../redux/hostActions.js";
 import { RootState, useAppDispatch } from "../redux/store.js";
+import { Helmet } from "react-helmet";
 
 const FloorPlanPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -43,7 +44,10 @@ const FloorPlanPage = () => {
 
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Select the total guests - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="flex-1 m-4  md:m-10 flex items-start justify-center md:items-center">
         <div className="flex flex-col mt-6 md:min-w-[500px]">
           <h1 className="text-2xl font-semibold w-full">

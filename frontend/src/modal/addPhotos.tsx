@@ -5,12 +5,13 @@ import ImageIcon from "../components/icons/imageIcon.tsx";
 import { useSelector } from "react-redux";
 import { uploadFiles } from "../redux/hostActions";
 import { RootState, useAppDispatch } from "../redux/store";
+// import { useDropzone } from "react-dropzone";
 
 interface AddPhotosProps {
   isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   files: string[];
-  setFiles: (value: any) => void;
+  setFiles: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const AddPhotos: React.FC<AddPhotosProps> = ({
@@ -41,6 +42,7 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
   }, [isOpen, setIsOpen]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("I have been called");
     const selectedFiles = Array.from(e.target.files || []);
     setTempFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
     const selectedPreviews = selectedFiles.map((file: any) =>
@@ -48,6 +50,11 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
     );
     setPreviews((prevPreviews) => [...prevPreviews, ...selectedPreviews]);
   };
+
+  // const { getRootProps, acceptedFiles, getInputProps, isDragActive } =
+  //   useDropzone();
+  // console.log(acceptedFiles);
+  // console.log(isDragActive);
   const triggerFileInput = () => {
     if (document.getElementById("file-input")) {
       document.getElementById("file-input")!.click();
@@ -60,8 +67,8 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
   const uploadPhotos = async () => {
     try {
       dispatch(uploadFiles({ uuid: host.uuid!, files, tempFiles, setFiles }));
-      // setPreviews([]);
-      // setTempFiles([]);
+      setPreviews([]);
+      setTempFiles([]);
       setIsOpen(false);
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -91,13 +98,6 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
             </small>
           </div>
           <button onClick={triggerFileInput}>
-            <input
-              multiple
-              type="file"
-              id="file-input"
-              className="hidden"
-              onChange={handleFileChange}
-            />
             <PlusIcon />
           </button>
         </div>
@@ -125,7 +125,10 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
             </div>
           </div>
         ) : (
-          <div className=" flex-1 flex flex-col p-4 border-gray-400 rounded-xl  items-center justify-center border border-dashed">
+          <div
+            // {...getRootProps()}
+            className=" h-full w-full flex-1 flex flex-col p-4 border-gray-400 rounded-xl  items-center justify-center border border-dashed"
+          >
             <ImageIcon />
             <p className="font-semibold mb-2 mt-3">Drag and Drop</p>{" "}
             <small>or browse for photos</small>
@@ -134,6 +137,7 @@ const AddPhotos: React.FC<AddPhotosProps> = ({
               type="file"
               id="file-input"
               className="hidden"
+              // {...getInputProps()}
               onChange={handleFileChange}
             />
             <button

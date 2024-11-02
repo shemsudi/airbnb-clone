@@ -5,6 +5,7 @@ import { updateVisibility } from "../redux/hostActions";
 import HostHeader from "../components/hostingSteps/hostHeader";
 import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import { useAppDispatch, RootState } from "../redux/store";
+import { Helmet } from "react-helmet";
 const VisiblityPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
   const [typeofGuest, setTypeofGuest] = useState(host.visibility || "anyone");
@@ -26,7 +27,10 @@ const VisiblityPage = () => {
   };
   return (
     <div className="h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Choose who to welcome for your first reservation - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="flex-1 flex items-start justify-center md:items-center mt-4">
         <div className="flex flex-col max-w-[500px] justify-center mx-4  gap-2">
           <h1 className="text-2xl font-semibold ">

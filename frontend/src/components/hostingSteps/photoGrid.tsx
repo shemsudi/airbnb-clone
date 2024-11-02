@@ -3,8 +3,8 @@ import CloseIcon from "../icons/closeIcon";
 
 interface PhotoGridProps {
   files: string[];
-  setFiles: (value: any) => void;
-  setIsOpen: (value: boolean) => void;
+  setFiles: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   removeImage: (index: number) => void;
 }
 

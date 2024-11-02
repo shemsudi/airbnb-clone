@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 
-const HostHeader = () => {
+interface hostHeaderProps {
+  onClick?: () => void;
+  title: string;
+  questions?: string | boolean;
+}
+
+const HostHeader: React.FC<hostHeaderProps> = ({
+  onClick,
+  title,
+  questions,
+}) => {
   return (
-    <div className="flex justify-between px-4 sm:px-12 pt-8 sticky top-0 left-0 bg-white">
+    <header className="flex justify-between px-4 sm:px-12 pt-8 sticky top-0 left-0 bg-white">
       <Link to="/" className="hidden md:block">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -16,14 +26,20 @@ const HostHeader = () => {
         </svg>
       </Link>
       <div className="flex gap-4 max-md:justify-between max-md:w-full">
-        <button className="border text-sm py-1 px-3 rounded-2xl border-gray-300 hover:border-gray-800">
-          Questions?
-        </button>
-        <button className="border text-sm py-1 px-3 rounded-2xl border-gray-300 hover:border-gray-800">
-          Save & exit
+        {questions && (
+          <button className="border text-sm py-1 px-3 rounded-2xl border-gray-300 hover:border-gray-800">
+            {questions}?
+          </button>
+        )}
+
+        <button
+          onClick={onClick}
+          className="border text-sm py-1 px-3 rounded-2xl border-gray-300 hover:border-gray-800"
+        >
+          {title}
         </button>
       </div>
-    </div>
+    </header>
   );
 };
 

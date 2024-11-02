@@ -40,6 +40,8 @@ const userSlice = createSlice({
       setAuthToken(false);
       state.user = null;
       state.isUserAuthenticated = false;
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("currentHost");
     },
   },
   extraReducers: (builder) => {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../redux/store.js";
+import { Helmet } from "react-helmet";
 
 const StandOut = () => {
   const host = useSelector((state: RootState) => state.host.host);
@@ -15,6 +16,9 @@ const StandOut = () => {
   };
   return (
     <div className="flex flex-col h-screen">
+      <Helmet>
+        <title>Step 2: Make your place stand out - Airbnb</title>
+      </Helmet>
       <div className="flex justify-between px-12 pt-8 sticky top-0 left-0 bg-white">
         <Link to={"/host/homes"}>
           <svg

@@ -5,10 +5,10 @@ import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import InstantIcon from "../components/icons/instantIcon";
 import ChatIcon from "../components/icons/chatIcon";
 import { useNavigate } from "react-router-dom";
-import { setInstantBook } from "../redux/HostReducer";
 import { useEffect } from "react";
 import { updateInstantBook } from "../redux/hostActions";
 import { useAppDispatch, RootState } from "../redux/store";
+import { Helmet } from "react-helmet";
 const InstantBookPage = () => {
   const host = useSelector((state: RootState) => state.host.host);
   const navigate = useNavigate();
@@ -21,7 +21,8 @@ const InstantBookPage = () => {
   useEffect(() => {
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
     if (currentHost && currentHost.instantBook) {
-      setInstantBook(currentHost.instantBook);
+      console.log(currentHost.instantBook);
+      setInstantBooking(currentHost.instantBook);
     }
   }, []);
   const onBack = () => {
@@ -36,7 +37,10 @@ const InstantBookPage = () => {
 
   return (
     <div className=" h-screen flex flex-col">
-      <HostHeader />
+      <Helmet>
+        <title>Decide how you’ll confirm reservations - Airbnb</title>
+      </Helmet>
+      <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
       <div className="flex-1 flex items-start justify-center md:items-center m-4">
         <div className="flex flex-col min-w-[500-px] justify-center items-center gap-2">
           <h1 className="text-2xl mb-4">
