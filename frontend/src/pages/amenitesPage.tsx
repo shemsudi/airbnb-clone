@@ -24,6 +24,10 @@ const AmenitiesPage = () => {
     unique: host.uniqueAmenities || [],
     safety: host.safetyAmenities || [],
   });
+  const itemSelected =
+    amenities.general.length > 0 ||
+    amenities.unique.length > 0 ||
+    amenities.safety.length > 0;
   useEffect(() => {
     const currentHost = JSON.parse(localStorage.getItem("currentHost") || "{}");
     if (currentHost) {
@@ -92,7 +96,13 @@ const AmenitiesPage = () => {
           />
         </div>
       </div>
-      <FooterNavigation step={2} pos={1} onBack={onBack} onNext={onNext} />
+      <FooterNavigation
+        itemSelected={itemSelected}
+        step={2}
+        pos={1}
+        onBack={onBack}
+        onNext={onNext}
+      />
     </div>
   );
 };

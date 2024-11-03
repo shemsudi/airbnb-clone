@@ -84,7 +84,13 @@ const FloorPlanPage = () => {
           </div>
         </div>
       </div>
-      <FooterNavigation step={1} pos={4} onBack={onBack} onNext={onNext} />
+      <FooterNavigation
+        itemSelected={true}
+        step={1}
+        pos={4}
+        onBack={onBack}
+        onNext={onNext}
+      />
     </div>
   );
 };

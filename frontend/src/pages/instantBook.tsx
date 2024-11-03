@@ -79,7 +79,13 @@ const InstantBookPage = () => {
           </button>
         </div>
       </div>{" "}
-      <FooterNavigation onBack={onBack} onNext={onNext} step={3} pos={1} />
+      <FooterNavigation
+        itemSelected={true}
+        onBack={onBack}
+        onNext={onNext}
+        step={3}
+        pos={1}
+      />
     </div>
   );
 };

@@ -42,37 +42,42 @@ const VisiblityPage = () => {
               Learn more
             </Link>
           </small>
-          <button
-            onClick={() => setTypeofGuest("anyone")}
-            className={`flex  ${
-              typeofGuest === "anyone" && "outline outline-1 "
-            } active:scale-95 active:duration-100 items-center p-3 gap-4 border rounded-lg w-full`}
+
+          <label
+            htmlFor="anyone"
+            className={`flex   active:scale-95 active:duration-100 items-center p-3 gap-4 border rounded-lg w-full`}
           >
-            <div
-              className={`rounded-full h-4 w-4 border ${
-                typeofGuest === "anyone" && "border-4"
-              } border-black`}
-            ></div>{" "}
-            <div className="flex flex-col">
+            <input
+              className="accent-black "
+              type="radio"
+              id="anyone"
+              name="visibility-type"
+              value="anyone"
+              checked={typeofGuest === "anyone"}
+              onChange={() => setTypeofGuest("anyone")}
+            />
+            <label htmlFor="anyone" className="flex flex-col">
               <h1 className="text-sm text-start font-bold">Any airbnb guest</h1>
               <small className="text-gray-600 text-start">
                 Get reservation faster when you welcome anyone from the Aribnb
                 community{" "}
               </small>
-            </div>
-          </button>
-          <button
-            onClick={() => setTypeofGuest("experience")}
-            className={`flex  ${
-              typeofGuest === "experience" && "outline outline-1 "
-            } active:scale-95 active:duration-100  items-center p-3 gap-4 border rounded-lg w-full`}
+            </label>
+          </label>
+          <label
+            htmlFor="experience"
+            className={`flex active:scale-95 active:duration-100  items-center p-3 gap-4 border rounded-lg w-full`}
           >
-            <div
-              className={`rounded-full h-4 w-4 border ${
-                typeofGuest === "experience" && "border-4"
-              } border-black`}
-            ></div>
-            <div className="flex flex-col">
+            <input
+              className="accent-black "
+              type="radio"
+              id="experience"
+              name="visibility-type"
+              value="experience"
+              checked={typeofGuest === "experience"}
+              onChange={() => setTypeofGuest("experience")}
+            />
+            <label htmlFor="experience" className="flex flex-col">
               <h1 className="text-sm text-start font-bold">
                 An experienced guest
               </h1>
@@ -80,11 +85,17 @@ const VisiblityPage = () => {
                 For your first guest, welcome someone with a good track record
                 on Airbnb who can offer tips for how to be a great Hos
               </small>
-            </div>
-          </button>
+            </label>
+          </label>
         </div>
       </div>{" "}
-      <FooterNavigation onBack={onBack} onNext={onNext} step={3} pos={2} />
+      <FooterNavigation
+        itemSelected={true}
+        onBack={onBack}
+        onNext={onNext}
+        step={3}
+        pos={2}
+      />
     </div>
   );
 };

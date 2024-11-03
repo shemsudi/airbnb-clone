@@ -108,7 +108,13 @@ const ReceiptPage = () => {
           </div>
         </div>
       </div>
-      <FooterNavigation onBack={onBack} onNext={onNext} step={3} pos={6} />
+      <FooterNavigation
+        itemSelected={true}
+        onBack={onBack}
+        onNext={onNext}
+        step={3}
+        pos={6}
+      />
     </div>
   );
 };

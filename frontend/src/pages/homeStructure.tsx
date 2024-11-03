@@ -56,6 +56,7 @@ const HomeSturcture = () => {
         </div>
       </main>
       <FooterNavigation
+        itemSelected={typeOfPlace ? true : false}
         step={1}
         pos={1}
         onBack={backToStructurePage}

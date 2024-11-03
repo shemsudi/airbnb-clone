@@ -51,6 +51,7 @@ const AboutYourPlace = () => {
         </div>
       </main>
       <FooterNavigation
+        itemSelected={true}
         step={0}
         pos={0}
         onBack={backToHome}

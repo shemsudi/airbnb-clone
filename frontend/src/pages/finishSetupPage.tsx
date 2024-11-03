@@ -64,7 +64,13 @@ const FinishSetupPage = () => {
           </div>
         </div>
       </div>
-      <FooterNavigation step={2} pos={5} onBack={onBack} onNext={onNext} />{" "}
+      <FooterNavigation
+        itemSelected={true}
+        step={2}
+        pos={5}
+        onBack={onBack}
+        onNext={onNext}
+      />{" "}
     </div>
   );
 };

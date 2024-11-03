@@ -12,50 +12,44 @@ const LegalPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [hostingType, setHostingType] = useState(
-    host.legalInfo?.hostingType || ""
-  );
-  const [securityCameras, setSecurityCameras] = useState(
-    host.legalInfo?.securityCameras?.isAvailable || false
-  );
-  const [noiseMonitors, setNoiseMonitors] = useState(
-    host.legalInfo?.noiseMonitors || false
-  );
-  const [weapons, setWeapons] = useState(host.legalInfo?.weapons || false);
+  const [legalInfo, setLegalInfo] = useState({
+    securityCameras: host.legalInfo?.securityCameras?.isAvailable || false,
+    hostingType: host.legalInfo?.hostingType || "",
+    noiseMonitors: host.legalInfo?.noiseMonitors || false,
+    weapons: host.legalInfo?.weapons || false,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHostingType(e.target.value);
+    const { value } = e.target;
+    setLegalInfo((prevInfo) => ({
+      ...prevInfo,
+      hostingType: value,
+    }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
-    switch (name) {
-      case "securityCameras":
-        setSecurityCameras(checked);
-        break;
-      case "noiseMonitors":
-        setNoiseMonitors(checked);
-        break;
-      case "weapons":
-        setWeapons(checked);
-        break;
-      default:
-        break;
-    }
+    setLegalInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: checked,
+    }));
   };
 
   const onBack = () => {
     navigate(`/became-a-host/${host.uuid}/discount`);
   };
   const onNext = async () => {
-    const legalInfo = {
-      hostingType,
-      securityCameras: { isAvailable: securityCameras, description: "" },
-      noiseMonitors,
-      weapons,
+    const formattedLegalInfo = {
+      ...legalInfo,
+      securityCameras: {
+        isAvailable: legalInfo.securityCameras,
+        description: "",
+      },
     };
     console.log(legalInfo);
-    dispatch(updateLegalInfo({ uuid: host.uuid!, legalInfo }));
+    dispatch(
+      updateLegalInfo({ uuid: host.uuid!, legalInfo: formattedLegalInfo })
+    );
 
     navigate(`/became-a-host/${host.uuid}/receipt`);
   };
@@ -77,7 +71,7 @@ const LegalPage = () => {
               id="individual"
               name="hosting-type"
               value="individual"
-              checked={hostingType === "individual"}
+              checked={legalInfo.hostingType === "individual"}
               onChange={handleChange}
             />
             <label className="text-gray-900" htmlFor="individual">
@@ -91,7 +85,7 @@ const LegalPage = () => {
               id="business"
               name="hosting-type"
               value="business"
-              checked={hostingType === "business"}
+              checked={legalInfo.hostingType === "business"}
               onChange={handleChange}
             />
 
@@ -107,7 +101,7 @@ const LegalPage = () => {
                 type="checkbox"
                 className="accent-black"
                 name="securityCameras"
-                checked={securityCameras}
+                checked={legalInfo.securityCameras}
                 onChange={handleCheckboxChange}
               />
             </div>
@@ -117,7 +111,7 @@ const LegalPage = () => {
                 type="checkbox"
                 className="accent-black"
                 name="noiseMonitors"
-                checked={noiseMonitors}
+                checked={legalInfo.noiseMonitors}
                 onChange={handleCheckboxChange}
               />
             </div>
@@ -127,7 +121,7 @@ const LegalPage = () => {
                 name="weapons"
                 type="checkbox"
                 className="accent-black"
-                checked={weapons}
+                checked={legalInfo.weapons}
                 onChange={handleCheckboxChange}
               />
             </div>
@@ -159,7 +153,13 @@ const LegalPage = () => {
           </div>
         </div>
       </div>
-      <FooterNavigation onBack={onBack} onNext={onNext} step={3} pos={5} />
+      <FooterNavigation
+        itemSelected={!(legalInfo.hostingType === "")}
+        onBack={onBack}
+        onNext={onNext}
+        step={3}
+        pos={5}
+      />
     </div>
   );
 };

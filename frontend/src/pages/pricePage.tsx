@@ -119,7 +119,13 @@ const PricePage = () => {
         </div>
       </div>
 
-      <FooterNavigation onBack={onBack} onNext={onNext} step={3} pos={3} />
+      <FooterNavigation
+        itemSelected={true}
+        onBack={onBack}
+        onNext={onNext}
+        step={3}
+        pos={3}
+      />
     </div>
   );
 };

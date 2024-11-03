@@ -38,7 +38,13 @@ const TitlePage = () => {
       <div className="flex-1 px-10 flex justify-center">
         <TitleInput title={title} onTitleChange={setTitle} />
       </div>
-      <FooterNavigation onBack={onBack} onNext={onNext} step={2} pos={3} />
+      <FooterNavigation
+        itemSelected={!(title === "")}
+        onBack={onBack}
+        onNext={onNext}
+        step={2}
+        pos={3}
+      />
     </div>
   );
 };

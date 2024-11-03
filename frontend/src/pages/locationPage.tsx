@@ -108,16 +108,7 @@ const LocationPage: React.FC = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <LocationMarker />
-          <Marker position={[38, 8]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-          <Marker position={[51.05, 2, 4]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+
           <CustomSearchBar
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -126,7 +117,13 @@ const LocationPage: React.FC = () => {
         </MapContainer>
       </div>
 
-      <FooterNavigation step={1} pos={3} onBack={onBack} onNext={onNext} />
+      <FooterNavigation
+        itemSelected={true}
+        step={1}
+        pos={3}
+        onBack={onBack}
+        onNext={onNext}
+      />
     </div>
   );
 };

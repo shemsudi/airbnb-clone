@@ -65,6 +65,7 @@ const StandOut = () => {
         </div>
       </div>
       <FooterNavigation
+        itemSelected={true}
         step={1}
         pos={5}
         onBack={BackToFloorPlanPage}

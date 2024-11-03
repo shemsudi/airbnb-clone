@@ -81,7 +81,13 @@ const DescriptionPage = () => {
           />
         )}
       </div>
-      <FooterNavigation onBack={onBack} onNext={onNext} step={2} pos={4} />
+      <FooterNavigation
+        itemSelected={selectedTypes.length === 2}
+        onBack={onBack}
+        onNext={onNext}
+        step={2}
+        pos={4}
+      />
     </div>
   );
 };

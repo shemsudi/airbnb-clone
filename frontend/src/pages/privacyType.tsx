@@ -62,7 +62,13 @@ const PrivacyType = () => {
           ))}
         </div>
       </main>
-      <FooterNavigation step={1} pos={2} onBack={onBack} onNext={onNext} />
+      <FooterNavigation
+        itemSelected={!(typeOfPrivacy == "")}
+        step={1}
+        pos={2}
+        onBack={onBack}
+        onNext={onNext}
+      />
     </div>
   );
 };

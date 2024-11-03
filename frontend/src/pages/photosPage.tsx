@@ -20,7 +20,6 @@ const PhotosPage = () => {
 
   useEffect(() => {
     const currentHostData = localStorage.getItem("currentHost");
-    console.log(currentHostData);
     if (currentHostData) {
       const currentHost = JSON.parse(currentHostData);
       console.log(currentHost);
@@ -96,7 +95,13 @@ const PhotosPage = () => {
           )}
         </div>
       </div>
-      <FooterNavigation step={2} pos={2} onBack={onBack} onNext={onNext} />
+      <FooterNavigation
+        itemSelected={files.length >= 5}
+        step={2}
+        pos={2}
+        onBack={onBack}
+        onNext={onNext}
+      />
       {isOpen && (
         <AddPhotos
           files={files}

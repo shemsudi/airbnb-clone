@@ -186,7 +186,13 @@ const DiscountPage = () => {
           </div>
         </div>
       </div>
-      <FooterNavigation onNext={onNext} onBack={onBack} step={3} pos={4} />
+      <FooterNavigation
+        itemSelected={true}
+        onNext={onNext}
+        onBack={onBack}
+        step={3}
+        pos={4}
+      />
     </div>
   );
 };
