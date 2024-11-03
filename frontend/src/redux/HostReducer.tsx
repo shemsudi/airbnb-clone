@@ -12,6 +12,7 @@ import {
   updateTitle,
   updateVisibility,
   uploadFiles,
+  updateLocation,
 } from "./hostActions";
 import { updatePrivacyType } from "./hostActions";
 
@@ -24,7 +25,16 @@ interface HostState {
     lastPage?: string;
     structure?: string;
     privacyType?: string;
-    location?: [latitude: number, longitude: number];
+    location?: {
+      latitude: number;
+      longitude: number;
+      country: string;
+      address: string;
+      floor: string;
+      city: string;
+      province: string;
+      postalCode: string;
+    };
     guests?: number;
     beds?: number;
     bedrooms?: number;
@@ -222,6 +232,20 @@ const hostSlice = createSlice({
       })
       .addCase(updatePrivacyType.rejected, (state, action) => {
         console.log(action.payload);
+        state.loading = false;
+      })
+      .addCase(updateLocation.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateLocation.fulfilled, (state, action) => {
+        const { uuid, location } = action.payload;
+        if (uuid === state.host.uuid) {
+          state.host.location = location;
+          state.host.lastPage = "floor-plan";
+        }
+        state.loading = false;
+      })
+      .addCase(updateLocation.rejected, (state) => {
         state.loading = false;
       })
       .addCase(updateFloorPlan.pending, (state) => {

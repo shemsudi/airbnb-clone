@@ -45,5 +45,5 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     </div>
   );
 };
-
+export { countryCodes };
 export default CountrySelect;

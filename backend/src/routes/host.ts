@@ -99,6 +99,53 @@ router.post(
     }
   }
 );
+interface LocationRequestBody {
+  uuid: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    country: string;
+    address: string;
+    floor: string;
+    city: string;
+    province: string;
+    postalCode: string;
+  };
+}
+router.post(
+  "/location",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request<{}, {}, LocationRequestBody>, res: Response) => {
+    const { uuid, location } = req.body;
+    console.log(location);
+    try {
+      const hosting = await Hosting.findOne({ uuid });
+
+      if (!hosting) {
+        res.status(404).json({ message: "Hosting not found" });
+        return;
+      }
+      hosting.location.address = location.address;
+      hosting.location.city = location.city;
+      hosting.location.country = location.country;
+      hosting.location.floor = location.floor;
+      hosting.location.province = location.province;
+      hosting.location.postalCode = location.postalCode;
+      hosting.location.latitude = location.latitude;
+      hosting.location.longitude = location.longitude;
+
+      hosting.lastPage = "floor-plan";
+      await hosting.save();
+      res.status(200).json({
+        uuid: hosting.uuid,
+        location: hosting.location,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
 
 router.get(
   "/get-hosts",

@@ -1,16 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface Location {
-  streetAddress?: string;
-  city?: string;
-  state?: string;
+  latitude?: number;
+  longitude?: number;
   country?: string;
-  zipCode?: string;
-  coordinates?: {
-    lat?: number;
-    lng?: number;
-  };
-  showExactLocation?: boolean;
+  address?: string;
+  floor?: string;
+  city?: string;
+  province?: string;
+  postalCode?: string;
 }
 
 interface Pricing {
@@ -50,7 +48,7 @@ interface HostingDocument extends Document {
   beds?: number;
   bedrooms?: number;
   bathrooms?: number;
-  location?: Location;
+  location: Location;
   photos?: string[];
   amenities?: string[];
   uniqueAmenities?: string[];

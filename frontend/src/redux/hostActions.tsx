@@ -37,6 +37,36 @@ export const updatePrivacyType = createAsyncThunk(
     return response.data;
   }
 );
+interface LocationParams {
+  uuid: string;
+  location: {
+    longitude: number;
+    latitude: number;
+    country: string;
+    address: string;
+    floor: string;
+    city: string;
+    province: string;
+    postalCode: string;
+  };
+}
+export const updateLocation = createAsyncThunk<LocationParams, LocationParams>(
+  "host/setLocation",
+  async ({ uuid, location }) => {
+    const response = await api.post("/host/location", {
+      uuid: uuid,
+      location: location,
+    });
+    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
+    const updatedHost = {
+      ...currentHost,
+      lastPage: "floorPlan",
+      location: location,
+    };
+    localStorage.setItem("currentHost", JSON.stringify(updatedHost));
+    return response.data;
+  }
+);
 
 interface FloorPlanParams {
   uuid: string;
