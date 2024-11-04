@@ -102,14 +102,17 @@ router.post(
 interface LocationRequestBody {
   uuid: string;
   location: {
-    latitude: number;
-    longitude: number;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
     country: string;
     address: string;
     floor: string;
     city: string;
     province: string;
     postalCode: string;
+    showExactLocation: boolean;
   };
 }
 router.post(
@@ -131,8 +134,9 @@ router.post(
       hosting.location.floor = location.floor;
       hosting.location.province = location.province;
       hosting.location.postalCode = location.postalCode;
-      hosting.location.latitude = location.latitude;
-      hosting.location.longitude = location.longitude;
+      hosting.location.coordinates.lat = location.coordinates.lat;
+      hosting.location.coordinates.lng = location.coordinates.lng;
+      hosting.location.showExactLocation = location.showExactLocation;
 
       hosting.lastPage = "floor-plan";
       await hosting.save();

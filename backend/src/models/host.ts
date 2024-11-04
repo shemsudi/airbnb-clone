@@ -1,14 +1,17 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface Location {
-  latitude?: number;
-  longitude?: number;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
   country?: string;
   address?: string;
   floor?: string;
   city?: string;
   province?: string;
   postalCode?: string;
+  showExactLocation: boolean;
 }
 
 interface Pricing {
@@ -85,11 +88,12 @@ const hostingSchema: Schema = new Schema(
     bedrooms: { type: Number, required: false },
     bathrooms: { type: Number, required: false },
     location: {
-      streetAddress: { type: String, required: false },
+      address: { type: String, required: false },
       city: { type: String, required: false },
-      state: { type: String, required: false },
+      floor: { type: String, required: false },
       country: { type: String, required: false },
-      zipCode: { type: String, required: false },
+      province: { type: String, required: false },
+      postalCode: { type: String, required: false },
       coordinates: {
         lat: { type: Number, required: false },
         lng: { type: Number, required: false },

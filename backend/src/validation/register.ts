@@ -49,9 +49,6 @@ export default function validateRegisterInput(
   if (isEmpty(data.firstName)) {
     errors.firstName = "First Name is required";
   }
-  if (isEmpty(data.lastName)) {
-    errors.lastName = "Last Name is required";
-  }
 
   return {
     errors,

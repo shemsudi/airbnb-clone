@@ -40,14 +40,17 @@ export const updatePrivacyType = createAsyncThunk(
 interface LocationParams {
   uuid: string;
   location: {
-    longitude: number;
-    latitude: number;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
     country: string;
     address: string;
     floor: string;
     city: string;
     province: string;
     postalCode: string;
+    showExactLocation: boolean;
   };
 }
 export const updateLocation = createAsyncThunk<LocationParams, LocationParams>(

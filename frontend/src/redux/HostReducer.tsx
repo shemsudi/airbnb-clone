@@ -25,15 +25,18 @@ interface HostState {
     lastPage?: string;
     structure?: string;
     privacyType?: string;
-    location?: {
-      latitude: number;
-      longitude: number;
+    location: {
+      coordinates: {
+        lat: number;
+        lng: number;
+      };
       country: string;
       address: string;
       floor: string;
       city: string;
       province: string;
       postalCode: string;
+      showExactLocation: boolean;
     };
     guests?: number;
     beds?: number;
@@ -91,6 +94,19 @@ const initialState: HostState = {
     instantBook: "",
     visibility: "",
     price: 23,
+    location: {
+      coordinates: {
+        lat: 80,
+        lng: 28,
+      },
+      country: "Ethiopia",
+      address: "",
+      floor: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      showExactLocation: false,
+    },
     discount: {
       weeklyDiscount: 8,
       monthlyDiscount: 10,

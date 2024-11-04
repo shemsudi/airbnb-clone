@@ -24,18 +24,7 @@ const LocationPage: React.FC = () => {
   const navigate = useNavigate();
   const [locationSet, setLocationSet] = useState(false);
   const [step1, setStep1] = useState(true);
-  const [location, setLocation] = useState(
-    host.location || {
-      latitude: 80,
-      longitude: 28,
-      country: "Ethiopia",
-      address: "",
-      floor: "",
-      city: "",
-      province: "",
-      postalCode: "",
-    }
-  );
+  const [location, setLocation] = useState(host.location);
   // const itemSelected = Boolean(
   //   !step1 &&
   //     location.address &&
@@ -68,8 +57,10 @@ const LocationPage: React.FC = () => {
       click(e) {
         setLocation({
           ...location,
-          latitude: e.latlng.lat,
-          longitude: e.latlng.lng,
+          coordinates: {
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+          },
         });
 
         map.flyTo(e.latlng, map.getZoom());
@@ -79,8 +70,10 @@ const LocationPage: React.FC = () => {
         if (!locationSet) {
           setLocation({
             ...location,
-            latitude: e.latlng.lat,
-            longitude: e.latlng.lng,
+            coordinates: {
+              lat: e.latlng.lat,
+              lng: e.latlng.lng,
+            },
           });
           map.flyTo(e.latlng, map.getZoom());
           setLocationSet(true);
@@ -95,16 +88,24 @@ const LocationPage: React.FC = () => {
     }, [map, locationSet]);
 
     return (
-      <Marker position={{ lat: location.latitude, lng: location.longitude }}>
+      <Marker
+        position={{
+          lat: location.coordinates.lat,
+          lng: location.coordinates.lng,
+        }}
+      >
         <Popup>You are here</Popup>
       </Marker>
     );
   };
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (
+    type: string,
+    event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
+  ) => {
     setLocation({
       ...location,
-      country: event.target.value,
+      [type]: event.target.value,
     });
   };
 
@@ -130,7 +131,7 @@ const LocationPage: React.FC = () => {
             </div>
 
             <MapContainer
-              center={[location.latitude, location.longitude]}
+              center={[location.coordinates.lat, location.coordinates.lng]}
               zoom={8}
               style={{
                 height: "60vh",
@@ -164,7 +165,7 @@ const LocationPage: React.FC = () => {
                   className="bg-inherit mt-0 focus:outline-none px-2 pb-2 rounded-lg  "
                   id="country"
                   value={location.country}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange("country", e)}
                 >
                   {countryCodes.map((country) => (
                     <option
@@ -182,32 +183,32 @@ const LocationPage: React.FC = () => {
                   title="Street address"
                   id="address"
                   value={location.address}
-                  onChange={(e) =>
-                    setLocation({ ...location, address: e.target.value })
+                  onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange("address", e)
                   }
                 />
                 <LocationInput
                   title="Apt,floor,bldg(if applicable)"
                   id="floor"
                   value={location.floor}
-                  onChange={(e) =>
-                    setLocation({ ...location, floor: e.target.value })
+                  onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange("floor", e)
                   }
                 />
                 <LocationInput
                   title="City/town/village"
                   id="city"
                   value={location.city}
-                  onChange={(e) =>
-                    setLocation({ ...location, city: e.target.value })
+                  onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange("city", e)
                   }
                 />
                 <LocationInput
                   title="Province/state/territory(If applicable)"
                   id="province"
                   value={location.province}
-                  onChange={(e) =>
-                    setLocation({ ...location, province: e.target.value })
+                  onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange("province", e)
                   }
                 />
 
@@ -215,8 +216,8 @@ const LocationPage: React.FC = () => {
                   title="Postal code (If applicable)"
                   id="postalCode"
                   value={location.postalCode}
-                  onChange={(e) =>
-                    setLocation({ ...location, postalCode: e.target.value })
+                  onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange("postalCode", e)
                   }
                 />
               </div>
@@ -234,7 +235,7 @@ const LocationPage: React.FC = () => {
                 </div>
               </div>
               <MapContainer
-                center={[location.latitude, location.longitude]}
+                center={[location.coordinates.lat, location.coordinates.lng]}
                 zoom={13}
                 style={{
                   height: "40vh",

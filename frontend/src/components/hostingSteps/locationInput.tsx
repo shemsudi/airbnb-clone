@@ -2,14 +2,14 @@ interface LocationInputProps {
   title: string;
   id: string;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({
   value,
   title,
   id,
-  onChange,
+  onchange,
 }) => {
   return (
     <div className="flex flex-col">
@@ -22,7 +22,7 @@ const LocationInput: React.FC<LocationInputProps> = ({
         className="bg-inherit mt-0 focus:outline-none px-2  rounded-lg"
         id={id}
         value={value}
-        onChange={onChange}
+        onChange={onchange}
       />
     </div>
   );
