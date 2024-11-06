@@ -33,7 +33,7 @@ interface IHome {
 interface IHostResponse {
   homes: IHome[];
 }
-const Icons = () => {
+const Icons2 = () => {
   const homes = useLoaderData() as IHostResponse;
   if (homes.homes.length === 0) return <div>No homes found</div>;
 
@@ -42,15 +42,15 @@ const Icons = () => {
   console.log(homes);
 
   return (
-    <div className="grid gap-4  sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
+    <div className="grid gap-4 grid-cols-5">
       {photos &&
         photos!.map((photo) => (
-          <div key={photo} className="w-full h-40">
-            <img className="w-full h-40 object-fill" src={photo} alt={photo} />
+          <div key={photo} className="grid gap-3">
+            <img className="w-full h-full" src={photo} alt={photo} />
           </div>
         ))}
     </div>
   );
 };
 
-export default Icons;
+export default Icons2;

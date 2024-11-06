@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 // import Footer from "../components/root/footer";
 import Header from "../components/root/header";
 import PlaceNavigation from "../components/root/placeNavigation";
+import LastFooter from "../components/hosthomes/lastFooter";
 
 const Root = () => {
   const [atTop, setAtTop] = useState(true);
@@ -29,8 +30,11 @@ const Root = () => {
         <Header atTop={atTop} />
         <PlaceNavigation />
       </div>
-      <div className="overflow-y-auto ">
+      <div className=" flex-1 overflow-y-auto px-10 py-4 shadow-xl h-max ">
         <Outlet />
+      </div>
+      <div className="fixed bottom-0 right-0 left-0 px-10 bg-[#F7F7F7] max-md:hidden  ">
+        <LastFooter />
       </div>
     </div>
   );

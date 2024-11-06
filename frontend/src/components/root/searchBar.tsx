@@ -11,7 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
   //   const [guests, setGuests] = useState("");
   return (
     <div
-      className={` flex justify-between self-center  border rounded-full shadow-md max-w-3xl `}
+      className={` flex justify-between self-center px-5 border rounded-full shadow-md max-w-3xl `}
     >
       <div className="flex group">
         <div className="input-container  group  hover:bg-gray-100">

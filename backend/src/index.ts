@@ -10,6 +10,7 @@ import configurePassport from "./configs/passport";
 import AuthRouter from "./routes/auth.js";
 import ProfileRouter from "./routes/profile";
 import HostRouter from "./routes/host";
+import PlaceRouter from "./routes/place";
 
 const app: express.Application = express();
 const port: number = 3000;
@@ -37,6 +38,7 @@ configurePassport(passport);
 app.use("/", AuthRouter);
 app.use("/user", ProfileRouter);
 app.use("/host", HostRouter);
+app.use("/place", PlaceRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
