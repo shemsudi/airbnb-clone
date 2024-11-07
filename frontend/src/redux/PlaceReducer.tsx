@@ -6,8 +6,12 @@ const placeSlice = createSlice({
     place: null,
     loading: false,
     error: null,
+    params: {},
   },
   reducers: {
+    setPlaceParams: (state, action) => {
+      state.params = action.payload;
+    },
     getPlaceStart: (state) => {
       state.loading = true;
       state.error = null;
@@ -23,7 +27,11 @@ const placeSlice = createSlice({
   },
 });
 
-export const { getPlaceStart, getPlaceSuccess, getPlaceFailure } =
-  placeSlice.actions;
+export const {
+  getPlaceStart,
+  getPlaceSuccess,
+  getPlaceFailure,
+  setPlaceParams,
+} = placeSlice.actions;
 
 export default placeSlice.reducer;

@@ -27,7 +27,7 @@ const ReceiptPage = () => {
         <title>Review ans save your listing</title>
       </Helmet>
       <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
-      <div className="grow flex justify-center items-center p-3">
+      <div className="grow flex justify-center items-center p-3 mx-5">
         <div className="flex flex-col max-w-[650px]">
           <h1 className="text-4xl font-medium">Review your listing</h1>
           <p className="text-neutral-600 mt-4 mb-8">

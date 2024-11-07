@@ -37,7 +37,14 @@ const Icons = () => {
   const homes = useLoaderData() as IHostResponse;
   if (homes.homes.length === 0) return <div>No homes found</div>;
 
-  const photos = homes.homes[0].photos;
+  const photos = [
+    ...homes.homes[0].photos,
+    ...homes.homes[0].photos,
+    ...homes.homes[0].photos,
+    ...homes.homes[0].photos,
+    ...homes.homes[0].photos,
+    ...homes.homes[0].photos,
+  ];
 
   console.log(homes);
 

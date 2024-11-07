@@ -30,7 +30,7 @@ const Root = () => {
         <Header atTop={atTop} />
         <PlaceNavigation />
       </div>
-      <div className=" flex-1 overflow-y-auto px-10 py-4 shadow-xl h-max ">
+      <div className=" flex-grow overflow-y-auto px-10 py-4 shadow-xl min-h-full ">
         <Outlet />
       </div>
       <div className="fixed bottom-0 right-0 left-0 px-10 bg-[#F7F7F7] max-md:hidden  ">

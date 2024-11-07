@@ -1,8 +1,11 @@
 import { useNavigate, Link } from "react-router-dom";
 import items, { ItmeType } from "../../data/items";
+import { useAppDispatch } from "../../redux/store";
+import { setPlaceParams } from "../../redux/PlaceReducer";
 
 const PlacedNavigation = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const handleClick = (item: ItmeType) => {
     const queryParams = new URLSearchParams({
       tab_id: "home_tab",
@@ -18,10 +21,10 @@ const PlacedNavigation = () => {
       date_picker_type: "calendar",
       search_type: "category_change",
       price_filter_num_nights: "5",
-      category_tag: `Tag:${item.tag}`, // Assume `item.tag` holds a unique identifier like "5635" for each category.
+      category_tag: `Tag:${item.tag}`,
     });
+    dispatch(setPlaceParams({ category_tag: `Tag:${item.tag}` }));
 
-    // Construct the URL with the query parameters
     navigate(`/?${queryParams.toString()}`);
   };
   return (

@@ -9,8 +9,8 @@ import {
 import { faGlobe, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
 const LastFooter = () => {
   return (
-    <div className="w-full flex flex-col-reverse items-start  justify-between xl:flex-row py-4 gap-4">
-      <div className="flex flex-col items-start  xl:flex-row gap-2">
+    <div className="w-full flex   justify-between xl:flex-row py-4 gap-4">
+      <div className="flex   xl:flex-row gap-2">
         <div className="text-sm">© 2024 Airbnb, Inc.</div>
         <div>
           <ol className="flex gap-2 items-center">

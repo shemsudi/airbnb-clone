@@ -67,7 +67,7 @@ const DiscountPage = () => {
         <title>Set your discount - Airbnb</title>
       </Helmet>
       <HostHeader onClick={onNext} title="Exit & save" questions="Questions" />
-      <div className="grow flex justify-center items-center">
+      <div className="grow flex justify-center items-center mx-3">
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl font-roboto">Add discounts</h1>
           <small className="text-gray-600 text-sm">
