@@ -24,9 +24,9 @@ import DiscountPage from "./pages/discountPage.tsx";
 import LegalPage from "./pages/legalPage.jsx";
 import ReceiptPage from "./pages/receiptPage.jsx";
 import PublishCelebration from "./pages/publishCelebration.jsx";
-import hostloader from "./loaders/placeLoader.ts";
-import { hostloader2 } from "./loaders/placeLoader.ts";
-import Icons2 from "./components/Icons2.tsx";
+// import hostloader from "./loaders/placeLoader.ts";
+// import { hostloader2 } from "./loaders/placeLoader.ts";
+// import Icons2 from "./components/Icons2.tsx";
 // import { useSelector } from "react-redux";
 
 // const photoLoader = async () => {
@@ -47,17 +47,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Icons />,
-        loader: hostloader,
       },
       {
         path: "/icons",
         element: <Icons />,
-        loader: hostloader,
       },
       {
         path: "/amazing-pools",
-        element: <Icons2 />,
-        loader: hostloader2,
+        element: <Icons/>,
       },
       {
         path: "/Tropical",

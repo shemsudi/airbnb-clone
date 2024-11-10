@@ -9,8 +9,9 @@ router.get("/test", (req: Request, res: Response) => {
 
 router.get("/getHosts", async (req: Request, res: Response) => {
   try {
-    console.log(req.query.structure);
-    const homes = await Host.find({ structure: req.query.structure });
+    console.log(req.query.category_tag);
+    const homes = await Host.find({ structure: req.query.category_tag });
+    console.log(homes)
     res.status(200).json(homes);
   } catch (error) {
     res.status(500).json({ message: error });

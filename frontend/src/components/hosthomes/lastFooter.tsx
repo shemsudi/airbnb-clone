@@ -9,8 +9,8 @@ import {
 import { faGlobe, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
 const LastFooter = () => {
   return (
-    <div className="w-full flex   justify-between xl:flex-row py-4 gap-4">
-      <div className="flex   xl:flex-row gap-2">
+    <div className="w-full flex   justify-between xl:flex-row py-4 gap-4 border-t-2">
+      <div className="flex md:flex-col   xl:flex-row gap-2">
         <div className="text-sm">© 2024 Airbnb, Inc.</div>
         <div>
           <ol className="flex gap-2 items-center">
@@ -50,7 +50,7 @@ const LastFooter = () => {
         <button className="text-sm">
           <span>$</span> <span className="hover:underline">USD</span>
         </button>
-        <ul className="flex gap-3">
+        <ul className="flex gap-3 items-center">
           <li>
             <Link className="hover:cursor-pointer" to={""}>
               <FontAwesomeIcon icon={faFacebookF} />{" "}
