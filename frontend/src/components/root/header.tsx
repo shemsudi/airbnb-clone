@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ atTop }) => {
           <SearchIcon />
           <div className="flex flex-col items-start">
             <h1 className="font-roboto">Where to?</h1>
-            <p className="text-gray-500">Anywhere . Any week . Add guests</p>
+            <p className="text-gray-500">Anywhere . Anyweek . Addguests</p>
           </div>
         </button>
         <div className=" w-16 flex justify-center items-center rounded-full  border">
@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({ atTop }) => {
           </button>
           <p className="text-sm">Whilsts</p>
         </div>
-        <div className="flex flex-colitems-center justify-center ">
+        <div className="flex flex-col items-center justify-center ">
           <button className="flex items-center justify-center w-12 h-12 bg-white rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,13 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../configs/api.ts";
+import { HostedPlaces, SearchParams } from "../types/types.tsx";
 
 interface getAllHostsParams {
-  params: {
-    structure: string;
-  };
+  params: SearchParams;
 }
 
-export const getAllHosts = createAsyncThunk<{}, getAllHostsParams>(
+export const getAllHosts = createAsyncThunk<HostedPlaces[], getAllHostsParams>(
   "place/getAllHosts",
   async ({ params }) => {
     const response = await api.get("/place/getHosts", {

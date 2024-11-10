@@ -1,31 +1,24 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import items, { ItmeType } from "../../data/items";
-import { useAppDispatch } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import { setPlaceParams } from "../../redux/PlaceReducer";
+import { useSelector } from "react-redux";
+import { getAllHosts } from "../../redux/placeActions";
 
 const PlacedNavigation = () => {
+  const params = useSelector((state:RootState) => state.place.params)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleClick = (item: ItmeType) => {
-    const queryParams = new URLSearchParams({
-      tab_id: "home_tab",
-      refinement_paths: "/homes",
-      search_mode: "flex_destinations_search",
-      flexible_trip_lengths: "one_week",
-      location_search: "MIN_MAP_BOUNDS",
-      monthly_start_date: "2024-12-01",
-      monthly_length: "3",
-      monthly_end_date: "2025-03-01",
-      price_filter_input_type: "0",
-      channel: "EXPLORE",
-      date_picker_type: "calendar",
-      search_type: "category_change",
-      price_filter_num_nights: "5",
-      category_tag: `Tag:${item.tag}`,
-    });
-    dispatch(setPlaceParams({ category_tag: `Tag:${item.tag}` }));
 
+    const updatedParams = {...params,category_tag: item.name};
+    dispatch(setPlaceParams(updatedParams));
+
+    const queryParams = new URLSearchParams(updatedParams);
     navigate(`/?${queryParams.toString()}`);
+
+    dispatch(getAllHosts({ params: updatedParams }));
+
   };
   return (
     <nav className="w-full px-12 no-scrollbar overflow-x-auto shadow-sm">
