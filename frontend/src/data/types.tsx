@@ -34,7 +34,7 @@ const types: TypeEntry[] = [
   },
   { value: "Dammuso", icon: <HouseIcon /> },
   { value: "Dome", icon: <HouseIcon /> },
-  { value: "Earth home", icon: <HouseIcon /> },
+  { value: "Earth homes", icon: <HouseIcon /> },
   { value: "Farm", icon: <HouseIcon /> },
   { value: "GuestHouse", icon: <HouseIcon /> },
   { value: "Hotel", icon: <HouseIcon /> },

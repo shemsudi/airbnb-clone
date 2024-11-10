@@ -48,50 +48,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Icons />,
       },
-      {
-        path: "/icons",
-        element: <Icons />,
-      },
-      {
-        path: "/amazing-pools",
-        element: <Icons/>,
-      },
-      {
-        path: "/Tropical",
-        element: <Icons />,
-      },
-      {
-        path: "/Top-cities",
-        element: <Icons />,
-      },
-      {
-        path: "/New",
-        element: <Icons />,
-      },
-      {
-        path: "/National-parks",
-        element: <Icons />,
-      },
-      {
-        path: "/Rooms",
-        element: <Icons />,
-      },
-      {
-        path: "/Lake-front",
-        element: <Icons />,
-      },
-      {
-        path: "/Design",
-        element: <Icons />,
-      },
-      {
-        path: "/Trending",
-        element: <Icons />,
-      },
-      {
-        path: "/Camping",
-        element: <Icons />,
-      },
     ],
   },
   { path: "host/homes", element: <HostHomes /> },

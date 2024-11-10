@@ -9,31 +9,31 @@ import {
 import { faGlobe, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
 const LastFooter = () => {
   return (
-    <div className="w-full flex   justify-between xl:flex-row py-4 gap-4 border-t-2">
-      <div className="flex md:flex-col   xl:flex-row gap-2">
-        <div className="text-sm">© 2024 Airbnb, Inc.</div>
+    <div className="w-full flex   justify-between xl:flex-row py-2 gap-4 border-t-2">
+      <div className="flex    xl:flex-row gap-2">
+        <div className="text-xs self-center">© 2024 Airbnb, Inc.</div>
         <div>
           <ol className="flex gap-2 items-center">
             <li>
-              <Link to={""} className="hover:underline text-sm">
+              <Link to={""} className="hover:underline text-xs">
                 Terms
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-sm">
+              <Link to={""} className="hover:underline text-xs">
                 Sitemap
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-sm">
+              <Link to={""} className="hover:underline text-xs">
                 Privacy
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-sm flex gap-2">
+              <Link to={""} className="hover:underline text-xs flex gap-2">
                 Your Privacy Choices <FontAwesomeIcon icon={faShieldAlt} />
               </Link>
             </li>
@@ -43,11 +43,11 @@ const LastFooter = () => {
       <div className="flex justify-between gap-4">
         <button className="flex items-center gap-2 group hover:cursor-pointer">
           <FontAwesomeIcon icon={faGlobe} />{" "}
-          <h1 className="text-sm hover:underline group-hover:cursor-pointer">
+          <h1 className="text-xs hover:underline group-hover:cursor-pointer">
             English(US)
           </h1>
         </button>
-        <button className="text-sm">
+        <button className="text-xs">
           <span>$</span> <span className="hover:underline">USD</span>
         </button>
         <ul className="flex gap-3 items-center">

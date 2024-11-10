@@ -1,5 +1,42 @@
+interface Location {
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  country?: string;
+  address?: string;
+  floor?: string;
+  city?: string;
+  province?: string;
+  postalCode?: string;
+  showExactLocation: boolean;
+}
+
+interface Pricing {
+  nightlyRate?: number;
+  currency?: string;
+  smartPricing?: boolean;
+}
+
+interface Discount {
+  weeklyDiscount?: number;
+  monthlyDiscount?: number;
+  newLPDiscount?: number;
+}
+
+interface LegalInfo {
+  hostingType?: string;
+  securityCameras?: {
+    isAvailable?: boolean;
+    description?: string;
+  };
+  noiseMonitors?: boolean;
+  weapons?: boolean;
+}
+
 interface HostedPlaces {
   title?: string;
+  uuid: string;
   lastPage?: string;
   isCompleted?: boolean;
   structure?: string;
@@ -12,24 +49,25 @@ interface HostedPlaces {
   beds?: number;
   bedrooms?: number;
   bathrooms?: number;
-  location?: Location;
+  location: Location;
   photos?: string[];
   amenities?: string[];
   uniqueAmenities?: string[];
   safetyAmenities?: string[];
   houseRules?: string[];
+  pricing?: Pricing;
   availability?: {
     startDate?: Date;
     endDate?: Date;
     minStay?: number;
     maxStay?: number;
   };
+  discount?: Discount;
+  legalInfo?: LegalInfo;
+  user?: string;
   created_at?: Date;
   updated_at?: Date;
 }
-
-
-
 
 interface SearchParams {
   [key: string]: string;
@@ -49,4 +87,4 @@ interface SearchParams {
   category_tag: string;
 }
 
-export type {HostedPlaces,SearchParams};
+export type { HostedPlaces, SearchParams };

@@ -4,15 +4,15 @@ import { getAllHosts } from "./placeActions";
 
 interface PlaceState {
   place: HostedPlaces[];
-  loading:boolean;
+  loading: boolean;
   error: {};
   params: SearchParams;
 }
 
-const initialState:PlaceState = {
-  place:[],
-  error:{},
-  loading:false,
+const initialState: PlaceState = {
+  place: [],
+  error: {},
+  loading: false,
   params: {
     tab_id: "home_tab",
     refinement_paths: "/homes",
@@ -27,7 +27,7 @@ const initialState:PlaceState = {
     date_picker_type: "calendar",
     search_type: "category_change",
     price_filter_num_nights: "5",
-    category_tag: `Tag:$2345`,
+    category_tag: `Tiny home`,
   },
 };
 
@@ -51,19 +51,20 @@ const placeSlice = createSlice({
       state.error = action.payload;
     },
   },
-  extraReducers:(builder) => {
-    builder.addCase(getAllHosts.pending, (state) =>{
-      state.loading = true;
-    })
-    .addCase(getAllHosts.fulfilled,(state,action) =>{
-      state.place = action.payload;
-      state.loading = false;
-    })
-    .addCase(getAllHosts.rejected, (state,action) =>{
-      state.loading = false;
-      state.error = action.error
-    })
-  }
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllHosts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllHosts.fulfilled, (state, action) => {
+        state.place = action.payload;
+        state.loading = false;
+      })
+      .addCase(getAllHosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      });
+  },
 });
 
 export const {

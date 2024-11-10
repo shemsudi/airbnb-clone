@@ -6,22 +6,20 @@ import { useSelector } from "react-redux";
 import { getAllHosts } from "../../redux/placeActions";
 
 const PlacedNavigation = () => {
-  const params = useSelector((state:RootState) => state.place.params)
+  const params = useSelector((state: RootState) => state.place.params);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleClick = (item: ItmeType) => {
-
-    const updatedParams = {...params,category_tag: item.name};
+    const updatedParams = { ...params, category_tag: item.name };
     dispatch(setPlaceParams(updatedParams));
 
     const queryParams = new URLSearchParams(updatedParams);
     navigate(`/?${queryParams.toString()}`);
 
     dispatch(getAllHosts({ params: updatedParams }));
-
   };
   return (
-    <nav className="w-full px-12 no-scrollbar overflow-x-auto shadow-sm">
+    <nav className=" ml-10 px-2 no-scrollbar overflow-x-auto shadow-sm">
       <ul className="pt-2 flex gap-8">
         {items.map((item, index: number) => (
           <li
