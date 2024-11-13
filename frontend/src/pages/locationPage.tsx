@@ -38,8 +38,10 @@ const LocationPage: React.FC = () => {
       setStep1(false);
       return;
     }
-    dispatch(updateLocation({ uuid: host.uuid!, location: location }));
-    navigate(`/became-a-host/${host.uuid}/floor-plan`);
+    if (location && location.coordinates) {
+      dispatch(updateLocation({ uuid: host.uuid!, location: location }));
+      navigate(`/became-a-host/${host.uuid}/floor-plan`);
+    }
   };
   useEffect(() => {
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
@@ -90,8 +92,8 @@ const LocationPage: React.FC = () => {
     return (
       <Marker
         position={{
-          lat: location.coordinates.lat,
-          lng: location.coordinates.lng,
+          lat: location ? location.coordinates.lat : 0,
+          lng: location ? location.coordinates.lng : 0,
         }}
       >
         <Popup>You are here</Popup>
@@ -131,7 +133,10 @@ const LocationPage: React.FC = () => {
             </div>
 
             <MapContainer
-              center={[location.coordinates.lat, location.coordinates.lng]}
+              center={[
+                location ? location.coordinates.lat : 0,
+                location ? location.coordinates.lng : 0,
+              ]}
               zoom={8}
               style={{
                 height: "60vh",
@@ -235,7 +240,10 @@ const LocationPage: React.FC = () => {
                 </div>
               </div>
               <MapContainer
-                center={[location.coordinates.lat, location.coordinates.lng]}
+                center={[
+                  location ? location.coordinates.lat : 0,
+                  location ? location.coordinates.lng : 0,
+                ]}
                 zoom={13}
                 style={{
                   height: "40vh",

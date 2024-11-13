@@ -4,61 +4,33 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Region from "./region";
 import regionLocation from "../../data/region";
 import PlusOrMinus from "../icons/icons/plusOrMinus";
-
+import DatePicker from "./datePicker";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 interface SearchBarProps {
   selectedOption: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
   const [where, setWhere] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [date, setDate] = useState<string[]>([]);
   const [guests, setGuests] = useState("");
+  const [nextMonth, setNextMonth] = useState(0);
   const [isSearchFocused, setSearchFocused] = useState(false);
   const [isDatesFocused, setIsDatesFocused] = useState(false);
   const [isGuestFocused, setIsGuestFocused] = useState(false);
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const modalRef2 = useRef<HTMLDivElement | null>(null);
-  const modalRef3 = useRef<HTMLDivElement | null>(null);
+  const whereModalRef = useRef<HTMLDivElement | null>(null);
+  const datePickerRef = useRef<HTMLDivElement | null>(null);
+  const whoModalRef = useRef<HTMLDivElement | null>(null);
 
-  const inputRef = useRef<HTMLDivElement | null>(null);
-  const dateModalRef = useRef<HTMLDivElement | null>(null);
-  const guestRef = useRef<HTMLDivElement | null>(null);
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const whereRef = useRef<HTMLDivElement | null>(null);
+  const checkInRef = useRef<HTMLDivElement | null>(null);
+  const checkOutRef = useRef<HTMLDivElement | null>(null);
+  const whoRef = useRef<HTMLDivElement | null>(null);
+  console.log(date);
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
-
-  const getDaysInMonth = (month: number, year: number) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  const getStartDayOfMonth = (month: number, year: number) => {
-    return new Date(year, month, 1).getDay();
-  };
-
-  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
-  const startDay = getStartDayOfMonth(currentMonth, currentYear);
-
-  const renderCalendar = () => {
-    const weeks = [];
-    let day = 1;
-
-    for (let i = 0; i < 5; i++) {
-      const week = Array(7).fill(null);
-      for (let j = 0; j < 7; j++) {
-        if (i === 0 && j < startDay) {
-          week[j] = null;
-        } else if (day > daysInMonth) {
-          week[j] = null;
-        } else {
-          week[j] = day++;
-        }
-      }
-      weeks.push(week);
-    }
-    return weeks;
-  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -68,26 +40,28 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node) &&
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
+        whereRef.current &&
+        !whereRef.current.contains(event.target as Node) &&
+        whereModalRef.current &&
+        !whereModalRef.current.contains(event.target as Node)
       ) {
         setSearchFocused(false);
       }
       if (
-        dateModalRef.current &&
-        !dateModalRef.current.contains(event.target as Node) &&
-        modalRef2.current &&
-        !modalRef2.current.contains(event.target as Node)
+        checkInRef.current &&
+        !checkInRef.current.contains(event.target as Node) &&
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target as Node) &&
+        checkOutRef.current &&
+        !checkOutRef.current.contains(event.target as Node)
       ) {
         setIsDatesFocused(false);
       }
       if (
-        guestRef.current &&
-        !guestRef.current.contains(event.target as Node) &&
-        modalRef3.current &&
-        !modalRef3.current.contains(event.target as Node)
+        whoRef.current &&
+        !whoRef.current.contains(event.target as Node) &&
+        whoModalRef.current &&
+        !whoModalRef.current.contains(event.target as Node)
       ) {
         setIsGuestFocused(false);
       }
@@ -104,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
     >
       <div className="flex group">
         <div
-          ref={modalRef}
+          ref={whereModalRef}
           onClick={() => {
             !isSearchFocused ? setSearchFocused(true) : "";
           }}
@@ -123,7 +97,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
       </div>
       {isSearchFocused && (
         <div
-          ref={inputRef}
+          ref={whereRef}
           className="absolute top-full mt-1 left-0 w-3/5 z-50 bg-white border border-gray-300 rounded-xl shadow-lg"
         >
           <div className="p-8 w-full">
@@ -150,7 +124,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
           onClick={() => {
             !isDatesFocused ? setIsDatesFocused(true) : "";
           }}
-          ref={modalRef2}
+          ref={datePickerRef}
           className="flex group"
         >
           <div className="input-container group hover:bg-gray-100">
@@ -159,6 +133,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
               className="search-input group-hover:bg-gray-100"
               type="text"
               name="dates"
+              value={date[0]}
               placeholder="Add dates"
             />
           </div>
@@ -184,7 +159,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
           onClick={() => {
             !isDatesFocused ? setIsDatesFocused(true) : "";
           }}
-          ref={modalRef2}
+          ref={checkOutRef}
           className="flex group"
         >
           <div className="input-container group hover:bg-gray-100">
@@ -193,6 +168,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
               className="search-input group-hover:bg-gray-100"
               type="text"
               name="dates"
+              value={date[1]}
               placeholder="Add dates"
             />
           </div>
@@ -201,11 +177,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
       )}
       {isDatesFocused && (
         <div
-          ref={dateModalRef}
-          // className="absolute top-full  mt-1 left-0 overflow-y-scroll w-full z-50 bg-white border border-gray-300 rounded-3xl shadow-lg"
-          className="absolute top-full  mt-1 left-0 overflow-y-scroll  w-full z-50 bg-white border border-gray-300 rounded-xl shadow-lg"
+          ref={checkInRef}
+          className="absolute top-full  mt-1 left-0    w-full z-50 bg-white border border-gray-300 rounded-xl shadow-lg"
         >
-          <div className="p-6 w-full flex flex-col ">
+          <div className="p-6 w-full flex flex-col  overflow-y-scroll ">
             <div className="self-center flex justify-between gap-4 bg-gray-300 border px-2 py-1  rounded-full">
               <button className="rounded-full focus:bg-white px-3">
                 Dates
@@ -217,83 +192,38 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
                 Flexible
               </button>
             </div>
-            <div className="grid grid-cols-2 grid-rows-1 gap-8 w-full h-80 mt-6">
-              <div className="flex flex-col w-full">
-                <h1 className="self-center font-bold">
-                  {new Date(currentYear, currentMonth).toLocaleString(
-                    "default",
-                    { month: "long" }
-                  )}{" "}
-                  {currentYear}
-                </h1>
-                <table className="w-full table-auto">
-                  <thead>
-                    <tr>
-                      {daysOfWeek.map((day) => (
-                        <th
-                          key={day}
-                          className=" text-gray-500 h-10 px-2 py-1 border-collapse"
-                        >
-                          {day}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {renderCalendar().map((week, i) => (
-                      <tr key={i}>
-                        {week.map((day, j) => (
-                          <td
-                            key={j}
-                            className="w-auto h-12 px-2 py-1 text-center hover:border rounded-full  hover:border-black "
-                          >
-                            {day ? day : ""}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex flex-col w-full">
-                <h1 className="self-center font-bold">
-                  {new Date(currentYear, currentMonth).toLocaleString(
-                    "default",
-                    { month: "long" }
-                  )}{" "}
-                  {currentYear}
-                </h1>
-                <table className="table-auto w-full">
-                  <thead>
-                    <tr>
-                      {daysOfWeek.map((day) => (
-                        <th
-                          key={day}
-                          className="text-gray-500 h-10 px-2 py-1 text-center"
-                        >
-                          {day}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {renderCalendar().map((week, i) => (
-                      <tr key={i}>
-                        {week.map((day, j) => (
-                          <td
-                            key={j}
-                            className=" w-auto h-12 px-2 py-1 text-center hover:border rounded-full  hover:border-black"
-                          >
-                            {day ? day : ""}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            <div className="grid relative grid-cols-2 grid-rows-2 gap-8 w-full h-80 mt-6">
+              <DatePicker
+                currentMonth={(currentMonth + nextMonth) % 12}
+                currentYear={currentYear}
+                setDate={setDate}
+                date={date}
+              />
+              <DatePicker
+                currentMonth={(currentMonth + nextMonth + 1) % 12}
+                currentYear={currentYear}
+                setDate={setDate}
+                date={date}
+              />
+              {nextMonth !== 11 && (
+                <button
+                  onClick={() => setNextMonth((prev) => prev + 1)}
+                  className="absolute top-1 right-2"
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
+              {nextMonth !== 0 && (
+                <button
+                  onClick={() => setNextMonth((prev) => prev - 1)}
+                  className="absolute top-1 left-2"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              )}
             </div>
-            <div className="flex gap-3">
+
+            <div className="flex gap-3 mt-10">
               <button className="px-4 py-2 rounded-full text-sm  border border-gray-300 ">
                 Exact dates
               </button>
@@ -314,12 +244,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
                 14 days
               </button>
             </div>
-          </div>{" "}
+          </div>
         </div>
       )}
 
       <div
-        ref={guestRef}
+        ref={whoRef}
         onClick={() => {
           !isGuestFocused ? setIsGuestFocused(true) : "";
         }}
@@ -355,7 +285,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
       </div>
       {isGuestFocused && (
         <div
-          ref={modalRef3}
+          ref={whoModalRef}
           className="absolute top-full  mt-1 left-0 overflow-y-scroll w-full z-50 bg-white border border-gray-300 rounded-3xl shadow-lg"
         ></div>
       )}
