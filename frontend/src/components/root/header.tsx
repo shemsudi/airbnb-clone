@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ atTop }) => {
         </div>
 
         {atTop && (
-          <div className=" flex justify-center px-5">
+          <div className="  flex justify-center px-5">
             <SearchBar selectedOption={selectedOption} />
           </div>
         )}

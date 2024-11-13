@@ -31,7 +31,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ host }) => {
 
   return (
     <div className="h-60 w-full ">
-      <Link to={"/homes"}>
+      <Link to={"/rooms"}>
         <div
           className="flex h-60 w-full  transition-transform duration-300 ease-in-out  "
           style={{
