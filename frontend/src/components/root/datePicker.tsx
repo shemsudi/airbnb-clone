@@ -3,6 +3,10 @@ type DatePickerProps = {
   currentYear: number;
   setDate: React.Dispatch<React.SetStateAction<string[]>>;
   date: string[];
+  isCheckInFocused: boolean;
+  isCheckOutFocused: boolean;
+  setIsCheckOutFocused: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckInFoucused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -10,19 +14,21 @@ const DatePicker: React.FC<DatePickerProps> = ({
   currentYear,
   setDate,
   date,
+  isCheckInFocused,
+  isCheckOutFocused,
+  setIsCheckOutFocused,
+  setIsCheckInFoucused,
 }) => {
-  const handleDate = (day: number, year: number, month: number) => {
-    const newDate = new Date(year, month, day);
-    const formattedDate = newDate
-      .toLocaleDateString("en-US", {
-        month: "short",
-        day: "2-digit",
-      })
-      .replace(" ", "-");
-    if (date.length < 2) {
-      setDate([...date, formattedDate]);
-    } else {
-      setDate([date[0], formattedDate]);
+  const handleDate = (day: number, month: number, year: number) => {
+    const selectedDate = `${year}-${month}-${day}`;
+    if (isCheckInFocused) {
+      setDate([selectedDate, date[1]]);
+      setIsCheckInFoucused(false);
+      setIsCheckOutFocused(true);
+    } else if (isCheckOutFocused) {
+      setDate([date[0], selectedDate]);
+      setIsCheckInFoucused(false);
+      setIsCheckOutFocused(false);
     }
   };
 
@@ -81,7 +87,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               {week.map((day, j) => (
                 <td key={j} className="  p-2  text-center   rounded-full">
                   <button
-                    className="w-full h-full rounded-full focus:bg-gray-500 hover:bg-gray-500 "
+                    className={`w-full h-full rounded-full active:bg-gray-500 focus:bg-gray-500 hover:bg-gray-500`}
                     onClick={() => handleDate(day, currentMonth, currentYear)}
                     style={{ width: "30px", height: "30px" }}
                   >
