@@ -15,3 +15,11 @@ export const getAllHosts = createAsyncThunk<HostedPlaces[], getAllHostsParams>(
     return response.data;
   }
 );
+
+export const getHostById = createAsyncThunk<
+  HostedPlaces,
+  { uuid: string | undefined }
+>("place/getHostById", async ({ uuid }) => {
+  const response = await api.get(`/place/getHostById/${uuid}`);
+  return response.data;
+});

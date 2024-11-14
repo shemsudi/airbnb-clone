@@ -1,16 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, SerializedError } from "@reduxjs/toolkit";
 import { HostedPlaces, SearchParams } from "../types/types";
-import { getAllHosts } from "./placeActions";
+import { getAllHosts, getHostById } from "./placeActions";
 
 interface PlaceState {
   place: HostedPlaces[];
   loading: boolean;
   error: {};
   params: SearchParams;
+  rooms: HostedPlaces | null;
 }
 
 const initialState: PlaceState = {
   place: [],
+  rooms: null,
   error: {},
   loading: false,
   params: {
@@ -61,6 +63,17 @@ const placeSlice = createSlice({
         state.loading = false;
       })
       .addCase(getAllHosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(getHostById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getHostById.fulfilled, (state, action) => {
+        state.rooms = action.payload;
+        state.loading = false;
+      })
+      .addCase(getHostById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

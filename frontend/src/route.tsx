@@ -24,6 +24,7 @@ import DiscountPage from "./pages/discountPage.tsx";
 import LegalPage from "./pages/legalPage.jsx";
 import ReceiptPage from "./pages/receiptPage.jsx";
 import PublishCelebration from "./pages/publishCelebration.jsx";
+import Rooms from "./pages/rooms.tsx";
 // import hostloader from "./loaders/placeLoader.ts";
 // import { hostloader2 } from "./loaders/placeLoader.ts";
 // import Icons2 from "./components/Icons2.tsx";
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: `/became-a-host/:uuid/about-your-place`,
     element: <AboutYourPlace />,
+  },
+  {
+    path: `/rooms/:uuid`,
+    element: <Rooms />,
   },
   {
     path: `/became-a-host/:uuid/structure`,

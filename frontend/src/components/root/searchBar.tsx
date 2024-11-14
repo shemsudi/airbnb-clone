@@ -42,7 +42,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
   const checkInRef = useRef<HTMLDivElement | null>(null);
   const checkOutRef = useRef<HTMLDivElement | null>(null);
   const whoRef = useRef<HTMLDivElement | null>(null);
-  console.log(date);
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -51,23 +50,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ selectedOption }) => {
     e.preventDefault();
     setWhere(e.target.value);
   };
-  const searchHostedPlaces = async () => {
-    await dispatch(
-      setPlaceParams({
-        ...state.params, // Spreading the current params state instead of using a function
-        location_search: where || state.params.location_search,
-        monthly_start_date: date[0] || state.params.monthly_start_date,
-        monthly_end_date: date[1] || state.params.monthly_end_date,
-        category_tag: "Earth homes",
-        // guests: {
-        //   adults: guests.adults,
-        //   children: guests.children,
-        //   infants: guests.infants,
-        //   pets: guests.pets,
-        // },
-      })
-    );
-    dispatch(getAllHosts({ params: state.params }));
+  const searchHostedPlaces = () => {
+    const updatedParams = {
+      ...state.params,
+      location_search: where || state.params.location_search,
+      monthly_start_date: date[0] || state.params.monthly_start_date,
+      monthly_end_date: date[1] || state.params.monthly_end_date,
+      category_tag: "Earth homes",
+    };
+    dispatch(setPlaceParams(updatedParams as SearchParams));
+    dispatch(getAllHosts({ params: updatedParams }));
+    setIsGuestFocused(false);
   };
 
   useEffect(() => {

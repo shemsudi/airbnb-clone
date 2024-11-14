@@ -9,11 +9,11 @@ import {
 import { faGlobe, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
 const LastFooter = () => {
   return (
-    <div className="w-full flex   justify-between xl:flex-row py-2 gap-4 border-t-2">
-      <div className="flex    xl:flex-row gap-2">
+    <div className="w-full flex flex-col-reverse     justify-between md:flex-row py-2 gap-4 border-t-2">
+      <div className="flex flex-col   md:flex-row gap-2">
         <div className="text-xs self-center">© 2024 Airbnb, Inc.</div>
         <div>
-          <ol className="flex gap-2 items-center">
+          <ol className="flex gap-2 items-center justify-center">
             <li>
               <Link to={""} className="hover:underline text-xs">
                 Terms
@@ -40,7 +40,7 @@ const LastFooter = () => {
           </ol>
         </div>
       </div>
-      <div className="flex justify-between gap-4">
+      <div className="flex justify-center md:justify-between gap-4">
         <button className="flex items-center gap-2 group hover:cursor-pointer">
           <FontAwesomeIcon icon={faGlobe} />{" "}
           <h1 className="text-xs hover:underline group-hover:cursor-pointer">
