@@ -1,4 +1,4 @@
-import { createSlice, SerializedError } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { HostedPlaces, SearchParams } from "../types/types";
 import { getAllHosts, getHostById } from "./placeActions";
 
@@ -7,12 +7,12 @@ interface PlaceState {
   loading: boolean;
   error: {};
   params: SearchParams;
-  rooms: HostedPlaces | null;
+  rooms: HostedPlaces | undefined;
 }
 
 const initialState: PlaceState = {
   place: [],
-  rooms: null,
+  rooms: undefined,
   error: {},
   loading: false,
   params: {

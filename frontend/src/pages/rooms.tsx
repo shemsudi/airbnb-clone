@@ -3,18 +3,15 @@ import { RootState, useAppDispatch } from "../redux/store";
 import { getHostById } from "../redux/placeActions";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import FooterNavigation from "../components/hostingSteps/footerNavigaton";
 import Footer from "../components/hosthomes/footer";
-import LastFooter from "../components/hosthomes/lastFooter";
-import Logo from "../assets/logos";
-import Search from "../components/root/search";
-import { Link } from "react-router-dom";
-import WorldIcon from "../components/icons/worldIcon";
-import UserProfileMenu from "../components/root/userPofileMeu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import HomeIcon from "../components/icons/homeIcon";
 import HouseIcon from "../components/icons/houseIcon";
+import RoomsHeader from "../components/rooms/roomsHeader";
+import RoomGallery from "../components/rooms/roomsGallery";
+import ReservationBox from "../components/rooms/reservationBox";
+import Amenities from "../components/rooms/amenities";
 
 const Rooms = () => {
   const dispatch = useAppDispatch();
@@ -26,83 +23,41 @@ const Rooms = () => {
   }, [uuid, dispatch]);
   const rooms = useSelector((state: RootState) => state.place.rooms);
 
+  const {
+    title,
+    photos,
+    structure,
+    location,
+    bedrooms,
+    beds,
+    bathrooms,
+    description,
+    pricing,
+  } = rooms || {};
+
   return (
     <div className="flex flex-col h-auto ">
-      <header className="flex px-4 lg:px-12 py-4 md:px-8 xl:px-28 justify-between gap-1 items-center">
-        <div className="flex">
-          <Logo />
-          <div className="hidden max-lg:block ">
-            <Search />
-          </div>
-        </div>
-        <div className=" max-lg:hidden ">
-          <Search />
-        </div>
-        <div className="flex gap-3 items-center">
-          <div className="flex">
-            <Link to={"host/homes"}>Airbnb your home</Link>
-          </div>
-          <WorldIcon />
-          <UserProfileMenu />
-        </div>
-      </header>
+      <RoomsHeader />
       <hr />
       <div className="felx flex-col w-full">
         <div className="flex justify-between md:px-8 xl:px-28 pt-6 pb-4 ">
-          <h1 className="text-3xl font-semibold">{rooms?.title}</h1>
+          <h1 className="text-3xl font-semibold">{title}</h1>
           <div className="flex gap-5">
             <span>share</span>
             <span>save</span>
           </div>
         </div>
 
-        <div className="grid md:px-8 xl:px-28 h-80 w-full gap-2 rounded-xl mb-5  grid-cols-4 grid-rows-2">
-          <div className="w-full h-full col-span-2 row-span-2 rounded-t-full">
-            <img
-              src={rooms?.photos![0]}
-              alt={rooms?.structure}
-              className="w-full h-full object-cover rounded-s-lg"
-            />
-          </div>
-          <div className="w-full h-full">
-            <img
-              src={rooms?.photos![1]}
-              alt={rooms?.structure}
-              className="w-full h-full object-cover "
-            />
-          </div>
-          <div className="w-full h-full">
-            <img
-              src={rooms?.photos![2]}
-              alt={rooms?.structure}
-              className="w-full h-full object-cover rounded-tr-lg"
-            />
-          </div>
-          <div className="w-full h-full">
-            <img
-              src={rooms?.photos![3]}
-              alt={rooms?.structure}
-              className="w-full h-full object-cover "
-            />
-          </div>
-          <div className="w-full h-full">
-            <img
-              src={rooms?.photos![4]}
-              alt={rooms?.structure}
-              className="w-full h-full object-cover rounded-br-lg"
-            />
-          </div>
-        </div>
+        <RoomGallery photos={photos} structure={structure} />
       </div>
       <div className="flex md:px-8 xl:px-28 gap-5 mt-5">
         <div className="w-3/5  flex flex-col mb-5">
           <div className="flex flex-col mb-5  ">
             <h1 className="text-2xl font-bold">
-              Room in {rooms?.location.city} , {rooms?.location.country}
+              Room in {location?.city} , {location?.country}
             </h1>
             <p className="font-roboto">
-              {rooms?.bedrooms} bedrooms . {rooms?.beds} double beds .
-              {rooms?.bathrooms} bathroom
+              {bedrooms} bedrooms . {beds} double beds .{bathrooms} bathroom
             </p>
             <div>
               <FontAwesomeIcon icon={faStar} /> 1 review
@@ -166,9 +121,9 @@ const Rooms = () => {
           <div className="flex flex-col mb-8">
             <h1 className="text-2xl font-semibold mb-4">About this place</h1>
             <p className="font-roboto">
-              {rooms?.description}We are a B&B with tastefully done ensuite
-              bedrooms & luxurious bed linen. All rooms have wifi and cable TV.
-              Our lounges, swimming pool, barbeque area and quiet gardens are a
+              {description}We are a B&B with tastefully done ensuite bedrooms &
+              luxurious bed linen. All rooms have wifi and cable TV. Our
+              lounges, swimming pool, barbeque area and quiet gardens are a
               great place for you to relax. From the dining service you can
               order delicious meals.
             </p>
@@ -198,69 +153,16 @@ const Rooms = () => {
 
           <div className="my-8 flex flex-col w-full">
             <h1 className="text-2xl font-semibold">What this place offers</h1>
-            <div className="flex gap-5 w-full mt-5">
-              <div className="w-1/2 gap-3 flex flex-col">
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1
-                    className={`${
-                      rooms?.amenities![0] === "Wifi" ? "line-through" : ""
-                    }`}
-                  >
-                    Wifi
-                  </h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Pool</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Luggage dropoff allowed</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Long term stays allowed</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Carbon monoxide alarm</h1>
-                </div>
-              </div>
-              <div className="w-1/2 gap-3 flex flex-col">
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1
-                    className={`${
-                      rooms?.amenities![0] === "Wifi" ? "line-through" : ""
-                    }`}
-                  >
-                    Free parking on premises
-                  </h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>TV with standard cable</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Breakfast</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Lock on bedroom door</h1>
-                </div>
-                <div className="flex gap-2 items-center ">
-                  <HouseIcon />
-                  <h1>Smoke alarm</h1>
-                </div>
-              </div>
-            </div>
+            <Amenities />
           </div>
           <hr />
         </div>
 
-        <div className="w-2/5 "></div>
+        <div className="relative w-2/5 px-10 pb-10">
+          <div className="flex flex-col h-full">
+            <ReservationBox pricing={pricing} />
+          </div>
+        </div>
       </div>
       <div className=" bg-[#F7F7F7]   ">
         <Footer />

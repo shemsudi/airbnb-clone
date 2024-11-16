@@ -12,11 +12,11 @@ interface Location {
   showExactLocation: boolean;
 }
 
-interface Pricing {
+type Pricing = {
   nightlyRate?: number;
   currency?: string;
   smartPricing?: boolean;
-}
+};
 
 interface Discount {
   weeklyDiscount?: number;
@@ -34,29 +34,29 @@ interface LegalInfo {
   weapons?: boolean;
 }
 
-interface HostedPlaces {
-  title?: string;
+type HostedPlaces = {
+  title: string;
   uuid: string;
-  lastPage?: string;
-  isCompleted?: boolean;
-  structure?: string;
-  privacyType?: string;
-  description?: string;
-  visibility?: string;
-  highlights?: string[];
-  instantBook?: string;
-  guests?: number;
-  beds?: number;
-  bedrooms?: number;
-  bathrooms?: number;
+  lastPage: string;
+  isCompleted: boolean;
+  structure: string;
+  privacyType: string;
+  description: string;
+  visibility: string;
+  highlights: string[];
+  instantBook: string;
+  guests: number;
+  beds: number;
+  bedrooms: number;
+  bathrooms: number;
   location: Location;
-  photos?: string[];
-  amenities?: string[];
+  photos: string[];
+  amenities: string[];
   uniqueAmenities?: string[];
   safetyAmenities?: string[];
   houseRules?: string[];
-  pricing?: Pricing;
-  availability?: {
+  pricing: Pricing;
+  availability: {
     startDate?: Date;
     endDate?: Date;
     minStay?: number;
@@ -64,10 +64,10 @@ interface HostedPlaces {
   };
   discount?: Discount;
   legalInfo?: LegalInfo;
-  user?: string;
+  user: string;
   created_at?: Date;
   updated_at?: Date;
-}
+};
 
 interface SearchParams {
   [key: string]: string;
@@ -88,3 +88,5 @@ interface SearchParams {
 }
 
 export type { HostedPlaces, SearchParams };
+
+export type { Location, Pricing, Discount, LegalInfo };
