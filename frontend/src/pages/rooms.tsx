@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RootState, useAppDispatch } from "../redux/store";
 import { getHostById } from "../redux/placeActions";
 import { useSelector } from "react-redux";
@@ -50,6 +50,10 @@ const Rooms = () => {
       description: "This is one of the few places in the area with a pool.",
     },
   ];
+  const navigate = useNavigate();
+  const GoToBookingPage = () => {
+    navigate("/book/stays", { state: uuid });
+  };
 
   useEffect(() => {
     if (uuid) {
@@ -75,6 +79,7 @@ const Rooms = () => {
         <NavigationHeader
           nightlyRate={pricing?.nightlyRate}
           showReserve={showReserve}
+          GoToBookingPage={GoToBookingPage}
         />
       )}
       <RoomsHeader />
@@ -130,7 +135,11 @@ const Rooms = () => {
         </div>
 
         <div className="relative w-2/5 mx-4 xl:mx-10 pb-10">
-          <ReservationBox setShowReserve={setShowReserve} pricing={pricing} />
+          <ReservationBox
+            GoToBookingPage={GoToBookingPage}
+            setShowReserve={setShowReserve}
+            pricing={pricing}
+          />
         </div>
       </div>
 

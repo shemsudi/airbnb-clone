@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LastFooter from "../components/hosthomes/lastFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -7,11 +7,27 @@ import PaymentOption from "../components/book/paymentOption";
 import PaymentMethod from "../components/book/PaymentMethod";
 import TripDetails from "../components/book/TripDetails";
 import PriceDetails from "../components/book/PriceDetails";
+import { RootState, useAppDispatch } from "../redux/store";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { getHostById } from "../redux/placeActions";
 
 const BookingPage = () => {
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const uuid = location.state;
+  const rooms = useSelector((state: RootState) => state.place.rooms);
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState("fullPayment");
+
   const [paymentType, setPaymentType] = useState("CreditCard");
+
+  const totalFee = rooms?.pricing.nightlyRate! * 1.15 + 12;
+
+  useEffect(() => {
+    dispatch(getHostById({ uuid: uuid }));
+  }, [uuid]);
+
   return (
     <div className="flex flex-col h-screen">
       <BookingHeader />
@@ -36,7 +52,7 @@ const BookingPage = () => {
               <div className="flex flex-col">
                 <div className="font-medium text-lg">This is a rare find.</div>
                 <div className="font-sans">
-                  Alicia's place is usually booked.
+                  {rooms?.user.firstName}'s place is usually booked.
                 </div>
               </div>
               <svg
@@ -50,7 +66,7 @@ const BookingPage = () => {
                 <g stroke="none">
                   <path
                     d="m32.62 6 9.526 11.114-18.146 23.921-18.147-23.921 9.526-11.114z"
-                    fill-opacity=".2"
+                    fillOpacity=".2"
                   ></path>
                   <path d="m34.4599349 2 12.8243129 14.9616983-23.2842478 30.6928721-23.28424779-30.6928721 12.82431289-14.9616983zm-17.9171827 16h-12.52799999l18.25899999 24.069zm27.441 0h-12.528l-5.73 24.069zm-14.583 0h-10.802l5.4012478 22.684zm-15.92-12.86-9.30799999 10.86h11.89399999zm19.253-1.141h-17.468l2.857 12.001h11.754zm1.784 1.141-2.586 10.86h11.894z"></path>
                 </g>
@@ -103,72 +119,10 @@ const BookingPage = () => {
                 </div>
               </div>
               <PaymentMethod
+                totalFee={totalFee}
                 setPaymentType={setPaymentType}
                 paymentType={paymentType}
               />
-            </div>
-            <hr />
-            <div className="flex flex-col gap-4">
-              <div className=" text-2xl font-medium ">
-                Required for your trip
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col">
-                  <div className="font-semibold">Profile photo</div>
-                  <div>Hosts want to know who’s staying at their place.</div>
-                </div>
-                <div className="px-3  py-1 border border-black  rounded-lg font-medium">
-                  Add
-                </div>
-              </div>{" "}
-            </div>
-            <hr />
-            <div className="flex flex-col gap-5">
-              <div className=" text-2xl font-medium ">Cancellation policy</div>
-              <div>
-                <span className="font-bold">
-                  Free cancellation before Dec 9.
-                </span>{" "}
-                Cancel before Jan 1 for a partial refund. <br />
-                <span className="underline cursor-pointer ">Learn more</span>
-              </div>
-            </div>
-            <hr />
-            <div className="flex flex-col gap-5">
-              <div className=" text-2xl font-medium ">Ground rules</div>
-              <p className="font-roboto">
-                We ask every guest to remember a few simple things about what
-                makes a great guest.
-              </p>
-              <ul className="list-disc pl-5 font-roboto ">
-                <li>Follow the house rules</li>
-                <li>Treat your Host’s home like your own</li>
-              </ul>
-            </div>
-            <hr />
-            <div className="flex flex-col gap-6 ">
-              <div className="text-sm">
-                By selecting the button below, I agree to the{" "}
-                <span className="underline font-medium">
-                  Host's House Rules,
-                </span>
-                <span className="underline font-medium">
-                  Ground rules for guests
-                </span>
-                ,
-                <span className="underline font-medium">
-                  Airbnb's Rebooking and Refund Policy
-                </span>
-                , and that Airbnb can{" "}
-                <span className="underline font-medium">
-                  charge my payment method
-                </span>{" "}
-                if I’m responsible for damage.
-              </div>
-
-              <button className="px-4 py-3 bg-primary w-56 rounded-lg text-white text-xl font-bold">
-                Confirm and pay
-              </button>
             </div>
           </div>
           <div className="w-full md:w-2/4 h-full p-2 md:p-10 ">
@@ -181,9 +135,9 @@ const BookingPage = () => {
                 />
                 <div className="flex flex-col justify-center">
                   <div className="font-medium text-neutral-800 text-lg">
-                    Olanga House: Beautiful <br /> Wildlife Getaway
+                    {rooms?.title}
                   </div>
-                  <div>Entire home</div>
+                  <div>{rooms?.privacyType}</div>
                   <div className="flex items-center gap-2">
                     {" "}
                     <FontAwesomeIcon
@@ -196,7 +150,7 @@ const BookingPage = () => {
                 </div>
               </div>
               <hr />
-              <PriceDetails />
+              <PriceDetails price={rooms?.pricing} />
             </div>
           </div>
         </div>

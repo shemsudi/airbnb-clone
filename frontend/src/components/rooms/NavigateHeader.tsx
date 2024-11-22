@@ -1,15 +1,16 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 
 type NavigationHeaderProps = {
   nightlyRate: number | undefined;
   showReserve: boolean;
+  GoToBookingPage: () => void;
 };
 
 const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   nightlyRate,
   showReserve,
+  GoToBookingPage,
 }) => {
   return (
     <div className="fixed top-0 left-0 z-10 flex right-0 bg-white shadow-md  ">
@@ -69,11 +70,13 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
                 <small className="text-gray-600">162 reviews</small>
               </div>
             </div>
-            <Link to={"/book/stays"}>
-              <button className="rounded-lg p-3 text-white font-bold bg-primary w-40">
-                Reserve
-              </button>
-            </Link>
+
+            <button
+              onClick={GoToBookingPage}
+              className="rounded-lg p-3 text-white font-bold bg-primary w-40"
+            >
+              Reserve
+            </button>
           </div>
         )}
       </div>

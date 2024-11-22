@@ -2,16 +2,17 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Pricing } from "../../types/types";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 
 type ReservationBoxProps = {
   pricing: Pricing | undefined;
   setShowReserve: React.Dispatch<React.SetStateAction<boolean>>;
+  GoToBookingPage: () => void;
 };
 
 const ReservationBox: React.FC<ReservationBoxProps> = ({
   pricing,
   setShowReserve,
+  GoToBookingPage,
 }) => {
   const reserveRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
@@ -64,14 +65,14 @@ const ReservationBox: React.FC<ReservationBoxProps> = ({
             <FontAwesomeIcon icon={faStar} />
           </button>
         </div>
-        <Link to={"/book/stays"}>
-          <button
-            ref={reserveRef}
-            className="bg-primary rounded-lg text-white font-bold w-full py-3 px-2 text-center"
-          >
-            Reserve
-          </button>
-        </Link>
+
+        <button
+          onClick={GoToBookingPage}
+          ref={reserveRef}
+          className="bg-primary rounded-lg text-white font-bold w-full py-3 px-2 text-center"
+        >
+          Reserve
+        </button>
 
         <div className="w-full text-center">You won't be charged yet</div>
         <div className="flex justify-between px-2">
