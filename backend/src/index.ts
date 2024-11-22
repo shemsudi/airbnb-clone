@@ -5,12 +5,16 @@ import mongoose from "mongoose";
 import session from "express-session";
 import cors, { CorsOptions } from "cors";
 import configurePassport from "./configs/passport";
+import stripe from "stripe";
+import dotenv from "dotenv";
+dotenv.config();
 
 //Routes
 import AuthRouter from "./routes/auth.js";
 import ProfileRouter from "./routes/profile";
 import HostRouter from "./routes/host";
 import PlaceRouter from "./routes/place";
+import { dot } from "node:test/reporters";
 
 const app: express.Application = express();
 const port: number = 3000;
@@ -19,6 +23,8 @@ const corsOptions: CorsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
+
+// const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!);
 
 app.use(cors(corsOptions));
 app.use(express.json());

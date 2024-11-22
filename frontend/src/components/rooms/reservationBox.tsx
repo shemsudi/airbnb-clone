@@ -1,12 +1,43 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Pricing } from "../../types/types";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 type ReservationBoxProps = {
   pricing: Pricing | undefined;
+  setShowReserve: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ReservationBox: React.FC<ReservationBoxProps> = ({ pricing }) => {
+const ReservationBox: React.FC<ReservationBoxProps> = ({
+  pricing,
+  setShowReserve,
+}) => {
+  const reserveRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+            setShowReserve(true);
+          } else {
+            setShowReserve(false);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (reserveRef.current) {
+      observer.observe(reserveRef.current);
+    }
+
+    return () => {
+      if (reserveRef.current) {
+        observer.unobserve(reserveRef.current);
+      }
+    };
+  }, []);
   return (
     <div className=" sticky top-28  ">
       <div className="p-5 w-full flex flex-col gap-4  shadow-lg border rounded-lg ">
@@ -33,9 +64,15 @@ const ReservationBox: React.FC<ReservationBoxProps> = ({ pricing }) => {
             <FontAwesomeIcon icon={faStar} />
           </button>
         </div>
-        <button className="bg-primary rounded-lg text-white font-bold w-full py-3 px-2 text-center">
-          Reserve
-        </button>
+        <Link to={"/book/stays"}>
+          <button
+            ref={reserveRef}
+            className="bg-primary rounded-lg text-white font-bold w-full py-3 px-2 text-center"
+          >
+            Reserve
+          </button>
+        </Link>
+
         <div className="w-full text-center">You won't be charged yet</div>
         <div className="flex justify-between px-2">
           <div className="font-normal">${pricing?.nightlyRate} x 3 night</div>

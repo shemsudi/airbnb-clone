@@ -5,7 +5,7 @@ type RoomGalleryProps = {
 
 const RoomGallery: React.FC<RoomGalleryProps> = ({ photos, structure }) => {
   return (
-    <div className="grid md:px-8 xl:px-28 h-80 w-full gap-2 rounded-xl mb-5 grid-cols-4 grid-rows-2">
+    <div className="grid px-4  md:px-8 xl:px-28 h-80  gap-2 rounded-xl mb-5 grid-cols-4 grid-rows-2">
       {photos?.map((photo, index) => (
         <img
           key={index}

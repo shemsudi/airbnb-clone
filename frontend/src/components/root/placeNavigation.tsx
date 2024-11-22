@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import items, { ItmeType } from "../../data/items";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { setPlaceParams } from "../../redux/PlaceReducer";
@@ -7,14 +7,14 @@ import { getAllHosts } from "../../redux/placeActions";
 
 const PlacedNavigation = () => {
   const params = useSelector((state: RootState) => state.place.params);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  let [searchParams, setSearchParams] = useSearchParams();
+
   const handleClick = (item: ItmeType) => {
     const updatedParams = { ...params, category_tag: item.name };
     dispatch(setPlaceParams(updatedParams));
 
-    const queryParams = new URLSearchParams(updatedParams);
-    navigate(`/?${queryParams.toString()}`);
+    setSearchParams(updatedParams);
 
     dispatch(getAllHosts({ params: updatedParams }));
   };

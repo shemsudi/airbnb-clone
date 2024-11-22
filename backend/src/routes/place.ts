@@ -9,7 +9,10 @@ router.get("/test", (req: Request, res: Response) => {
 
 router.get("/getHosts", async (req: Request, res: Response) => {
   try {
-    const homes = await Host.find({ structure: req.query.category_tag });
+    const homes = await Host.find({
+      structure: req.query.category_tag,
+      isCompleted: true,
+    });
     res.status(200).json(homes);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -20,7 +23,11 @@ router.get("/getHostById/:uuid", async (req: Request, res: Response) => {
   console.log(req.params.uuid);
   try {
     console.log(req.params.uuid);
-    const host = await Host.findOne({ uuid: req.params.uuid });
+    const host = await Host.findOne({ uuid: req.params.uuid }).populate(
+      "user",
+      "firstName"
+    );
+    console.log(host);
     if (host) {
       res.status(200).json(host);
     } else {

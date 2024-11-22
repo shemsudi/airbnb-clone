@@ -3,7 +3,6 @@ import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/errorPage";
 import Root from "./pages/root";
 // import NewRealeased from "./pages/realesedFeaures.jsx";
-import Icons from "../src/components/Icons.tsx";
 import HostHomes from "./pages/hostHomes";
 import BecameAhost from "./pages/become-a-host";
 import AboutYourPlace from "./pages/aboutYourPlace";
@@ -25,6 +24,7 @@ import LegalPage from "./pages/legalPage.jsx";
 import ReceiptPage from "./pages/receiptPage.jsx";
 import PublishCelebration from "./pages/publishCelebration.jsx";
 import Rooms from "./pages/rooms.tsx";
+import BookingPage from "./pages/BookingPage.tsx";
 // import hostloader from "./loaders/placeLoader.ts";
 // import { hostloader2 } from "./loaders/placeLoader.ts";
 // import Icons2 from "./components/Icons2.tsx";
@@ -44,12 +44,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <Icons />,
-      },
-    ],
   },
   { path: "host/homes", element: <HostHomes /> },
   { path: "/became-a-host/overview", element: <BecameAhost /> },
@@ -130,6 +124,10 @@ const router = createBrowserRouter([
   {
     path: "/became-a-host/:uuid/publish-celebration",
     element: <PublishCelebration />,
+  },
+  {
+    path: "/book/stays",
+    element: <BookingPage />,
   },
   // {
   //   path: "/release/features",

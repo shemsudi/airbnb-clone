@@ -1,12 +1,15 @@
+import Week from "react-datepicker/dist/week";
+import { render } from "react-dom";
+
 type DatePickerProps = {
   currentMonth: number;
   currentYear: number;
   setDate: React.Dispatch<React.SetStateAction<string[]>>;
   date: string[];
-  isCheckInFocused: boolean;
-  isCheckOutFocused: boolean;
-  setIsCheckOutFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsCheckInFoucused: React.Dispatch<React.SetStateAction<boolean>>;
+  isCheckInFocused?: boolean;
+  isCheckOutFocused?: boolean;
+  setIsCheckOutFocused?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckInFoucused?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -23,12 +26,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
     const selectedDate = `${year}-${month}-${day}`;
     if (isCheckInFocused) {
       setDate([selectedDate, date[1]]);
-      setIsCheckInFoucused(false);
-      setIsCheckOutFocused(true);
+      setIsCheckInFoucused!(false);
+      setIsCheckOutFocused!(true);
     } else if (isCheckOutFocused) {
       setDate([date[0], selectedDate]);
-      setIsCheckInFoucused(false);
-      setIsCheckOutFocused(false);
+      setIsCheckInFoucused!(false);
+      setIsCheckOutFocused!(false);
     }
   };
 
@@ -63,6 +66,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
     }
     return weeks;
   };
+  const weeks = renderCalendar();
+  console.log(weeks);
   return (
     <div className="flex flex-col w-full">
       <h1 className="self-center font-bold">

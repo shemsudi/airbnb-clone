@@ -10,6 +10,9 @@ export default {
         xxl: "0.6rem",
         xxy: "0.8rem",
       },
+      extend: {
+        scrollBehavior: ["smooth"],
+      },
 
       colors: {
         primary: "#FF385C",

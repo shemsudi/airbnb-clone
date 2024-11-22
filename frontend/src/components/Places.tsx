@@ -8,7 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import Card from "./card";
 
-const Icons = () => {
+const Places = () => {
   const dispatch = useAppDispatch();
   const params = useSelector((state: RootState) => state.place.params);
   const hosts = useSelector(
@@ -54,4 +54,4 @@ const Icons = () => {
   );
 };
 
-export default Icons;
+export default Places;

@@ -11,29 +11,29 @@ const LastFooter = () => {
   return (
     <div className="w-full flex flex-col-reverse     justify-between md:flex-row py-2 gap-4 border-t-2">
       <div className="flex flex-col   md:flex-row gap-2">
-        <div className="text-xs self-center">© 2024 Airbnb, Inc.</div>
+        <div className="text-sm self-center">© 2024 Airbnb, Inc.</div>
         <div>
           <ol className="flex gap-2 items-center justify-center">
             <li>
-              <Link to={""} className="hover:underline text-xs">
+              <Link to={""} className="hover:underline text-sm">
                 Terms
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-xs">
+              <Link to={""} className="hover:underline text-sm">
                 Sitemap
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-xs">
+              <Link to={""} className="hover:underline text-sm">
                 Privacy
               </Link>{" "}
               ·
             </li>
             <li>
-              <Link to={""} className="hover:underline text-xs flex gap-2">
+              <Link to={""} className="hover:underline text-sm flex gap-2">
                 Your Privacy Choices <FontAwesomeIcon icon={faShieldAlt} />
               </Link>
             </li>
@@ -43,7 +43,7 @@ const LastFooter = () => {
       <div className="flex justify-center md:justify-between gap-4">
         <button className="flex items-center gap-2 group hover:cursor-pointer">
           <FontAwesomeIcon icon={faGlobe} />{" "}
-          <h1 className="text-xs hover:underline group-hover:cursor-pointer">
+          <h1 className="text-sm hover:underline group-hover:cursor-pointer">
             English(US)
           </h1>
         </button>

@@ -13,7 +13,7 @@ const RoomsHeader = () => {
           <Search />
         </div>
       </div>
-      <div className=" max-lg:hidden ">
+      <div className=" block max-lg:hidden ">
         <Search />
       </div>
       <div className="flex gap-3 items-center">

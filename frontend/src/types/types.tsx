@@ -6,7 +6,7 @@ interface Location {
   country?: string;
   address?: string;
   floor?: string;
-  city?: string;
+  city: string;
   province?: string;
   postalCode?: string;
   showExactLocation: boolean;
@@ -56,6 +56,7 @@ type HostedPlaces = {
   safetyAmenities?: string[];
   houseRules?: string[];
   pricing: Pricing;
+  firstName: string;
   availability: {
     startDate?: Date;
     endDate?: Date;
@@ -64,7 +65,10 @@ type HostedPlaces = {
   };
   discount?: Discount;
   legalInfo?: LegalInfo;
-  user: string;
+  user: {
+    _id: string;
+    firstName: string;
+  };
   created_at?: Date;
   updated_at?: Date;
 };

@@ -38,7 +38,7 @@ interface LegalInfo {
 
 interface HostingDocument extends Document {
   title?: string;
-  uuid: string;
+  uuid: Schema.Types.ObjectId;
   lastPage?: string;
   isCompleted?: boolean;
   structure?: string;
