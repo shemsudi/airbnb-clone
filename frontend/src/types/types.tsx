@@ -91,6 +91,16 @@ interface SearchParams {
   category_tag: string;
 }
 
-export type { HostedPlaces, SearchParams };
+interface Reservation {
+  user: String;
+  place: String;
+  startDate: Date;
+  endDate: Date;
+  totalAmount: number;
+  serviceFee: number;
+  status: "Pending" | "Confirmed";
+}
+
+export type { HostedPlaces, SearchParams, Reservation };
 
 export type { Location, Pricing, Discount, LegalInfo };

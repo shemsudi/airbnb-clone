@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import GuestType from "../root/guestType";
 import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "../../redux/store";
-import { getAllHosts } from "../../redux/placeActions";
+import { getAllListings } from "../../redux/placeActions";
 type ForHowManyGuestProps = {
   isGuestFocused: boolean;
   setIsGuestFocused: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,7 +27,7 @@ const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
   const whoRef = useRef<HTMLDivElement | null>(null);
 
   const searchHostedPlaces = () => {
-    dispatch(getAllHosts({ params: state.params }));
+    dispatch(getAllListings({ params: state.params }));
     setIsGuestFocused(false);
   };
 

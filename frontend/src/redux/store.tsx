@@ -4,6 +4,7 @@ import modalReducer from "./ModalReducer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import HostReducer from "./HostReducer";
 import PlaceReducer from "./PlaceReducer";
+import BookReducer from "./BookReducer";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     modal: modalReducer,
     host: HostReducer,
     place: PlaceReducer,
+    book: BookReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

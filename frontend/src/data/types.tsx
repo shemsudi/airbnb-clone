@@ -138,7 +138,26 @@ const descriptionTypes = [
   { value: "Central", icon: <HouseIcon /> },
   { value: "Spacious", icon: <HouseIcon /> },
 ];
+
+const features = [
+  {
+    icon: <HouseIcon />,
+    title: "Room in a bed and breakfast",
+    description: "Your own room in a home, plus access to shared spaces.",
+  },
+  {
+    icon: <HouseIcon />,
+    title: "50-min drive to Nairobi National Park",
+    description: "This home is near the national park.",
+  },
+  {
+    icon: <HouseIcon />,
+    title: "Dive right in",
+    description: "This is one of the few places in the area with a pool.",
+  },
+];
 export {
+  features,
   types,
   amenitiesItems,
   uniqueAmenitiesItems,

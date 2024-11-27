@@ -120,7 +120,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req: Request<{}, {}, LocationRequestBody>, res: Response) => {
     const { uuid, location } = req.body;
-    console.log(location);
     try {
       const hosting = await Hosting.findOne({ uuid });
 
@@ -220,7 +219,6 @@ router.post(
   async (req: Request<{}, {}, AmenitesRequestBody>, res: Response) => {
     try {
       const { uuid, amenities, uniqueAmenities, safetyAmenities } = req.body;
-      console.log(req.body);
       const host = await Hosting.findOne({ uuid });
 
       if (!host) {

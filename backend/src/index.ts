@@ -14,6 +14,7 @@ import AuthRouter from "./routes/auth.js";
 import ProfileRouter from "./routes/profile";
 import HostRouter from "./routes/host";
 import PlaceRouter from "./routes/place";
+import BookRouter from "./routes/book";
 
 const app: express.Application = express();
 const port: number = 3000;
@@ -44,6 +45,7 @@ app.use("/", AuthRouter);
 app.use("/user", ProfileRouter);
 app.use("/host", HostRouter);
 app.use("/place", PlaceRouter);
+app.use("/book", BookRouter);
 
 app.get("/config", (req, res) => {
   res.send({

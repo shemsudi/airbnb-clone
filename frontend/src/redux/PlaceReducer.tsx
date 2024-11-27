@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HostedPlaces, SearchParams } from "../types/types";
-import { getAllHosts, getHostById } from "./placeActions";
+import { getAllListings, getListingById } from "./placeActions";
 
 interface PlaceState {
   place: HostedPlaces[];
@@ -55,25 +55,25 @@ const placeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllHosts.pending, (state) => {
+      .addCase(getAllListings.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getAllHosts.fulfilled, (state, action) => {
+      .addCase(getAllListings.fulfilled, (state, action) => {
         state.place = action.payload;
         state.loading = false;
       })
-      .addCase(getAllHosts.rejected, (state, action) => {
+      .addCase(getAllListings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       })
-      .addCase(getHostById.pending, (state) => {
+      .addCase(getListingById.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getHostById.fulfilled, (state, action) => {
+      .addCase(getListingById.fulfilled, (state, action) => {
         state.rooms = action.payload;
         state.loading = false;
       })
-      .addCase(getHostById.rejected, (state, action) => {
+      .addCase(getListingById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

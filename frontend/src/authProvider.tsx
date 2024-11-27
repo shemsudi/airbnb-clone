@@ -6,6 +6,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setHost } from "./redux/HostReducer";
 import { useSelector } from "react-redux";
 import { selectModals } from "./redux/ModalReducer";
+import { setBook } from "./redux/BookReducer";
 
 interface DecodedToken {
   exp: number;
@@ -26,6 +27,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
+    const book = localStorage.getItem("book");
+    if (book) {
+      dispatch(setBook(book));
+    }
     if (currentHost) {
       dispatch(setHost(currentHost));
     }

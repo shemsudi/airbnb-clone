@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import api from "../../configs/api";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import { table } from "console";
 
 const CreditCard = ({ totalFee }: { totalFee: number }) => {
   const [stripePromise, setStripePromise] =
@@ -28,7 +27,7 @@ const CreditCard = ({ totalFee }: { totalFee: number }) => {
     const fetchClientSecret = async () => {
       try {
         const response = await api.post("/create-payment-intent", {
-          amount: Math.ceil(totalFee),
+          amount: Math.ceil(totalFee * 100),
           currency: "usd",
         });
         setClientSecret(response.data.clientSecret);

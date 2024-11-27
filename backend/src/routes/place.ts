@@ -7,7 +7,7 @@ router.get("/test", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-router.get("/getHosts", async (req: Request, res: Response) => {
+router.get("/getAllListings", async (req: Request, res: Response) => {
   try {
     const homes = await Host.find({
       structure: req.query.category_tag,
@@ -19,15 +19,12 @@ router.get("/getHosts", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/getHostById/:uuid", async (req: Request, res: Response) => {
-  console.log(req.params.uuid);
+router.get("/getListingById/:uuid", async (req: Request, res: Response) => {
   try {
-    console.log(req.params.uuid);
     const host = await Host.findOne({ uuid: req.params.uuid }).populate(
       "user",
       "firstName"
     );
-    console.log(host);
     if (host) {
       res.status(200).json(host);
     } else {

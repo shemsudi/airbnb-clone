@@ -36,7 +36,7 @@ interface LegalInfo {
   weapons?: boolean;
 }
 
-interface HostingDocument extends Document {
+interface PlaceDocument extends Document {
   title?: string;
   uuid: Schema.Types.ObjectId;
   lastPage?: string;
@@ -71,7 +71,7 @@ interface HostingDocument extends Document {
   updated_at?: Date;
 }
 
-const hostingSchema: Schema = new Schema(
+const PlaceSchema: Schema = new Schema(
   {
     title: { type: String, required: false },
     uuid: { type: String, required: true },
@@ -137,6 +137,6 @@ const hostingSchema: Schema = new Schema(
   }
 );
 
-const Hosting = mongoose.model<HostingDocument>("Hosting", hostingSchema);
+const Place = mongoose.model<PlaceDocument>("Place", PlaceSchema);
 
-export default Hosting;
+export default Place;

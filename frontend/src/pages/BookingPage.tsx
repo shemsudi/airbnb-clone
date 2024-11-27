@@ -10,22 +10,28 @@ import PriceDetails from "../components/book/PriceDetails";
 import { RootState, useAppDispatch } from "../redux/store";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getHostById } from "../redux/placeActions";
+import { getBookingById, getListingById } from "../redux/placeActions";
+import { differenceInCalendarDays } from "date-fns";
 
 const BookingPage = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const uuid = location.state;
   const rooms = useSelector((state: RootState) => state.place.rooms);
+  const book = useSelector((state: RootState) => state.book.book);
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState("fullPayment");
 
   const [paymentType, setPaymentType] = useState("CreditCard");
+  const days = book
+    ? differenceInCalendarDays(book.endDate, book.startDate)
+    : 1;
 
-  const totalFee = rooms?.pricing.nightlyRate! * 1.15 + 12;
-
+  const totalFee = book
+    ? book.totalAmount! + book.serviceFee! + 12
+    : rooms?.pricing.nightlyRate;
   useEffect(() => {
-    dispatch(getHostById({ uuid: uuid }));
+    dispatch(getListingById({ uuid: rooms?.uuid }));
   }, [uuid]);
 
   return (
@@ -73,59 +79,122 @@ const BookingPage = () => {
               </svg>
             </div>
 
-            <TripDetails />
+            <TripDetails book={book!} />
             <hr />
-            <div className=" text-2xl font-medium ">Choose How to pay</div>
+            <div className="relative flex flex-col gap-5">
+              <div className=" text-2xl font-medium ">Choose How to pay</div>
 
-            <PaymentOption
-              setSelectedPaymentOption={setSelectedPaymentOption}
-              selectedPaymentOption={selectedPaymentOption}
-            />
-            <hr />
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center gap-4">
-                <div className="font-bold">Pay with </div>
-                <div className="flex gap-2">
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_visa.0adea522bb26bd90821a8fade4911913.svg"
-                    alt="Visa Card"
-                    className="h-3"
-                  ></img>
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_mastercard.f18379cf1f27d22abd9e9cf44085d149.svg"
-                    alt="Mastercard"
-                    className="h-3"
-                  ></img>
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_amex.84088b520ca1b3384cb71398095627da.svg"
-                    alt="American Express Card"
-                    className="h-3"
-                  ></img>
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_paypal.faa3042fa2daf6b4a9822cc4b43e8609.svg"
-                    alt="PayPal"
-                    className="h-3"
-                  ></img>
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_ideal.e05f58e3623503d7632b6f849761400a.svg"
-                    alt="iDEAL"
-                    className="h-3"
-                  ></img>
-                  <img
-                    src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_googlepay.3f786bc031b59575d24f504dfb859da0.svg"
-                    alt="Google Pay"
-                    className="h-3"
-                  ></img>
+              <PaymentOption
+                setSelectedPaymentOption={setSelectedPaymentOption}
+                selectedPaymentOption={selectedPaymentOption}
+              />
+              <hr />
+              <div className="flex flex-col gap-4">
+                <div className="flex justify-between items-center gap-4">
+                  <div className="font-bold">Pay with </div>
+                  <div className="flex gap-2">
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_visa.0adea522bb26bd90821a8fade4911913.svg"
+                      alt="Visa Card"
+                      className="h-3"
+                    ></img>
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_mastercard.f18379cf1f27d22abd9e9cf44085d149.svg"
+                      alt="Mastercard"
+                      className="h-3"
+                    ></img>
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_amex.84088b520ca1b3384cb71398095627da.svg"
+                      alt="American Express Card"
+                      className="h-3"
+                    ></img>
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_paypal.faa3042fa2daf6b4a9822cc4b43e8609.svg"
+                      alt="PayPal"
+                      className="h-3"
+                    ></img>
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_ideal.e05f58e3623503d7632b6f849761400a.svg"
+                      alt="iDEAL"
+                      className="h-3"
+                    ></img>
+                    <img
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_googlepay.3f786bc031b59575d24f504dfb859da0.svg"
+                      alt="Google Pay"
+                      className="h-3"
+                    ></img>
+                  </div>
+                </div>
+                <PaymentMethod
+                  totalFee={totalFee!}
+                  setPaymentType={setPaymentType}
+                  paymentType={paymentType}
+                />
+              </div>
+              <hr />
+              <div className="flex flex-col gap-4">
+                <div className=" text-2xl font-medium ">
+                  Required for your trip
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col">
+                    <div className="font-semibold">Profile photo</div>
+                    <div>Hosts want to know who’s staying at their place.</div>
+                  </div>
+                  <div className="px-3  py-1 border border-black  rounded-lg font-medium">
+                    Add
+                  </div>
+                </div>{" "}
+              </div>
+              <hr />
+              <div className="flex flex-col gap-5">
+                <div className=" text-2xl font-medium ">
+                  Cancellation policy
+                </div>
+                <div>
+                  <span className="font-bold">
+                    Free cancellation before Dec 9.
+                  </span>{" "}
+                  Cancel before Jan 1 for a partial refund. <br />
+                  <span className="underline cursor-pointer ">Learn more</span>
                 </div>
               </div>
-              <PaymentMethod
-                totalFee={totalFee}
-                setPaymentType={setPaymentType}
-                paymentType={paymentType}
-              />
+              <hr />
+              <div className="flex flex-col gap-5">
+                <div className=" text-2xl font-medium ">Ground rules</div>
+                <p className="font-roboto">
+                  We ask every guest to remember a few simple things about what
+                  makes a great guest.
+                </p>
+                <ul className="list-disc pl-5 font-roboto ">
+                  <li>Follow the house rules</li>
+                  <li>Treat your Host’s home like your own</li>
+                </ul>
+              </div>
+              <hr />
+              <div className="flex flex-col gap-6 ">
+                <div className="text-sm">
+                  By selecting the button below, I agree to the{" "}
+                  <span className="underline font-medium">
+                    Host's House Rules,
+                  </span>
+                  <span className="underline font-medium">
+                    Ground rules for guests
+                  </span>
+                  ,
+                  <span className="underline font-medium">
+                    Airbnb's Rebooking and Refund Policy
+                  </span>
+                  , and that Airbnb can{" "}
+                  <span className="underline font-medium">
+                    charge my payment method
+                  </span>{" "}
+                  if I’m responsible for damage.
+                </div>
+              </div>
             </div>
           </div>
-          <div className="w-full md:w-2/4 h-full p-2 md:p-10 ">
+          <div className="w-full md:w-2/4 h-full mt-16 p-2 md:p-10 ">
             <div className="sticky top-10  self-center flex flex-col gap-4  p-5 bg-white rounded-lg border">
               <div className="flex gap-3 mb-6">
                 <img
@@ -150,7 +219,7 @@ const BookingPage = () => {
                 </div>
               </div>
               <hr />
-              <PriceDetails price={rooms?.pricing} />
+              <PriceDetails price={rooms?.pricing!} book={book!} days={days} />
             </div>
           </div>
         </div>

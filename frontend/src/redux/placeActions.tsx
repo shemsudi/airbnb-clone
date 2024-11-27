@@ -2,24 +2,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../configs/api.ts";
 import { HostedPlaces, SearchParams } from "../types/types.tsx";
 
-interface getAllHostsParams {
+interface getAllListingsParams {
   params: SearchParams;
 }
 
-export const getAllHosts = createAsyncThunk<HostedPlaces[], getAllHostsParams>(
-  "place/getAllHosts",
-  async ({ params }) => {
-    const response = await api.get("/place/getHosts", {
-      params: params,
-    });
-    return response.data;
-  }
-);
+export const getAllListings = createAsyncThunk<
+  HostedPlaces[],
+  getAllListingsParams
+>("place/getAllListings", async ({ params }) => {
+  const response = await api.get("/place/getAllListings", {
+    params: params,
+  });
+  return response.data;
+});
 
-export const getHostById = createAsyncThunk<
+export const getListingById = createAsyncThunk<
   HostedPlaces,
   { uuid: string | undefined }
->("place/getHostById", async ({ uuid }) => {
-  const response = await api.get(`/place/getHostById/${uuid}`);
+>("place/getListingById", async ({ uuid }) => {
+  const response = await api.get(`/place/getListingById/${uuid}`);
   return response.data;
 });

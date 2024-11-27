@@ -78,6 +78,12 @@ const DatesToSearch: React.FC<DatesToSearchProps> = ({
               name="dates"
               value={date[0]}
               placeholder="Add dates"
+              onChange={(e) =>
+                setDate({
+                  ...date,
+                  [1]: e.target.value,
+                })
+              }
             />
           </div>
           <div
@@ -129,6 +135,12 @@ const DatesToSearch: React.FC<DatesToSearchProps> = ({
               name="dates"
               value={date[1]}
               placeholder="Add dates"
+              onChange={(e) =>
+                setDate({
+                  ...date,
+                  [0]: e.target.value,
+                })
+              }
             />
           </div>
           <div className="border-r-2 my-3 group-hover:border-none"></div>
