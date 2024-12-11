@@ -42,14 +42,17 @@ router.post(
   }
 );
 
-router.patch(
+router.post(
   "/paymentConfirmation",
   async (req: Request<{}, {}, { uuid: string }>, res: Response) => {
     try {
       const { uuid } = req.body;
       console.log(uuid);
       const reservation = await Reservation.findOne({ place: uuid });
-      reservation!.status = "Confirmed";
+      if (reservation === null) {
+        return res.redirect("http://localhost/5173/book/stays");
+      }
+      reservation.status = "Confirmed";
       await reservation!.save();
       console.log(reservation);
 

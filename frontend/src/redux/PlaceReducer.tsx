@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HostedPlaces, SearchParams } from "../types/types";
-import { getAllListings, getListingById } from "./placeActions";
+import { HostedPlaces, Reservation, SearchParams } from "../types/types";
+import {
+  getAllListings,
+  getListingById,
+  getReservationsByPlace,
+} from "./placeActions";
 
 interface PlaceState {
   place: HostedPlaces[];
@@ -8,12 +12,14 @@ interface PlaceState {
   error: {};
   params: SearchParams;
   rooms: HostedPlaces | undefined;
+  reservations: Reservation[];
 }
 
 const initialState: PlaceState = {
   place: [],
   rooms: undefined,
   error: {},
+  reservations: [],
   loading: false,
   params: {
     tab_id: "home_tab",
@@ -74,6 +80,17 @@ const placeSlice = createSlice({
         state.loading = false;
       })
       .addCase(getListingById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
+      })
+      .addCase(getReservationsByPlace.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getReservationsByPlace.fulfilled, (state, action) => {
+        state.reservations = action.payload;
+        state.loading = false;
+      })
+      .addCase(getReservationsByPlace.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
       });

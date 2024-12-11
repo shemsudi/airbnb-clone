@@ -46,14 +46,16 @@ const DatesToSearch: React.FC<DatesToSearchProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [datePickerRef]);
+  }, [setIsDatesFocused]);
 
   return (
     <>
       {selectedOption === "stays" ? (
         <div
           onClick={() => {
-            !isDatesFocused ? setIsDatesFocused(true) : "";
+            if (!isDatesFocused) {
+              setIsDatesFocused(true);
+            }
             setIsCheckInFocused(true);
             setIsCheckOutFocused(false);
           }}
@@ -110,7 +112,9 @@ const DatesToSearch: React.FC<DatesToSearchProps> = ({
       {selectedOption === "stays" && (
         <div
           onClick={() => {
-            !isDatesFocused ? setIsDatesFocused(true) : "";
+            if (!isDatesFocused) {
+              setIsDatesFocused(true);
+            }
             setIsCheckInFocused(false);
             setIsCheckOutFocused(true);
           }}

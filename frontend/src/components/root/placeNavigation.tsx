@@ -8,7 +8,7 @@ import { getAllListings } from "../../redux/placeActions";
 const PlacedNavigation = () => {
   const params = useSelector((state: RootState) => state.place.params);
   const dispatch = useAppDispatch();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = (item: ItmeType) => {
     const updatedParams = { ...params, category_tag: item.name };

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../configs/api.ts";
 import { HostedPlaces, SearchParams } from "../types/types.tsx";
+import { Book } from "./BookReducer.tsx";
 
 interface getAllListingsParams {
   params: SearchParams;
@@ -23,3 +24,11 @@ export const getListingById = createAsyncThunk<
   const response = await api.get(`/place/getListingById/${uuid}`);
   return response.data;
 });
+
+export const getReservationsByPlace = createAsyncThunk(
+  "place/getReservationsByPlace",
+  async ({ uuid }: { uuid: string | undefined }) => {
+    const response = await api.get(`/place/getReservationsByPlace/${uuid}`);
+    return response.data;
+  }
+);

@@ -7,51 +7,67 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { ConfirmPayment } from "../../redux/BookActions";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const Book = useSelector((state: RootState) => state.book.book);
-  console.log(Book);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
-  const [isProcessing, setIsPorcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      console.error("Stripe or Elements not loaded yet");
+      setErrorMessage("Stripe or Elements not loaded yet. Please try again.");
       return;
     }
 
-    setIsPorcessing(true);
-    const result = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:5173/book/trips",
-      },
-    });
+    setIsProcessing(true);
+    setErrorMessage(null); // Clear previous error messages
+    console.log("i'm here");
+    await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: "http://localhost:5173",
+        },
+        redirect: "if_required",
+      })
+      .then(async (result) => {
+        if (result.error) {
+          setErrorMessage(
+            result.error.message || "Payment failed. Please try again."
+          );
+          return;
+        }
+        console.log("Payment succeeded");
+        await dispatch(ConfirmPayment({ uuid: Book?.reservationId! }));
+        navigate("/");
+      })
+      .catch((err) => {
+        setErrorMessage(err.message || "Payment failed. Please try again.");
+      });
+    console.log("i'm here again");
 
-    if (result.error) {
-      console.error("Payment failed:", result.error.message);
-    } else {
-      dispatch(ConfirmPayment({ uuid: Book?.reservationId! }));
-    }
-    setIsPorcessing(false);
+    setIsProcessing(false);
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
       <PaymentElement />
+      {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
       <button
-        onClick={handleSubmit}
         type="submit"
         className="absolute top-full mt-4 px-4 py-3 bg-primary w-56 rounded-lg text-white text-xl font-bold"
         disabled={isProcessing}
       >
-        {isProcessing ? "Processing ..." : " Confirm and pay"}
+        {isProcessing ? "Processing ..." : "Confirm and Pay"}
       </button>
-    </div>
+    </form>
   );
 };
 

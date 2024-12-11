@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../redux/store";
+import { RootState, useAppDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -24,19 +24,15 @@ import { HostedPlaces, Reservation } from "../types/types";
 import { features } from "../data/types";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import Calender from "../components/rooms/ReservationDates";
-
-const intialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(),
-  key: "selection",
-};
+import { addDays, isSameDay } from "date-fns";
+import { useSelector } from "react-redux";
 
 interface RoomsProps {
   reservations?: Reservation[];
   listing: HostedPlaces;
 }
 
-const RoomsPage: React.FC<RoomsProps> = ({ reservations = [], listing }) => {
+const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -46,6 +42,9 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations = [], listing }) => {
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
+    if (!reservations) {
+      return [];
+    }
     reservations.forEach((reservation) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
@@ -56,10 +55,37 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations = [], listing }) => {
     });
     return dates;
   }, [reservations]);
+
+  const intialDateRange = useMemo(() => {
+    let currentDay = new Date();
+
+    // Loop to find the first day not in the disabledDates
+    while (disabledDates.some((date) => isSameDay(date, currentDay))) {
+      currentDay = addDays(currentDay, 1); // Move to the next day
+    }
+
+    // Return the first available day as both start and end date
+    return {
+      startDate: currentDay,
+      endDate: currentDay,
+      key: "selection",
+    };
+  }, [disabledDates]);
+
+  console.log(disabledDates);
   const [days, setDays] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.pricing.nightlyRate);
-  const [dateRange, setDateRange] = useState(intialDateRange);
+  const book = useSelector((state: RootState) => state.book.book);
+  const intialDates = {
+    startDate: new Date(
+      book?.startDate ? new Date(book?.startDate) : new Date()
+    ),
+    endDate: new Date(book?.endDate ? new Date(book?.endDate) : new Date()),
+    key: "selection",
+  };
+
+  const [dateRange, setDateRange] = useState(intialDates || intialDateRange);
 
   const onCreateReservation = useCallback(() => {
     setIsLoading(true);
@@ -71,13 +97,22 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations = [], listing }) => {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         totalAmount: totalPrice,
-        serviceFee: 0.15 * totalPrice!,
+        status: "Pending",
+        serviceFee: Number((0.15 * totalPrice!).toFixed(2)),
       })
     ).then(() => {
       setIsLoading(false);
-      navigate("/book/stays");
+      navigate("/book/stays", { state: { uuid: listing.uuid } });
     });
-  }, [totalPrice, dateRange, listing.uuid, navigate, listing.user._id]);
+  }, [
+    totalPrice,
+    dateRange,
+    listing.uuid,
+    navigate,
+    listing.user._id,
+    guests,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -144,6 +179,7 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations = [], listing }) => {
           <Amenities />
           <hr />
           <Calender
+            city={listing.location.city}
             disabledDates={disabledDates}
             onChange={(value) => setDateRange(value.selection)}
             value={dateRange}

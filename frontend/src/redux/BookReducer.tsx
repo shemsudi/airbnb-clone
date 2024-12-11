@@ -9,6 +9,7 @@ export type Book = {
   endDate: Date;
   totalAmount: number | undefined;
   serviceFee: number | undefined;
+  status: string;
 };
 
 type BookState = {
@@ -62,9 +63,9 @@ const BookSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(ConfirmPayment.fulfilled, (state, action) => {
+      .addCase(ConfirmPayment.fulfilled, (state) => {
         state.loading = false;
-        state.book = action.payload;
+        state.book = { ...state.book!, status: "Confirmed" };
       })
       .addCase(ConfirmPayment.rejected, (state, action) => {
         state.loading = false;

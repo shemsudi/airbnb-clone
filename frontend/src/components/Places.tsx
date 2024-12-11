@@ -23,12 +23,10 @@ const Places = () => {
   }, [dispatch, params]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="h-full no-scrollbar  grid gap-4 mb-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {loading &&
-          hosts.length === 0 &&
-          // Skeleton placeholders when loading and no hosts available
-          Array.from({ length: 8 }).map((_, index) => (
+    <Suspense
+      fallback={
+        <div className="h-full no-scrollbar  grid gap-4 mb-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, index) => (
             <div
               key={index}
               className="rounded-md flex flex-col bg-white shadow-sm p-1"
@@ -46,6 +44,10 @@ const Places = () => {
               </div>
             </div>
           ))}
+        </div>
+      }
+    >
+      <div className="h-full no-scrollbar  grid gap-4 mb-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {hosts.map((host: HostedPlaces, index: number) => (
           <Card host={host} key={index} loading={loading} index={index} />
         ))}

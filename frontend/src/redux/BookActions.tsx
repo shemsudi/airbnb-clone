@@ -15,7 +15,7 @@ export const ConfirmPayment = createAsyncThunk(
   "book/confirmPayment",
   async ({ uuid }: { uuid: string }) => {
     console.log(uuid);
-    const response = await api.patch("/book/paymentConfirmation", { uuid });
+    const response = await api.post("/book/paymentConfirmation", { uuid });
     return response.data;
   }
 );

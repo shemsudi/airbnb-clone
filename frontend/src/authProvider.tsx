@@ -27,7 +27,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
-    const book = localStorage.getItem("book");
+
+    const book = JSON.parse(localStorage.getItem("book")!);
     if (book) {
       dispatch(setBook(book));
     }

@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import api from "../../configs/api";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const CreditCard = ({ totalFee }: { totalFee: number }) => {
+  const isLoading = useSelector((state: RootState) => state.place.loading);
   const [stripePromise, setStripePromise] =
     useState<Promise<Stripe | null> | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  console.log(clientSecret);
 
   useEffect(() => {
     const fetchPublishableKey = async () => {
@@ -26,8 +28,10 @@ const CreditCard = ({ totalFee }: { totalFee: number }) => {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
+        const amount = Math.ceil(Number(totalFee.toFixed(2)));
+        console.log(amount, totalFee); // Ensure two decimals and round up
         const response = await api.post("/create-payment-intent", {
-          amount: Math.ceil(totalFee * 100),
+          amount: amount * 100,
           currency: "usd",
         });
         setClientSecret(response.data.clientSecret);
@@ -37,7 +41,7 @@ const CreditCard = ({ totalFee }: { totalFee: number }) => {
     };
 
     fetchClientSecret();
-  }, []);
+  }, [isLoading, totalFee]);
 
   if (!stripePromise || !clientSecret) {
     return <div>Loading...</div>;

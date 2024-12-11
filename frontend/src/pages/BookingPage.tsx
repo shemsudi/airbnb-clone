@@ -10,15 +10,18 @@ import PriceDetails from "../components/book/PriceDetails";
 import { RootState, useAppDispatch } from "../redux/store";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getBookingById, getListingById } from "../redux/placeActions";
+import { getListingById } from "../redux/placeActions";
 import { differenceInCalendarDays } from "date-fns";
 
 const BookingPage = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const uuid = location.state;
+  const uuid = location.state?.uuid;
+  console.log(uuid);
   const rooms = useSelector((state: RootState) => state.place.rooms);
   const book = useSelector((state: RootState) => state.book.book);
+
+  const isLoading = useSelector((state: RootState) => state.place.loading);
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState("fullPayment");
 
@@ -26,13 +29,20 @@ const BookingPage = () => {
   const days = book
     ? differenceInCalendarDays(book.endDate, book.startDate)
     : 1;
+  const dates: Date[] = [
+    new Date(book?.startDate ? book.startDate : new Date()),
+    new Date(book?.endDate ? book.endDate : new Date()),
+  ];
 
   const totalFee = book
     ? book.totalAmount! + book.serviceFee! + 12
     : rooms?.pricing.nightlyRate;
   useEffect(() => {
-    dispatch(getListingById({ uuid: rooms?.uuid }));
-  }, [uuid]);
+    dispatch(getListingById({ uuid: uuid }));
+  }, [uuid, dispatch]);
+  if (isLoading || book === null || rooms === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -79,7 +89,7 @@ const BookingPage = () => {
               </svg>
             </div>
 
-            <TripDetails book={book!} />
+            <TripDetails dates={dates!} />
             <hr />
             <div className="relative flex flex-col gap-5">
               <div className=" text-2xl font-medium ">Choose How to pay</div>

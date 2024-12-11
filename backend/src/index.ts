@@ -7,6 +7,8 @@ import cors, { CorsOptions } from "cors";
 import configurePassport from "./configs/passport";
 import Stripe from "stripe";
 import dotenv from "dotenv";
+import morgan from "morgan";
+
 dotenv.config({ path: "./env" });
 
 //Routes
@@ -27,6 +29,7 @@ const corsOptions: CorsOptions = {
 const stripe = new Stripe(process.env.STRIPE_API_KEY!);
 
 app.use(cors(corsOptions));
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
