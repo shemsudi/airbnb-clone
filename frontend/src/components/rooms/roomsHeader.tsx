@@ -9,7 +9,7 @@ const RoomsHeader = () => {
     <header className="flex px-4 lg:px-12 py-4 md:px-8 xl:px-28 justify-between gap-1 items-center">
       <div className="flex">
         <Logo />
-        <div className="hidden max-lg:block ">
+        <div className="hidden max-md:hidden max-lg:block ">
           <Search />
         </div>
       </div>

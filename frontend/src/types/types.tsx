@@ -13,7 +13,7 @@ interface Location {
 }
 
 type Pricing = {
-  nightlyRate?: number;
+  nightlyRate: number;
   currency?: string;
   smartPricing?: boolean;
 };
@@ -74,7 +74,6 @@ type HostedPlaces = {
 };
 
 interface SearchParams {
-  [key: string]: string;
   tab_id: string;
   refinement_paths: string;
   search_mode: string;
@@ -89,11 +88,12 @@ interface SearchParams {
   search_type: string;
   price_filter_num_nights: string;
   category_tag: string;
+  item_tag: number;
 }
 
 interface Reservation {
-  user: String;
-  place: String;
+  user: string;
+  place: string;
   startDate: Date;
   endDate: Date;
   totalAmount: number;

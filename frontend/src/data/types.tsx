@@ -3,155 +3,178 @@
 import HouseIcon from "../components/icons/houseIcon.tsx";
 
 interface TypeEntry {
-  value: string;
+  category: string;
   icon: JSX.Element;
+  value: string;
 }
+const houseIcon = <HouseIcon />;
 
 const types: TypeEntry[] = [
-  {
-    value: "House",
-    icon: <HouseIcon />,
-  },
-  { value: "Apartment", icon: <HouseIcon /> },
-  { value: "Barn", icon: <HouseIcon /> },
-  {
-    value: "Bed & breakfast",
-    icon: <HouseIcon />,
-  },
-  { value: "Boat", icon: <HouseIcon /> },
-  { value: "Cabin", icon: <HouseIcon /> },
-  { value: "Camper/RV", icon: <HouseIcon /> },
-  {
-    value: "Casa particular",
-    icon: <HouseIcon />,
-  },
-  { value: "Castle", icon: <HouseIcon /> },
-  { value: "Cave", icon: <HouseIcon /> },
-  { value: "Container", icon: <HouseIcon /> },
-  {
-    value: "Cycladic home",
-    icon: <HouseIcon />,
-  },
-  { value: "Dammuso", icon: <HouseIcon /> },
-  { value: "Dome", icon: <HouseIcon /> },
-  { value: "Earth homes", icon: <HouseIcon /> },
-  { value: "Farm", icon: <HouseIcon /> },
-  { value: "GuestHouse", icon: <HouseIcon /> },
-  { value: "Hotel", icon: <HouseIcon /> },
-  { value: "Houseboat", icon: <HouseIcon /> },
-  { value: "Kizhan", icon: <HouseIcon /> },
-  { value: "Minsu", icon: <HouseIcon /> },
-  { value: "Riad", icon: <HouseIcon /> },
-  { value: "Ryokan", icon: <HouseIcon /> },
-  {
-    value: "Shepherd's hat",
-    icon: <HouseIcon />,
-  },
-  { value: "Tent", icon: <HouseIcon /> },
-  { value: "Tiny home", icon: <HouseIcon /> },
-  { value: "Tower", icon: <HouseIcon /> },
-  { value: "Treehouse", icon: <HouseIcon /> },
-  { value: "Trullo", icon: <HouseIcon /> },
-  { value: "Windmill", icon: <HouseIcon /> },
-  { value: "Yurt", icon: <HouseIcon /> },
+  { value: "House", icon: houseIcon, category: "Rooms" },
+  { value: "Apartment", icon: houseIcon, category: "Amazing-pools" },
+  { value: "Cabin", icon: houseIcon, category: "Tropical" },
+  { value: "Apartment", icon: houseIcon, category: "Top-cities" },
+  { value: "Tiny home", icon: houseIcon, category: "New" },
+  { value: "Farm", icon: houseIcon, category: "National-parks" },
+  { value: "GuestHouse", icon: houseIcon, category: "Rooms" },
+  { value: "Houseboat", icon: houseIcon, category: "Lakefront" },
+  { value: "Cycladic home", icon: houseIcon, category: "Cycladic homes" },
+  { value: "Castle", icon: houseIcon, category: "Trending" },
+  { value: "Tent", icon: houseIcon, category: "Camping" },
+  { value: "Grand homes", icon: houseIcon, category: "Mansions" },
+  { value: "Island", icon: houseIcon, category: "Islands" },
+  { value: "Unique", icon: houseIcon, category: "OMG!" },
+  { value: "Cave", icon: houseIcon, category: "Caves" },
+  { value: "Dome", icon: houseIcon, category: "Amazing Views" },
+  { value: "Earth homes", icon: houseIcon, category: "Earth homes" },
+  { value: "Tiny home", icon: houseIcon, category: "Tiny home" },
+  { value: "Grand homes", icon: houseIcon, category: "Castle" },
+  { value: "Luxury", icon: houseIcon, category: "Luxe" },
+  { value: "Barn", icon: houseIcon, category: "Barns" },
+  { value: "Bed & breakfast", icon: houseIcon, category: "Bed & breakfasts" },
+  { value: "Boat", icon: houseIcon, category: "Boats" },
+  { value: "Camper/RV", icon: houseIcon, category: "Campers" },
+  { value: "Casa particular", icon: houseIcon, category: "Casas particulares" },
+  { value: "Cave", icon: houseIcon, category: "Caves" },
+  { value: "Container", icon: houseIcon, category: "Containers" },
+  { value: "Dammuso", icon: houseIcon, category: "Dammusi" },
+  { value: "Dome", icon: houseIcon, category: "Amazing Views" },
+  { value: "Earth homes", icon: houseIcon, category: "Earth homes" },
+  { value: "Farm", icon: houseIcon, category: "National-parks" },
+  { value: "GuestHouse", icon: houseIcon, category: "Rooms" },
+  { value: "Hotel", icon: houseIcon, category: "Icons" },
+  { value: "Houseboat", icon: houseIcon, category: "Lakefront" },
+  { value: "Kizhan", icon: houseIcon, category: "Icons" },
+  { value: "Minsu", icon: houseIcon, category: "Minsus" },
+  { value: "Riad", icon: houseIcon, category: "Riads" },
+  { value: "Ryokan", icon: houseIcon, category: "Ryokans" },
+  { value: "Shepherd's hat", icon: houseIcon, category: "Shepherd's huts" },
+  { value: "Tent", icon: houseIcon, category: "Camping" },
+  { value: "Tiny home", icon: houseIcon, category: "Tiny home" },
+  { value: "Tower", icon: houseIcon, category: "Towers" },
+  { value: "Treehouse", icon: houseIcon, category: "Treehouses" },
+  { value: "Trullo", icon: houseIcon, category: "Trulli" },
+  { value: "Windmill", icon: houseIcon, category: "Windmills" },
+  { value: "Yurt", icon: houseIcon, category: "Yurts" },
 ];
 
 const amenitiesItems = [
-  { value: "Wifi", icon: <HouseIcon /> },
-  { value: "TV", icon: <HouseIcon /> },
-  { value: "Kitchen", icon: <HouseIcon /> },
-  { value: "Washer", icon: <HouseIcon /> },
+  { value: "Wifi", icon: houseIcon, tag: 0 },
+  { value: "TV", icon: houseIcon, tag: 0 },
+  { value: "Kitchen", icon: houseIcon, tag: 0 },
+  { value: "Washer", icon: houseIcon, tag: 0 },
   {
     value: "Free parking on premises",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Paid parking on premises",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Air conditioning",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Dedicated Workspace",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
 ];
 
 const uniqueAmenitiesItems = [
-  { value: "Pool", icon: <HouseIcon /> },
-  { value: "Hot tub", icon: <HouseIcon /> },
-  { value: "Patio", icon: <HouseIcon /> },
-  { value: "BBQ grill", icon: <HouseIcon /> },
+  { value: "Pool", icon: houseIcon, tag: 0 },
+  { value: "Hot tub", icon: houseIcon, tag: 0 },
+  { value: "Patio", icon: houseIcon, tag: 0 },
+  { value: "BBQ grill", icon: houseIcon, tag: 0 },
   {
     value: "Outdoor dining area",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
-  { value: "Fire pit", icon: <HouseIcon /> },
-  { value: "Pool table", icon: <HouseIcon /> },
+  { value: "Fire pit", icon: houseIcon, tag: 0 },
+  { value: "Pool table", icon: houseIcon, tag: 0 },
   {
     value: "Indoor fireplace",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
-  { value: "Piano", icon: <HouseIcon /> },
+  { value: "Piano", icon: houseIcon, tag: 0 },
   {
     value: "Exercise equipment",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
-  { value: "Lake access", icon: <HouseIcon /> },
-  { value: "Beach access", icon: <HouseIcon /> },
+  { value: "Lake access", icon: houseIcon, tag: 0 },
+  { value: "Beach access", icon: houseIcon, tag: 0 },
   {
     value: "Ski-in/Ski-out",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Outdoor shower",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
 ];
 
 const safetyAmenitiesItems = [
-  { value: "Smoke alarm", icon: <HouseIcon /> },
+  { value: "Smoke alarm", icon: houseIcon, tag: 0 },
   {
     value: "First aid kit",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Fire extinguisher",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
   {
     value: "Carbon monoxide alarm",
-    icon: <HouseIcon />,
+    icon: houseIcon,
+    tag: 0,
   },
 ];
+let tagCounter = 1;
+
+[amenitiesItems, uniqueAmenitiesItems, safetyAmenitiesItems].forEach(
+  (items) => {
+    items.forEach((item) => {
+      item.tag = tagCounter++;
+    });
+  }
+);
 
 const descriptionTypes = [
-  { value: "Peacful", icon: <HouseIcon /> },
-  { value: "Unique", icon: <HouseIcon /> },
+  { value: "Peacful", icon: houseIcon },
+  { value: "Unique", icon: houseIcon },
   {
     value: "Familly friendly",
-    icon: <HouseIcon />,
+    icon: houseIcon,
   },
-  { value: "Stylish", icon: <HouseIcon /> },
-  { value: "Central", icon: <HouseIcon /> },
-  { value: "Spacious", icon: <HouseIcon /> },
+  { value: "Stylish", icon: houseIcon },
+  { value: "Central", icon: houseIcon },
+  { value: "Spacious", icon: houseIcon },
 ];
 
 const features = [
   {
-    icon: <HouseIcon />,
+    icon: houseIcon,
     title: "Room in a bed and breakfast",
     description: "Your own room in a home, plus access to shared spaces.",
   },
   {
-    icon: <HouseIcon />,
+    icon: houseIcon,
     title: "50-min drive to Nairobi National Park",
     description: "This home is near the national park.",
   },
   {
-    icon: <HouseIcon />,
+    icon: houseIcon,
     title: "Dive right in",
     description: "This is one of the few places in the area with a pool.",
   },

@@ -3,8 +3,11 @@ import { sendMessage, verifyOtp, registerUser } from "./authAction.js";
 import setAuthToken from "../utils/setAuthToken.js";
 import { RootState } from "./store";
 
-interface User {
-  [key: string]: any;
+export interface User {
+  userId: string;
+  name: string;
+  iat: number;
+  exp: number;
 }
 interface AuthErrors {
   [key: string]: string;
@@ -55,7 +58,7 @@ const userSlice = createSlice({
       })
       .addCase(sendMessage.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "An error occurred";
+        state.error = action.payload;
       })
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
@@ -63,19 +66,13 @@ const userSlice = createSlice({
       })
       .addCase(verifyOtp.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log(action.payload);
-        if (!action.payload.isUserExist) {
-          state.error = {
-            phone: "",
-            phoneNumber: "User not found",
-            longPhoneNumber: "",
-            invalidPhoneNumber: "",
-          };
-        } else {
-          state.isUserAuthenticated = true;
-          state.user = action.payload.decoded;
+        if (action.payload.isUserExist === false) {
           state.error = {};
+          return;
         }
+        state.isUserAuthenticated = true;
+        state.user = action.payload.decoded;
+        state.error = {};
       })
       .addCase(verifyOtp.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -85,10 +82,10 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = {};
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.isUserAuthenticated = true;
-        state.user = action.payload;
+        state.user = action.payload?.decoded;
         state.error = {};
       })
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {

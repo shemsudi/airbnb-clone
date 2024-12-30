@@ -64,7 +64,7 @@ export const verifyOTP = async (req: Request, res: Response): Promise<void> => {
       if (user) {
         const payload: { userId: string; name: string } = {
           userId: user.id,
-          name: user.firstName,
+          name: user.firstName!,
         };
         const authToken: string = jwt.sign(
           payload,
@@ -137,25 +137,39 @@ export const completeRegistration = async (
       birthday: parsedBirthday,
       email,
     });
+    const savedUser = await newUser.save();
     console.log(newUser);
 
     const payload: { userId: any; name: string } = {
       userId: newUser._id,
-      name: newUser.firstName,
+      name: newUser.firstName!,
     };
     console.log(payload);
-    const authToken: string = jwt.sign(
+    const accessToken: string = jwt.sign(
       payload,
       process.env.JWT_SECRET as string,
       {
         expiresIn: "2h",
       }
     );
-    console.log(authToken);
-    const savedUser = await newUser.save();
+    const refreshToken: string = jwt.sign(
+      payload,
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: "7d",
+      }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    console.log(accessToken);
     res.status(201).json({
       message: "User registered successfully",
-      token: "Bearer " + authToken,
+      token: "Bearer " + accessToken,
     });
   } catch (err) {
     errors.message = err;

@@ -2,8 +2,8 @@ import FooterLinkList from "./footerLInkList";
 import LastFooter from "./lastFooter";
 
 const Footer = () => (
-  <footer className="border-t-2 sm:px-5 md:px-10  mb-4 w-full px-5">
-    <div className="flex flex-col sm:flex-row w-full py-6 gap-4 border-b-2">
+  <footer className="border-t-2 sm:px-5 md:px-10  mb-4 w-full  bg-neutral-100 px-5">
+    <div className="flex flex-col  sm:flex-row w-full py-10 gap-4 border-b-2">
       <FooterLinkList
         title="Support"
         links={[

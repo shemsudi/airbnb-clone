@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../configs/api.ts";
 import { HostedPlaces, SearchParams } from "../types/types.tsx";
-import { Book } from "./BookReducer.tsx";
 
 interface getAllListingsParams {
   params: SearchParams;

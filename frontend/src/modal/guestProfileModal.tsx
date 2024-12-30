@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { openSignUp_LoginPage, closeDropDown } from "../redux/ModalReducer";
+import { closeDropDown, openLoginPage } from "../redux/ModalReducer";
 
 const GuestProfileModal = () => {
   const dispatch = useDispatch();
   const showSignupPage = () => {
-    dispatch(openSignUp_LoginPage());
+    dispatch(openLoginPage());
     dispatch(closeDropDown());
   };
 

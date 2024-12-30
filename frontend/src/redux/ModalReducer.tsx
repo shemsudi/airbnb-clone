@@ -6,7 +6,7 @@ export const modalSlice = createSlice({
   initialState: {
     isDropDownOpen: false,
     isSignUp_LoginPageOpen: false,
-    isLoginPage: true,
+    isLoginPage: false,
     isVerifyPage: false,
     isSignupPage: false,
     isSearchBarOpen: false,

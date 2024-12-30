@@ -1,21 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import GuestType from "../root/guestType";
 import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "../../redux/store";
 import { getAllListings } from "../../redux/placeActions";
+import { SearchParams } from "../../types/types";
+import { setPlaceParams } from "../../redux/PlaceReducer";
 type ForHowManyGuestProps = {
   isGuestFocused: boolean;
   setIsGuestFocused: React.Dispatch<React.SetStateAction<boolean>>;
   isFocused: boolean;
+  dates: string[];
+  where: string;
 };
 
 const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
   isGuestFocused,
   setIsGuestFocused,
   isFocused,
+  dates,
+  where,
 }) => {
   const [guests, setGuests] = useState({
-    adults: 0,
+    adults: 1,
     children: 0,
     infants: 0,
     pets: 0,
@@ -25,11 +31,22 @@ const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
   const dispatch = useAppDispatch();
   const whoModalRef = useRef<HTMLDivElement | null>(null);
   const whoRef = useRef<HTMLDivElement | null>(null);
+  const totalguests = guests.adults + guests.children + guests.infants;
 
-  const searchHostedPlaces = () => {
-    dispatch(getAllListings({ params: state.params }));
+  const searchHostedPlaces = useCallback(() => {
+    const updatedParams: SearchParams = {
+      ...state.params,
+      start_date: dates[0],
+      end_date: dates[1],
+      guests: `${totalguests}`,
+      location: where,
+      category_tag: "Cave",
+      item_tag: 6,
+    };
+    dispatch(setPlaceParams(updatedParams));
+    dispatch(getAllListings({ params: updatedParams }));
     setIsGuestFocused(false);
-  };
+  }, [dispatch, state.params, setIsGuestFocused, dates, where, totalguests]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,19 +63,23 @@ const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [whoRef, whoModalRef]);
+  }, [whoRef, whoModalRef, setIsGuestFocused]);
   return (
     <>
       <div
         ref={whoRef}
-        onClick={() => {
-          !isGuestFocused ? setIsGuestFocused(true) : "";
-        }}
         className={`flex rounded-full ${
           isGuestFocused ? "bg-white hover:bg-white" : "hover:bg-gray-100 "
         } justify-between group `}
       >
-        <div className="flex flex-col pl-6 py-2  ">
+        <div
+          onClick={() => {
+            if (!isGuestFocused) {
+              setIsGuestFocused(true);
+            }
+          }}
+          className="flex flex-col pl-6 py-2  "
+        >
           <h1 className="text-sm">Who</h1>
           <input
             className={`search-input ${
@@ -69,10 +90,12 @@ const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
                 : "group-hover:bg-gray-100 bg-white"
             } `}
             type="text"
-            placeholder="Add guests"
+            placeholder={
+              guests.adults + guests.children > 0 ? "" : "Add guests"
+            }
             readOnly
             value={`${
-              guests.adults + guests.children > 0
+              guests.adults + guests.children > 1
                 ? guests.adults + guests.children + "guests"
                 : "Add guests"
             }   ${
@@ -80,10 +103,10 @@ const ForHowManyGuest: React.FC<ForHowManyGuestProps> = ({
             }  ${guests.pets > 0 ? "," + guests.pets + " pets" : ""}`}
           />
         </div>
-        <div className=" pr-2 self-center">
+        <div className=" pr-2 self-center ">
           <button
             onClick={searchHostedPlaces}
-            className="bg-primary rounded-full active:scale-90  p-2 cursor-pointer  flex gap-2  text-white "
+            className="bg-primary  rounded-full active:scale-90  p-2 cursor-pointer  flex gap-2  text-white "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

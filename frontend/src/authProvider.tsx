@@ -1,56 +1,42 @@
-import { createContext, useContext, useEffect, ReactNode } from "react";
-import { useDispatch } from "react-redux";
-import { setCredentials, logOut } from "./redux/AuthReducer";
-import { jwtDecode } from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
-import { setHost } from "./redux/HostReducer";
-import { useSelector } from "react-redux";
-import { selectModals } from "./redux/ModalReducer";
-import { setBook } from "./redux/BookReducer";
+// import { createContext, useContext, useEffect, ReactNode } from "react";
+// import { useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
+// import { selectModals } from "./redux/ModalReducer";
+// import { lazy, Suspense } from "react";
+// import { initializeAuth } from "./utils/authIntializer";
 
-interface DecodedToken {
-  exp: number;
-  [key: string]: any;
-}
+// const Signup = lazy(() => import("./modal/signup"));
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+// interface AuthProviderProps {
+//   children: ReactNode;
+// }
 
-const AuthContext = createContext<null>(null);
+// const AuthContext = createContext<null>(null);
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const dispatch = useDispatch();
-  const { isSignUp_LoginPageOpen } = useSelector(selectModals);
-  console.log(isSignUp_LoginPageOpen);
+// export const AuthProvider = ({ children }: AuthProviderProps) => {
+//   const dispatch = useDispatch();
+//   const { isLoginPage, isVerifyPage, isSignupPage } = useSelector(selectModals);
+//   const isopen = isLoginPage || isVerifyPage || isSignupPage;
 
-  useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    const currentHost = JSON.parse(localStorage.getItem("currentHost")!);
+//   let isInitialized = false;
 
-    const book = JSON.parse(localStorage.getItem("book")!);
-    if (book) {
-      dispatch(setBook(book));
-    }
-    if (currentHost) {
-      dispatch(setHost(currentHost));
-    }
-    if (token) {
-      setAuthToken(token);
-      const decoded: DecodedToken = jwtDecode(token);
-      dispatch(setCredentials(decoded));
+//   useEffect(() => {
+//     if (!isInitialized) {
+//       isInitialized = true;
+//       initializeAuth(dispatch);
+//     }
+//   }, [dispatch]);
 
-      const currentTime = Date.now() / 1000;
-      const timeRemaining = decoded.exp - currentTime;
+//   return (
+//     <AuthContext.Provider value={null}>
+//       {children}
+//       {isopen && (
+//         <Suspense fallback={<div>Loading...</div>}>
+//           <Signup />
+//         </Suspense>
+//       )}
+//     </AuthContext.Provider>
+//   );
+// };
 
-      setTimeout(() => {
-        dispatch(logOut());
-        setAuthToken(false);
-      }, timeRemaining * 1000);
-    }
-  }, [dispatch]);
-
-  return <AuthContext.Provider value={null}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => useContext(AuthContext);
+// export const useAuth = () => useContext(AuthContext);

@@ -23,7 +23,7 @@
     @apply bg-primary rounded-full text-white p-1;
   }
   .clas {
-    @apply w-28 h-16;
+    @apply w-28 h-16 text-center;
   }
   .clas1 {
     @apply text-start;

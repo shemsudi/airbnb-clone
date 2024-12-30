@@ -1,15 +1,36 @@
+import countries, { IntlDirectDialingCode } from "world-countries";
+
 interface Country {
-  code: string;
-  country: string;
+  value: string;
+  region: string;
+  label: string;
+  flag: string;
+  latlng: [number, number];
+  code: IntlDirectDialingCode;
 }
 
-const countryCodes: Country[] = [
-  { code: "+1", country: "United States" },
-  { code: "+44", country: "United Kingdom" },
-  { code: "+91", country: "India" },
-  { code: "+61", country: "Australia" },
-  { code: "+251", country: "Ethiopia" },
-];
+const formattedCountries: Country[] = countries.map((country) => ({
+  value: country.cca2,
+  label: country.name.common,
+  flag: country.flag,
+  latlng: country.latlng,
+  region: country.region,
+  code: country.idd,
+}));
+// console.log(formattedCountries);
+
+// const useCountries = () => {
+//   const getAll = () => formattedCountries;
+
+//   const getByValue = (value: string) => {
+//     return formattedCountries.find((item) => item.value === value);
+//   };
+
+//   return {
+//     getAll,
+//     getByValue,
+//   };
+// };
 
 interface CountrySelectProps {
   countryCode: string;
@@ -33,17 +54,20 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
         name="countryCode"
         value={countryCode}
         onChange={(e) => setCountryCode(e.target.value)}
-        className="text-md font-roboto pl-1 pr-1 bg-white focus:outline-none focus:ring-0"
+        className="text-base flex gap-4 w-full font-roboto pl-1 pr-1 bg-white focus:outline-none focus:ring-0"
         required
       >
-        {countryCodes.map((country) => (
-          <option className="" key={country.code} value={country.code}>
-            {country.country} ({country.code})
+        {formattedCountries.map((country) => (
+          <option
+            className=""
+            key={country.label}
+            value={country.code.root + country.code.suffixes[0]}
+          >
+            {country.label} {country.code.root + country.code.suffixes[0]}
           </option>
         ))}
       </select>
     </div>
   );
 };
-export { countryCodes };
-export default CountrySelect;
+export { CountrySelect, formattedCountries };

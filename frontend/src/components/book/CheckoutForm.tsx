@@ -15,8 +15,11 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const RETURN_URL = "http://localhost:5173"; // Define constants for easy configuration
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,34 +29,35 @@ const CheckoutForm = () => {
       return;
     }
 
-    setIsProcessing(true);
-    setErrorMessage(null); // Clear previous error messages
-    console.log("i'm here");
-    await stripe
-      .confirmPayment({
+    try {
+      setIsProcessing(true);
+      setErrorMessage(null);
+
+      const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: "http://localhost:5173",
+          return_url: RETURN_URL,
         },
         redirect: "if_required",
-      })
-      .then(async (result) => {
-        if (result.error) {
-          setErrorMessage(
-            result.error.message || "Payment failed. Please try again."
-          );
-          return;
-        }
-        console.log("Payment succeeded");
-        await dispatch(ConfirmPayment({ uuid: Book?.reservationId! }));
-        navigate("/");
-      })
-      .catch((err) => {
-        setErrorMessage(err.message || "Payment failed. Please try again.");
       });
-    console.log("i'm here again");
 
-    setIsProcessing(false);
+      if (result.error) {
+        throw new Error(
+          result.error.message || "Payment failed. Please try again."
+        );
+      }
+
+      if (Book?.reservationId) {
+        await dispatch(ConfirmPayment({ uuid: Book.reservationId }));
+        navigate("/");
+      } else {
+        throw new Error("No reservation ID found. Please try again.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -62,7 +66,9 @@ const CheckoutForm = () => {
       {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
       <button
         type="submit"
-        className="absolute top-full mt-4 px-4 py-3 bg-primary w-56 rounded-lg text-white text-xl font-bold"
+        className={`mt-4 px-4 py-3 bg-primary w-56 rounded-lg text-white text-xl font-bold ${
+          isProcessing ? "cursor-not-allowed opacity-75" : ""
+        }`}
         disabled={isProcessing}
       >
         {isProcessing ? "Processing ..." : "Confirm and Pay"}

@@ -1,28 +1,28 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IProfile extends Document {
+export interface IProfileData extends Document {
+  [key: string]: any;
   user: Schema.Types.ObjectId;
   profileImage?: string;
-  school?: string;
-  location?: string;
-  work?: string;
-  languages?: string[];
-  decadeBorn?: string;
-  favoriteSongHighSchool?: string;
-  obsessedWith?: string;
-  funFact?: string;
-  mostUselessSkill?: string;
-  biographyTitle?: string;
-  spendTooMuchTime?: string;
-  pets?: string;
-  aboutYou?: string;
-  interests?: string[];
-  placesVisited?: string[];
-  created_at: Date;
-  updated_at: Date;
+  myWork: string;
+  whereIHaveAlwaysWantedToGo: string;
+  iSpendTooMuchTime: string;
+  myFunFact: string;
+  pets: string;
+  decadeIWasBorn: boolean;
+  whereIWentToSchool: string;
+  myFavoriteSongInHighSchool: string;
+  myMostUselessSkill: string;
+  languagesISpeak: string;
+  imObsessedWith: string;
+  myBiographyTitleWouldBe: string;
+  whereILive: string;
+  aboutYou: string;
+  whereYouHaveBeen: boolean;
+  whatAreYouInto: string[];
 }
 
-const profileSchema: Schema<IProfile> = new Schema(
+const profileSchema: Schema<IProfileData> = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -34,49 +34,19 @@ const profileSchema: Schema<IProfile> = new Schema(
       type: String,
       required: false,
     },
-    school: {
+    myWork: {
       type: String,
       required: false,
     },
-    location: {
+    whereIHaveAlwaysWantedToGo: {
       type: String,
       required: false,
     },
-    work: {
+    iSpendTooMuchTime: {
       type: String,
       required: false,
     },
-    languages: [
-      {
-        type: String,
-        required: false,
-      },
-    ],
-    decadeBorn: {
-      type: String,
-      required: false,
-    },
-    favoriteSongHighSchool: {
-      type: String,
-      required: false,
-    },
-    obsessedWith: {
-      type: String,
-      required: false,
-    },
-    funFact: {
-      type: String,
-      required: false,
-    },
-    mostUselessSkill: {
-      type: String,
-      required: false,
-    },
-    biographyTitle: {
-      type: String,
-      required: false,
-    },
-    spendTooMuchTime: {
+    myFunFact: {
       type: String,
       required: false,
     },
@@ -84,17 +54,47 @@ const profileSchema: Schema<IProfile> = new Schema(
       type: String,
       required: false,
     },
+    decadeIWasBorn: {
+      type: Boolean,
+      required: false,
+    },
+    whereIWentToSchool: {
+      type: String,
+      required: false,
+    },
+    myFavoriteSongInHighSchool: {
+      type: String,
+      required: false,
+    },
+    myMostUselessSkill: {
+      type: String,
+      required: false,
+    },
+    languagesISpeak: {
+      type: String,
+      required: false,
+    },
+    imObsessedWith: {
+      type: String,
+      required: false,
+    },
+    myBiographyTitleWouldBe: {
+      type: String,
+      required: false,
+    },
+    whereILive: {
+      type: String,
+      required: false,
+    },
     aboutYou: {
       type: String,
       required: false,
     },
-    interests: [
-      {
-        type: String,
-        required: false,
-      },
-    ],
-    placesVisited: [
+    whereYouHaveBeen: {
+      type: Boolean,
+      required: false,
+    },
+    whatAreYouInto: [
       {
         type: String,
         required: false,
@@ -103,5 +103,6 @@ const profileSchema: Schema<IProfile> = new Schema(
   },
   { timestamps: true }
 );
+
 const Profile = mongoose.model("Profile", profileSchema);
 export default Profile;

@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 interface AuthProfileModalProps {
   handleLogout: () => void;
 }
@@ -6,78 +7,86 @@ interface AuthProfileModalProps {
 const AuthProfileModal: React.FC<AuthProfileModalProps> = ({
   handleLogout,
 }) => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <div
-      className={`  rounded-2xl shadow-lg min-w-max h-auto absolute top-14 right-3 border z-10 bg-white`}
+      className="rounded-2xl shadow-lg min-w-max h-auto absolute top-14 right-3 border z-10 bg-white"
+      aria-label="Profile menu"
     >
       <ul
         role="menu"
-        className="flex flex-col justify-between  h-full mt-2 mb-2"
+        className="flex flex-col justify-between h-full mt-2 mb-2"
       >
         <li
           role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/release/features")}
         >
-          <Link to={"/release/features"}>2024 Summer Realese Features </Link>
-        </li>
-        <hr />
-
-        <li
-          role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
-        >
-          <Link to={"/guest/messages"}>messages</Link>
-        </li>
-        <li
-          role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
-        >
-          <Link to={"/trips/v1"}>trips</Link>
-        </li>
-        <li
-          role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
-        >
-          <Link to={"/whilsts"}>whilsts</Link>
+          2024 Summer Release Features
         </li>
         <hr />
         <li
           role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/guest/messages")}
         >
-          <Link to={"/host/homes"}>Airpnb your home</Link>
-        </li>
-
-        <li
-          role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
-        >
-          <Link to={""}>account</Link>
-        </li>
-
-        <li role="menuitem" className="w-full p-3 c">
-          {" "}
-          <hr />
+          Messages
         </li>
         <li
           role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/trips/v1")}
         >
-          <Link to={"/giftcards"}>Gift Cards</Link>
+          Trips
         </li>
-
         <li
           role="menuitem"
-          className="w-full p-3 cursor-pointer hover:bg-gray-500"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/wishlists")}
         >
-          <Link to={"/help"}> Help Center</Link>
+          Wishlists
+        </li>
+        <hr />
+        <li
+          role="menuitem"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/host/homes")}
+        >
+          Airbnb Your Home
+        </li>
+        <li
+          role="menuitem"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/account-settings")}
+        >
+          Account
+        </li>
+        <hr />
+        <li
+          role="menuitem"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/giftcards")}
+        >
+          Gift Cards
+        </li>
+        <li
+          role="menuitem"
+          className="w-full p-3 cursor-pointer hover:bg-gray-200"
+          onClick={() => handleNavigation("/help")}
+        >
+          Help Center
         </li>
         <li
           role="menuitem"
           className="w-full p-3 cursor-pointer hover:bg-slate-50"
           onClick={handleLogout}
         >
-          logout
+          Logout
         </li>
       </ul>
     </div>

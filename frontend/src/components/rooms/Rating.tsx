@@ -3,8 +3,8 @@ import RatingItem from "./RatingItem";
 
 const Rating = () => {
   return (
-    <div className="mx-4 md:mx-10 xl:mx-32 py-5 flex flex-col justify-center items-center">
-      <div className="flex">
+    <div className="mx-4 md:mx-10 xl:mx-32 py-5 flex flex-col justify-center items-center ">
+      <div className="flex ">
         <img
           decoding="async"
           aria-hidden="true"
@@ -31,7 +31,7 @@ const Rating = () => {
           listings based on ratings, reviews, and reliability
         </p>
       </div>
-      <div className="w-full flex divide-x justify-between mt-4">
+      <div className="w-full flex flex-wrap divide-x justify-between mt-4">
         <div className="flex flex-col p-4">
           <h1 className="font-medium">Overall rating</h1>
           <div>5</div>

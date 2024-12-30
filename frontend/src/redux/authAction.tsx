@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import setAuthToken from "../utils/setAuthToken.js";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import {
   closeLoginPage,
   closeSignUp_LoginPage,
@@ -10,18 +10,25 @@ import {
   openSignUpPage,
   closeSignUpPage,
 } from "./ModalReducer.js";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 interface SendMessagePayload {
-  [key: string]: any;
+  phoneNumber: string;
+  countryCode: string;
 }
 
 interface VerifyOtpPayload {
-  [key: string]: any;
+  phoneNumber: string;
+  enteredOtp: string;
 }
 
 interface RegisterUserPayload {
-  [key: string]: any;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthday: string;
+  optOutMarketing: boolean;
 }
 
 interface VerifyOtpResponse {
@@ -42,9 +49,10 @@ export const sendMessage = createAsyncThunk(
         dispatch(openVerifyPage());
         return response.data;
       }
-    } catch (error: any) {
-      if (error.response.status === 400) {
-        return rejectWithValue(error.response.data);
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.data) {
+        return rejectWithValue(axiosError.response.data);
       }
     }
   }
@@ -61,21 +69,22 @@ export const verifyOtp = createAsyncThunk(
       if (!response.data.isUserExist) {
         dispatch(closeVerifyPage());
         dispatch(openSignUpPage());
-        return response.data;
+        return { isUserExist: false };
       } else {
         const { token, isUserExist } = response.data;
         localStorage.setItem("jwtToken", token);
         setAuthToken(token);
-        const decoded: any = jwtDecode(token);
+        const decoded: JwtPayload = jwtDecode(token);
         console.log(decoded);
         dispatch(closeVerifyPage());
-        dispatch(closeSignUp_LoginPage());
-        dispatch(openLoginPage());
 
         return { decoded, isUserExist };
       }
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.data) {
+        return rejectWithValue(axiosError.response.data);
+      }
     }
   }
 );
@@ -93,19 +102,20 @@ export const registerUser = createAsyncThunk(
         const { token } = response.data;
         localStorage.setItem("jwtToken", token);
         setAuthToken(token);
-        const decoded: any = jwtDecode(token);
+        const decoded: JwtPayload = jwtDecode(token);
         dispatch(closeSignUp_LoginPage());
         dispatch(openLoginPage());
         dispatch(closeSignUpPage());
         console.log("succesfully registered");
 
-        return decoded;
+        return { decoded };
       } else {
         console.error("Registration failed:", response);
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.data) {
+        return rejectWithValue(axiosError.response.data);
       }
     }
   }

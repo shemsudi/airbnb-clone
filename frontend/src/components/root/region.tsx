@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 type RegionProps = {
   imageUrl: string;
   region: string;
@@ -17,20 +19,29 @@ const Region: React.FC<RegionProps> = ({
     setWhere(value);
     setSearchFocused(false);
   };
-  return (
+
+  const loadingSkeleton = (
     <div className="flex flex-col gap-2 min-w-fit">
-      <button
-        className="h-full w-full"
-        onClick={() => HandleRegionChange(value)}
-      >
-        <img
-          src={imageUrl}
-          alt=""
-          className="w-full h-full border border-gray-300 rounded-md"
-        />
-      </button>
-      <span>{region}</span>
+      <div className="skeleton h-full w-full"></div>
+      <div className="skeleton h-full w-full"></div>
     </div>
+  );
+  return (
+    <Suspense fallback={loadingSkeleton}>
+      <div className="flex flex-col gap-2 min-w-fit">
+        <button
+          className="h-full w-full"
+          onClick={() => HandleRegionChange(value)}
+        >
+          <img
+            src={imageUrl}
+            alt=""
+            className="w-full h-full border border-gray-300 rounded-md"
+          />
+        </button>
+        <span>{region}</span>
+      </div>
+    </Suspense>
   );
 };
 export default Region;

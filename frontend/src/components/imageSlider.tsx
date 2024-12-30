@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 type ImageSliderProps = {
   host: HostedPlaces;
-  index: number;
 };
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ host }) => {
@@ -22,18 +21,24 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ host }) => {
   };
 
   const nextImage = () => {
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex((prevIndex) =>
+      Math.min(prevIndex + 1, host.photos!.length - 1)
+    );
   };
 
   const prevImage = () => {
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
   return (
-    <div className="h-60 w-full ">
+    <div
+      className="h-60 w-full relative"
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
       <Link to={`/rooms/${host.uuid}`}>
         <div
-          className="flex h-60 w-full  transition-transform duration-300 ease-in-out  "
+          className="flex h-60 w-full transition-transform duration-300 ease-in-out"
           style={{
             transform: `translateX(${-100 * currentIndex}%)`,
           }}
@@ -41,8 +46,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ host }) => {
           {host.photos!.map((photo, photoIndex) => (
             <img
               key={photoIndex}
-              onMouseOver={() => handleMouseOver()}
-              onMouseLeave={() => handleMouseLeave()}
               className="rounded-md object-cover w-full h-60 min-w-full min-h-full"
               src={photo}
               alt={host.title}
@@ -50,26 +53,26 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ host }) => {
           ))}
         </div>
       </Link>
-      {isHovered && currentIndex !== 0 && (
+
+      {isHovered && currentIndex > 0 && (
         <button
-          onMouseOver={() => setIsHovered(true)}
           onClick={(event) => {
             prevImage();
             event.stopPropagation();
           }}
-          className="absolute focus:scale-90 hover:transform hover:scale-90 top-1/2 z-10 rounded-full bg-white w-8 h-8 flex items-center justify-center transform -translate-y-1/2 m-2"
+          className="absolute top-1/2  left-2 transform -translate-y-1/2 rounded-full bg-white w-8 h-8 flex items-center justify-center"
         >
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
       )}
-      {isHovered && currentIndex !== host.photos!.length - 1 && (
+
+      {isHovered && currentIndex < host.photos!.length - 1 && (
         <button
-          onMouseOver={() => setIsHovered(true)}
           onClick={(event) => {
             nextImage();
             event.stopPropagation();
           }}
-          className="absolute top-1/2 z-10 hover:transform hover:scale-90 rounded-full bg-white w-8 h-8 flex items-center justify-center transform -translate-y-1/2 right-0 m-2"
+          className="absolute top-1/2  right-2 transform -translate-y-1/2 rounded-full bg-white w-8 h-8 flex items-center justify-center"
         >
           <FontAwesomeIcon icon={faArrowRight} />
         </button>

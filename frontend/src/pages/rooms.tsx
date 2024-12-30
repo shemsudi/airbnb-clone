@@ -12,8 +12,8 @@ const Rooms = () => {
   const reservations = useSelector(
     (state: RootState) => state.place.reservations
   );
-  console.log(listing);
-  console.log(reservations);
+  // console.log(listing);
+  // console.log(reservations);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

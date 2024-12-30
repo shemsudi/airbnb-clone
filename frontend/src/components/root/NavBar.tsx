@@ -1,69 +1,52 @@
 import { useEffect, useState } from "react";
-import Logo from "../../assets/logos";
-import Options from "./options";
-import Search from "./search";
+import LogoSection from "../NabBar/LogoSection";
+import OptionsSection from "../NabBar/SelectedOption";
+import NavLinksSection from "../NabBar/NavLinkSection";
 import SearchBar from "./searchBar";
-import { Link } from "react-router-dom";
-import WorldIcon from "../icons/worldIcon";
-import UserProfileMenu from "./userPofileMeu";
-import debounce from "lodash/debounce";
+import ScrollHandler from "../NabBar/ScrollHandler";
 
 const NavBar = () => {
-  const [atTop, setAtTop] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("stays");
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [selectedOption, setSelectedOption] = useState(
+    localStorage.getItem("selectedOption") || "stays"
+  );
 
   useEffect(() => {
-    const handleScroll = debounce(() => {
-      const currentScrollY = window.scrollY;
-      setAtTop(currentScrollY === 0);
-    }, 40); // Throttle every 200ms
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    localStorage.setItem("selectedOption", selectedOption);
+  }, [selectedOption]);
 
   return (
-    <div className="flex flex-col z-50 max-md:hidden ">
+    <div className="flex flex-col justify-center z-50 max-md:hidden border-b pb-3">
       <header className="flex px-4 lg:px-12 py-4 justify-between gap-1 items-center">
-        <div className="flex">
-          <Logo />
-          <div className="hidden max-lg:block ">{!atTop && <Search />}</div>
-        </div>
-        <div className=" max-lg:hidden ">
-          {!atTop ? (
-            <Search />
-          ) : (
-            <Options
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-            />
-          )}
-        </div>
-
-        <div className="flex gap-3 items-center">
-          <Link to={"host/homes"}>Airbnb your home</Link>
-          <WorldIcon />
-          <UserProfileMenu />
-        </div>
+        <LogoSection isAtTop={isAtTop} />
+        <OptionsSection
+          isAtTop={isAtTop}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+        <NavLinksSection />
       </header>
-      <div className="justify-center p-2 hidden max-lg:flex">
-        {atTop && (
-          <Options
+      <div className={`justify-center p-2 hidden max-lg:flex`}>
+        {isAtTop && (
+          <OptionsSection
+            isAtTop={isAtTop}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
           />
         )}
       </div>
 
-      {atTop && (
-        <div className="  flex justify-center px-5">
-          <SearchBar selectedOption={selectedOption} />
-        </div>
-      )}
-
-      <div className="mt-3 -z-50">
-        <hr />
+      <div
+        className={` ${
+          isAtTop
+            ? "-translate-y-4 mt-4 z-10  transition-all transform ease-in-out duration-50 flex px-5 justify-center"
+            : "transition-all transform ease-in-out  hidden "
+        }  `}
+      >
+        <SearchBar selectedOption={selectedOption} />
       </div>
+
+      <ScrollHandler setIsAtTop={setIsAtTop} />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addHost, clearHost } from "../redux/HostReducer";
-import { openLoginPage, openSignUp_LoginPage } from "../redux/ModalReducer";
+import { openLoginPage } from "../redux/ModalReducer";
 import Signup from "../modal/signup";
-import { RootState } from "../redux/store";
+import { RootState, useAppDispatch } from "../redux/store";
 import api from "../configs/api.ts";
 import HostingSteps from "../components/hostingSteps/hostingSteps.tsx";
 import HostHeader from "../components/hostingSteps/hostHeader.tsx";
@@ -11,15 +11,14 @@ import { Helmet } from "react-helmet";
 
 const BecameAhost = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { isSignUp_LoginPageOpen } = useSelector(
+  const dispatch = useAppDispatch();
+  const { isLoginPage, isSignupPage, isVerifyPage } = useSelector(
     (state: RootState) => state.modal
   );
   const handleClick = async () => {
     const jwtToken = localStorage.getItem("jwtToken");
 
     if (!jwtToken) {
-      dispatch(openSignUp_LoginPage());
       dispatch(openLoginPage());
       return;
     }
@@ -86,7 +85,7 @@ const BecameAhost = () => {
           </button>
         </div>
       </footer>
-      {isSignUp_LoginPageOpen && <Signup />}
+      {(isLoginPage || isSignupPage || isVerifyPage) && <Signup />}
     </div>
   );
 };

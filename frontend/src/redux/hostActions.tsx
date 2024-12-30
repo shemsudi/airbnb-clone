@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../configs/api.ts";
+import { Location } from "../types/types.tsx";
 export const updateHostStructure = createAsyncThunk(
   "host/setStructure",
   async ({ uuid, structure }: { uuid: string; structure: string }) => {
@@ -39,19 +40,7 @@ export const updatePrivacyType = createAsyncThunk(
 );
 interface LocationParams {
   uuid: string;
-  location: {
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-    country: string;
-    address: string;
-    floor: string;
-    city: string;
-    province: string;
-    postalCode: string;
-    showExactLocation: boolean;
-  };
+  location: Location;
 }
 export const updateLocation = createAsyncThunk<LocationParams, LocationParams>(
   "host/setLocation",

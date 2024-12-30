@@ -2,12 +2,12 @@ import React from "react";
 
 interface TripDetailsProps {
   dates: Date[];
+  numberOfGuests: number; // Added numberOfGuests to dynamically display guests count
 }
 
-const TripDetails: React.FC<TripDetailsProps> = ({ dates }) => {
-  console.log(dates);
-  const formatDateRange = (startDate: Date, endDate: Date) => {
-    // Get the month and year in abbreviated format
+const TripDetails: React.FC<TripDetailsProps> = ({ dates, numberOfGuests }) => {
+  // Format date range helper function
+  const formatDateRange = (startDate: Date, endDate: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
       month: "short", // Abbreviated month (e.g., "Jan")
       day: "numeric", // Day of the month (e.g., 8)
@@ -25,6 +25,10 @@ const TripDetails: React.FC<TripDetailsProps> = ({ dates }) => {
     }
   };
 
+  if (dates.length !== 2) {
+    return <div>Error: Please provide exactly two dates.</div>;
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="text-2xl font-semibold">Your trip</div>
@@ -38,7 +42,10 @@ const TripDetails: React.FC<TripDetailsProps> = ({ dates }) => {
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <div className="font-medium">Guests</div>
-          <div>1 guests</div>
+          <div>
+            {numberOfGuests} guest{numberOfGuests > 1 ? "s" : ""}
+          </div>{" "}
+          {/* Handling pluralization */}
         </div>
         <div className="underline font-medium">Edit</div>
       </div>

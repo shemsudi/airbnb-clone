@@ -3,7 +3,7 @@ import PlacedNavigation from "./placeNavigation";
 
 const HeaderAndNavigation = () => {
   return (
-    <div className="sticky top-0 z-20   bg-white">
+    <div className="sticky top-0 z-10   bg-white">
       <Header />
       <PlacedNavigation />
     </div>

@@ -45,7 +45,7 @@ const ReservationBox: React.FC<ReservationBoxProps> = ({
         observer.unobserve(reserveRef.current);
       }
     };
-  }, []);
+  }, [setShowReserve]);
   return (
     <div className=" sticky top-28  ">
       <div className="p-5 w-full flex flex-col gap-4  shadow-lg border rounded-lg ">

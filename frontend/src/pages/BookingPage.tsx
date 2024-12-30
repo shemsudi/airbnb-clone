@@ -17,6 +17,7 @@ const BookingPage = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const uuid = location.state?.uuid;
+  const [guests, setGuests] = useState(1);
   console.log(uuid);
   const rooms = useSelector((state: RootState) => state.place.rooms);
   const book = useSelector((state: RootState) => state.book.book);
@@ -88,8 +89,7 @@ const BookingPage = () => {
                 </g>
               </svg>
             </div>
-
-            <TripDetails dates={dates!} />
+            <TripDetails dates={dates!} numberOfGuests={guests} />
             <hr />
             <div className="relative flex flex-col gap-5">
               <div className=" text-2xl font-medium ">Choose How to pay</div>
@@ -229,7 +229,7 @@ const BookingPage = () => {
                 </div>
               </div>
               <hr />
-              <PriceDetails price={rooms?.pricing!} book={book!} days={days} />
+              <PriceDetails price={rooms!.pricing} book={book!} days={days} />
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import HostReducer from "./HostReducer";
 import PlaceReducer from "./PlaceReducer";
 import BookReducer from "./BookReducer";
+import ProfileReducer from "./ProfileReducer";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     host: HostReducer,
     place: PlaceReducer,
     book: BookReducer,
+    profile: ProfileReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

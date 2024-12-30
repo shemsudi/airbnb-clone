@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Region from "../components/root/region";
 import regionLocation from "../data/region";
 
@@ -8,7 +8,7 @@ interface LocationModalProps {
 }
 
 const LocationModal: React.FC<LocationModalProps> = React.forwardRef(
-  ({ setWhere, setSearchFocused }, ref: ForwardedRef<HTMLDivElement>) => {
+  ({ setWhere, setSearchFocused }) => {
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const LocationModal: React.FC<LocationModalProps> = React.forwardRef(
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, []);
+    }, [setSearchFocused]);
     return (
       <div
         ref={modalRef}

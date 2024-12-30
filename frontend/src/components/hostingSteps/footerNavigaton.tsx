@@ -18,8 +18,6 @@ const FooterNavigation: React.FC<FooterNavigationProps> = ({
   itemSelected,
 }) => {
   const host = useSelector((state: RootState) => state.host);
-  console.log(host.loading);
-  console.log(itemSelected);
   return (
     <div className=" self-end w-full sticky bottom-0 left-0 z-100 bg-white ">
       <ProgressBar step={step} pos={pos} />

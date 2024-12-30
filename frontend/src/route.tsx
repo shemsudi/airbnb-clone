@@ -25,6 +25,9 @@ import ReceiptPage from "./pages/receiptPage.jsx";
 import PublishCelebration from "./pages/publishCelebration.jsx";
 import Rooms from "./pages/rooms.tsx";
 import BookingPage from "./pages/BookingPage.tsx";
+import AuthSuccess from "./utils/AuthSucess.tsx";
+import AccountSetting from "./pages/account-setting.tsx";
+import UserProfile from "./pages/userProfile.tsx";
 // import hostloader from "./loaders/placeLoader.ts";
 // import { hostloader2 } from "./loaders/placeLoader.ts";
 // import Icons2 from "./components/Icons2.tsx";
@@ -128,6 +131,18 @@ const router = createBrowserRouter([
   {
     path: "/book/stays",
     element: <BookingPage />,
+  },
+  {
+    path: "/auth/sucess",
+    element: <AuthSuccess />,
+  },
+  {
+    path: "/account-settings",
+    element: <AccountSetting />,
+  },
+  {
+    path: "/users/show/:userId",
+    element: <UserProfile />,
   },
   // {
   //   path: "/release/features",

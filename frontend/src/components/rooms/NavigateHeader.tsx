@@ -58,7 +58,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           </span>
         </div>
         {showReserve && (
-          <div className="flex gap-3  p-3">
+          <div className="hidden md:flex gap-3   p-3">
             <div className="flex flex-col gap-2 items-start justify-center">
               <div className="flex gap-2 items-center">
                 <span className="font-bold">$ {nightlyRate}</span>

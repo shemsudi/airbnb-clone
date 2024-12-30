@@ -1,5 +1,5 @@
-import { loadStripe, Stripe } from "@stripe/stripe-js";
-import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { useEffect, useState, useMemo } from "react";
 import api from "../../configs/api";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
@@ -8,40 +8,40 @@ import { RootState } from "../../redux/store";
 
 const CreditCard = ({ totalFee }: { totalFee: number }) => {
   const isLoading = useSelector((state: RootState) => state.place.loading);
-  const [stripePromise, setStripePromise] =
-    useState<Promise<Stripe | null> | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchPublishableKey = async () => {
-      try {
-        const response = await api.get("/config");
-        setStripePromise(loadStripe(response.data.publishableKey));
-      } catch (error) {
-        console.error("Error fetching publishable key:", error);
-      }
-    };
-
-    fetchPublishableKey();
-  }, []);
+  // Memoize the stripe promise to avoid unnecessary re-renders
+  const stripePromise = useMemo(
+    () => loadStripe(import.meta.env.VITE_PUBLISH_KEY || ""),
+    []
+  );
 
   useEffect(() => {
     const fetchClientSecret = async () => {
+      if (!totalFee) return;
+
       try {
-        const amount = Math.ceil(Number(totalFee.toFixed(2)));
-        console.log(amount, totalFee); // Ensure two decimals and round up
+        const amount = Math.ceil(Number(totalFee.toFixed(2)) * 100);
         const response = await api.post("/create-payment-intent", {
-          amount: amount * 100,
+          amount,
           currency: "usd",
         });
         setClientSecret(response.data.clientSecret);
       } catch (error) {
+        setError("Error fetching payment details. Please try again.");
         console.error("Error fetching client secret:", error);
       }
     };
 
-    fetchClientSecret();
-  }, [isLoading, totalFee]);
+    if (!isLoading) {
+      fetchClientSecret();
+    }
+  }, [totalFee, isLoading]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   if (!stripePromise || !clientSecret) {
     return <div>Loading...</div>;

@@ -6,13 +6,14 @@ import {
   selectModals,
 } from "../../redux/ModalReducer.js";
 import UserProfileModal from "../../modal/userProfileModal.js";
-import Signup from "../../modal/signup.js";
 //icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { RootState } from "../../redux/store.js";
 const UserProfileMenu = () => {
   const dispatch = useDispatch();
-  const { isSignUp_LoginPageOpen, isDropDownOpen } = useSelector(selectModals);
+  const userName = useSelector((state: RootState) => state.auth.user?.name);
+  const { isDropDownOpen } = useSelector(selectModals);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const UserProfileMenu = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [dispatch]);
 
   const toggleDropdown = () => {
     if (isDropDownOpen) {
@@ -46,10 +47,15 @@ const UserProfileMenu = () => {
         onClick={toggleDropdown}
       >
         <FontAwesomeIcon icon={faBars} className="w-6 h-6" />
-        <FontAwesomeIcon icon={faUserCircle} className="w-6 h-6" />
+        {userName ? (
+          <div className="text-white rounded-full flex justify-center items-center p-3 size-8 text-lg bg-black">
+            {userName[0]}
+          </div>
+        ) : (
+          <FontAwesomeIcon icon={faUserCircle} className="w-6 h-6" />
+        )}
       </button>
       {isDropDownOpen && <UserProfileModal />}
-      {isSignUp_LoginPageOpen && <Signup />}
     </div>
   );
 };

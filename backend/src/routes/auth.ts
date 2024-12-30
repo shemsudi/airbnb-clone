@@ -6,6 +6,7 @@ import {
   completeRegistration,
   sendEmailConfirmation,
 } from "../controllers/authController";
+import User from "../models/user";
 
 const router = express.Router();
 
@@ -15,13 +16,18 @@ router.post("/complete-registration", completeRegistration);
 router.post("/send-email-confirmation", sendEmailConfirmation);
 router.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
+  (req, res) => {
+    window.location.href = "http://localhost:5173/auth/google";
+  }
 );
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("http://localhost:5173/");
+    const { user, token } = req.user as { user: any; token: string };
+
+    res.redirect("http://localhost:5173/auth/sucess?token=" + token);
   }
 );
 

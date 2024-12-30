@@ -1,4 +1,4 @@
-import { RootState, useAppDispatch } from "../redux/store";
+import { useAppDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -17,15 +17,13 @@ import RoomDetails from "../components/rooms/RoomDetails";
 import HostInfo from "../components/rooms/HostInfo";
 import KeyFeatures from "../components/rooms/keyFeatures";
 import SleepingArrangement from "../components/rooms/sleepingArrangment";
-// import DateSelection from "../components/rooms/DateSelection";
+import Calender from "../components/rooms/ReservationDates";
 import ReviewsSection from "../components/rooms/ReviewSection";
 import { BookPlace } from "../redux/BookActions";
 import { HostedPlaces, Reservation } from "../types/types";
 import { features } from "../data/types";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import Calender from "../components/rooms/ReservationDates";
 import { addDays, isSameDay } from "date-fns";
-import { useSelector } from "react-redux";
 
 interface RoomsProps {
   reservations?: Reservation[];
@@ -42,9 +40,8 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
-    if (!reservations) {
-      return [];
-    }
+    if (!reservations) return dates;
+
     reservations.forEach((reservation) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
@@ -64,7 +61,6 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
       currentDay = addDays(currentDay, 1); // Move to the next day
     }
 
-    // Return the first available day as both start and end date
     return {
       startDate: currentDay,
       endDate: currentDay,
@@ -72,20 +68,11 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
     };
   }, [disabledDates]);
 
-  console.log(disabledDates);
   const [days, setDays] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.pricing.nightlyRate);
-  const book = useSelector((state: RootState) => state.book.book);
-  const intialDates = {
-    startDate: new Date(
-      book?.startDate ? new Date(book?.startDate) : new Date()
-    ),
-    endDate: new Date(book?.endDate ? new Date(book?.endDate) : new Date()),
-    key: "selection",
-  };
 
-  const [dateRange, setDateRange] = useState(intialDates || intialDateRange);
+  const [dateRange, setDateRange] = useState(intialDateRange);
 
   const onCreateReservation = useCallback(() => {
     setIsLoading(true);
@@ -93,7 +80,7 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
       BookPlace({
         userId: listing?.user._id,
         reservationId: listing.uuid,
-        guests: guests,
+        guests,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         totalAmount: totalPrice,
@@ -121,13 +108,14 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
         dateRange.startDate
       );
       setDays(dayCount);
-      if (dayCount && listing.pricing.nightlyRate) {
-        setTotalPrice((dayCount + 1) * listing.pricing.nightlyRate);
-      } else {
-        setTotalPrice(listing.pricing.nightlyRate);
-      }
+      setTotalPrice((dayCount + 1) * listing.pricing.nightlyRate);
     }
   }, [dateRange, listing.pricing.nightlyRate]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col h-auto">
       {showHeader && (
@@ -147,19 +135,19 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
         structure={listing.structure}
       />
 
-      <div className="flex mx-4 md:mx-8 xl:mx-28 gap-5 mt-5">
-        <div className="w-3/5 flex flex-col mb-5">
+      <div className=" flex flex-col sm:flex-row mx-4 md:mx-8 xl:mx-28 gap-5 mt-5">
+        <div className=" w-full sm:w-3/5 flex flex-col mb-5">
           <RoomDetails
             country={listing.location.country}
             bedrooms={listing.bedrooms}
             beds={listing.beds}
             bathrooms={listing.bathrooms}
-            reviewCount={1} // Replace with a dynamic value if available
+            reviewCount={0}
           />
           <hr />
           <HostInfo
             photoUrl={listing.photos[0]}
-            hostName={listing.user.firstName!}
+            hostName={listing.user.firstName}
             hostingDuration="9 years hosting"
           />
           <hr />
@@ -174,7 +162,10 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
             <p className="font-roboto">{listing.description}</p>
           </div>
           <hr />
-          <SleepingArrangement bedrooms={3} bedType="1 double bed" />
+          <SleepingArrangement
+            bedrooms={listing.bedrooms}
+            bedType={"1 double bed"}
+          />
           <hr />
           <Amenities />
           <hr />
@@ -186,9 +177,9 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
           />
         </div>
 
-        <div className="relative w-2/5 mx-4 xl:mx-10 pb-10">
+        <div className="relative w-full sm:w-2/5 mx-4 xl:mx-10 pb-10">
           <ReservationBox
-            totalPrice={totalPrice!}
+            totalPrice={totalPrice}
             days={days + 1}
             dateRange={dateRange}
             GoToBookingPage={onCreateReservation}
@@ -205,11 +196,11 @@ const RoomsPage: React.FC<RoomsProps> = ({ reservations, listing }) => {
 
       <hr className="mx-32" />
       <div id="location">
-        <LocationOfPlace location={listing.location!} />
+        <LocationOfPlace location={listing.location} />
       </div>
 
       <hr className="mx-32" />
-      <MeetYourHost hoster={listing.user.firstName!} />
+      <MeetYourHost hoster={listing.user.firstName} />
       <hr />
       <ThingsToKnow />
       <Footer />

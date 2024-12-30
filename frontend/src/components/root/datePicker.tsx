@@ -1,3 +1,4 @@
+import { differenceInBusinessDays } from "date-fns";
 import { useCallback, useMemo } from "react";
 
 type DatePickerProps = {
@@ -8,7 +9,7 @@ type DatePickerProps = {
   isCheckInFocused?: boolean;
   isCheckOutFocused?: boolean;
   setIsCheckOutFocused?: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsCheckInFoucused?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckInFocused?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -19,7 +20,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   isCheckInFocused,
   isCheckOutFocused,
   setIsCheckOutFocused,
-  setIsCheckInFoucused,
+  setIsCheckInFocused,
 }) => {
   const getDaysInMonth = useCallback(
     (month: number, year: number) => new Date(year, month + 1, 0).getDate(),
@@ -43,17 +44,48 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   const handleDate = useCallback(
     (day: number, month: number, year: number) => {
-      const selectedDate = `${year}-${month}-${day}`;
-      if (date[0] && date[1] && isCheckOutFocused) {
-        setDate([date[0], selectedDate]);
-      } else if (isCheckInFocused) {
-        setDate([selectedDate, date[1]]);
-        setIsCheckInFoucused?.(false);
+      const selectedDate = `${year}-${(month + 1)
+        .toString()
+        .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+      // Helper function for business days comparison
+      const isBefore = (start: string, end: string) =>
+        differenceInBusinessDays(new Date(start), new Date(end)) > 0;
+
+      const isAfter = (start: string, end: string) =>
+        differenceInBusinessDays(new Date(start), new Date(end)) < 0;
+
+      // Handle conditions
+      if (date[0] && date[1]) {
+        if (isCheckOutFocused && isBefore(date[0], selectedDate)) {
+          setDate([selectedDate, date[1]]);
+        } else if (isCheckInFocused && isBefore(selectedDate, date[1])) {
+          setDate([selectedDate, date[1]]);
+        } else {
+          setDate([selectedDate, ""]);
+        }
+      } else if (date[0]) {
+        if (isCheckOutFocused && isAfter(date[0], selectedDate)) {
+          setDate([date[0], selectedDate]);
+        } else if (isCheckInFocused) {
+          setDate([selectedDate, date[1]]);
+          setIsCheckInFocused?.(false);
+          setIsCheckOutFocused?.(true);
+        } else {
+          setDate([selectedDate, ""]);
+        }
+      } else if (date[1]) {
+        if (isCheckInFocused && isBefore(selectedDate, date[1])) {
+          setDate([selectedDate, date[1]]);
+        } else if (isCheckOutFocused) {
+          setDate([date[0], selectedDate]);
+        } else {
+          setDate([selectedDate, ""]);
+        }
+      } else {
+        setDate([selectedDate, ""]);
+        setIsCheckInFocused?.(false);
         setIsCheckOutFocused?.(true);
-      } else if (isCheckOutFocused) {
-        setDate([date[0], selectedDate]);
-        setIsCheckInFoucused?.(false);
-        setIsCheckOutFocused?.(false);
       }
     },
     [
@@ -61,7 +93,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       isCheckInFocused,
       isCheckOutFocused,
       setDate,
-      setIsCheckInFoucused,
+      setIsCheckInFocused,
       setIsCheckOutFocused,
     ]
   );
@@ -69,11 +101,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const isCurrentDayLessThanSelected = useCallback(
     (day: number, year: number, month: number) => {
       const today = new Date();
-      return (
-        month === today.getMonth() &&
-        year === today.getFullYear() &&
-        day < today.getDate()
-      );
+      const selectedDate = new Date(year, month, day);
+
+      // Compare full date including year, month, and day
+      return selectedDate < today;
     },
     []
   );
@@ -97,27 +128,31 @@ const DatePicker: React.FC<DatePickerProps> = ({
     }
     return weeks;
   }, [daysInMonth, startDay]);
-
   const getButtonClasses = useCallback(
-    (day: number) => {
+    (day: number | null, month: number, year: number) => {
+      if (day === null) return ""; // Skip rendering the button if day is null
+
       const baseClass = "w-full h-full rounded-full";
-      const isDisabled = isCurrentDayLessThanSelected(
-        day,
-        currentYear,
-        currentMonth
-      );
-      const isSelected =
-        `${currentYear}-${currentMonth}-${day}` === date[0] ||
-        `${currentYear}-${currentMonth}-${day}` === date[1];
+
+      // Format the selected date as 'YYYY-MM-DD' for consistent comparison
+      const selectedDate = `${year}-${(month + 1)
+        .toString()
+        .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+      // Check if the selected date matches either the check-in or check-out date
+      const isSelected = date.some((d) => d === selectedDate);
+
+      // Disable past dates by comparing against today's date
+      const isDisabled = isCurrentDayLessThanSelected(day, year, month);
 
       return [
         baseClass,
-        isDisabled ? "text-gray-300 hover:bg-inherit" : "",
-        isSelected ? "bg-gray-500" : "",
-        "hover:bg-gray-500",
+        isDisabled ? "text-gray-300 hover:bg-inherit" : "", // Apply disabled style
+        isSelected ? "bg-gray-500" : "", // Apply selected style
+        "hover:bg-gray-500", // Hover effect
       ].join(" ");
     },
-    [currentYear, currentMonth, date, isCurrentDayLessThanSelected]
+    [date, isCurrentDayLessThanSelected]
   );
 
   return (
@@ -144,7 +179,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               {week.map((day, j) => (
                 <td key={j} className="p-2 text-center rounded-full">
                   <button
-                    className={getButtonClasses(day)}
+                    className={getButtonClasses(day, currentMonth, currentYear)}
                     onClick={() => handleDate(day, currentMonth, currentYear)}
                     style={{ width: "30px", height: "30px" }}
                     disabled={isCurrentDayLessThanSelected(
